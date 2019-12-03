@@ -21,10 +21,9 @@ function Square(props)
 
 function HighlightedSquare(props)
 {
-    //alert('1');
     return (
         <button
-        className="highlighedSquare"
+        className="highlightedSquare"
         onClick=
         {
             props.onClick
@@ -62,7 +61,7 @@ class Board extends React.Component
         else
         {
             return (
-            <Square 
+            <Square
             value=
             {
                 this.props.squares[i]
@@ -143,6 +142,7 @@ class Game extends React.Component
             currentRow: 1,
             highlights: highlights,
         }
+        
     }
 
     handleClick(i)
@@ -188,11 +188,13 @@ class Game extends React.Component
                 this.setState(
 
                     {
-                        highlights: highlights,
+                        
                         stepNumber: step,
                         xIsNext: (step % 2) === 0,
+                        highlights: highlights,
                     }
                 );
+                
             
         
         

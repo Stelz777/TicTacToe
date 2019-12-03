@@ -39,9 +39,9 @@ ol, ul
     width: 34px;
 }
 
-.highLightedSquare
+.highlightedSquare
 {
-    background: #000;
+    background: #777;
     border: 1px solid #999;
     float: left;
     font-size: 24px;
@@ -55,12 +55,22 @@ ol, ul
     width: 34px;
 }
 
+.highLightedSquare:focus
+{
+    outline: none;
+}
+
 .square:focus
 {
     outline: none;
 }
 
 .kbd-navigation .square:focus
+{
+    background: #ddd;
+}
+
+.kbd-navigation .highLightedSquare:focus
 {
     background: #ddd;
 }
