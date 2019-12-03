@@ -96,7 +96,10 @@ class Game extends React.Component
                 </li>
             );
         });
-
+        /*const reverse = history.map((step, move) =>
+        {
+            return 
+        });*/
         let status;
         if (winner)
         {
