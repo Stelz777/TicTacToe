@@ -1,6 +1,7 @@
 import React from 'react';
 import CalculateWinner from './CalculateWinner.js';
 import Board from './Board.js';
+import Switch from "react-switch";
 
 class Game extends React.Component
 {
@@ -16,8 +17,20 @@ class Game extends React.Component
             currentColumn: 1,
             currentRow: 1,
             highlights: highlights,
+            checked: false,
         }
+        this.handleChange = this.handleChange.bind(this);
         
+    }
+
+    handleChange(checked)
+    {
+        this.setState(
+            { 
+                checked: !this.state.checked,
+                history: this.state.history.reverse() 
+            });
+
     }
 
     handleClick(i)
@@ -80,26 +93,55 @@ class Game extends React.Component
 
     render()
     {
+        const { enabled } = this.state;
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = CalculateWinner(current.squares);
         const squares = current.squares.slice();
-        let previousStep = Array(9).fill(null);
-        const moves = history.map((step, move) => 
+        let nextStep = 1;
+        let previousStep;
+        previousStep = Array(9).fill(null);
+        let moves;
+        if (!this.state.checked)
         {
-            let i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
-            const desc = move ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
-            previousStep = step.squares;
-            return (
-                <li key = { move } >
-                    <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
-                </li>
-            );
-        });
-        /*const reverse = history.map((step, move) =>
+            moves = history.map((step, move) => 
+            {
+                let i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
+                let desc;
+                desc = move ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
+                previousStep = step.squares;
+                
+                return (
+                    <li key = { move } >
+                        <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
+                    </li>
+                );
+            });
+        }
+        else
         {
-            return 
-        });*/
+            moves = history.slice().map((step, move) => 
+            {
+                let i;
+                if (history[move + 1] != undefined)
+                {
+                    i = this.findDifferencesBetweenTwoArrays(step.squares, history[move + 1].squares);
+                }
+                else 
+                {
+                    i = 0;
+                }
+                let desc;
+                desc = ((history.length - move - 1) !== 0) ? 'Перейти к ходу #' + (history.length - move - 1) + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
+                previousStep = step.squares;
+                return (
+                    <li key = { move } >
+                        <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
+                    </li>
+                );
+            });
+        }
+        
         let status;
         if (winner)
         {
@@ -110,20 +152,25 @@ class Game extends React.Component
             status = 'Следующий ход: ' + (this.state.xIsNext ? 'X' : 'O');
         }
         
-        return(
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        highlights = { this.state.highlights }
-                        squares = { current.squares }
-                        onClick = { (i) => this.handleClick(i) }
-                    />
-                </div>
-                <div className="game-info">
-                    <div> { status } </div>
-                    <ol> { moves } </ol>
-                </div>
-            </div>
+        return (
+            
+                <div className="game">
+                    <div className="game-board">
+                        <Board
+                            highlights = { this.state.highlights }
+                            squares = { current.squares }
+                            onClick = { (i) => this.handleClick(i) }
+                        />
+                    </div>
+                    <div className="game-info">
+                        <div> { status } </div>
+                        <ol> { moves } </ol>
+                    </div>
+                    <Switch
+                        onChange = { this.handleChange }
+                        checked = { this.state.checked }
+                    />    
+                </div> 
         );
     }
 }
