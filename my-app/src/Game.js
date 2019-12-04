@@ -26,10 +26,13 @@ class Game extends React.Component
     handleChange(checked)
     {
         this.setState(
-            { 
-                checked: !this.state.checked,
-                history: this.state.history.reverse() 
-            });
+            state => (
+                { 
+                    checked: !this.state.checked,
+                    history: this.state.history.reverse() 
+                }
+            )
+        );
 
     }
 
@@ -91,6 +94,46 @@ class Game extends React.Component
         return i % 3 + 1;
     }
 
+    generateDescription(desc, condition, move, i)
+    {
+        desc = condition ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
+        return desc;
+    }
+
+    printMoveList(history, moves, previousStep)
+    {
+        moves = history.map((step, move) => 
+        {
+            let i;
+            let desc;
+            if (!this.state.checked)
+            {
+                i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
+                desc = this.generateDescription(desc, move, move, i);
+            }
+            else
+            {
+                if (history[move + 1] != undefined)
+                {
+                    i = this.findDifferencesBetweenTwoArrays(step.squares, history[move + 1].squares);
+                }
+                else
+                {
+                    i = 0;
+                }
+                let reverseMove = history.length - move - 1;
+                desc = this.generateDescription(desc, ((reverseMove) !== 0), reverseMove, i);
+            }
+            previousStep = step.squares;
+            return (
+                <li key = { move } >
+                    <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
+                </li>
+            );
+        });
+        return moves;
+    }
+
     render()
     {
         const { enabled } = this.state;
@@ -102,45 +145,8 @@ class Game extends React.Component
         let previousStep;
         previousStep = Array(9).fill(null);
         let moves;
-        if (!this.state.checked)
-        {
-            moves = history.map((step, move) => 
-            {
-                let i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
-                let desc;
-                desc = move ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
-                previousStep = step.squares;
-                
-                return (
-                    <li key = { move } >
-                        <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
-                    </li>
-                );
-            });
-        }
-        else
-        {
-            moves = history.slice().map((step, move) => 
-            {
-                let i;
-                if (history[move + 1] != undefined)
-                {
-                    i = this.findDifferencesBetweenTwoArrays(step.squares, history[move + 1].squares);
-                }
-                else 
-                {
-                    i = 0;
-                }
-                let desc;
-                desc = ((history.length - move - 1) !== 0) ? 'Перейти к ходу #' + (history.length - move - 1) + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
-                previousStep = step.squares;
-                return (
-                    <li key = { move } >
-                        <button onClick = { () => this.jumpTo(move, i) }> { desc } </button>
-                    </li>
-                );
-            });
-        }
+        
+        moves = this.printMoveList(history, moves, previousStep)
         
         let status;
         if (winner)
