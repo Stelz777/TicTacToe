@@ -28,8 +28,8 @@ class Game extends React.Component
         this.setState(
             state => (
                 { 
-                    checked: !this.state.checked,
-                    history: this.state.history.reverse() 
+                    checked: !state.checked,
+                    history: state.history.slice().reverse() 
                 }
             )
         );
