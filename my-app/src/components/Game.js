@@ -2,18 +2,19 @@ import React from 'react';
 import CalculateWinner from './CalculateWinner.js';
 import Board from './Board.js';
 import Switch from "react-switch";
-import store from "../store/configureStore"
 import { connect } from 'react-redux';
-import { init, checked, historyChanged, historyConcat, stepChanged, step, xIsNext, xIsNextByStep, highlightsChanged } from '../actions/index'
+import { init, checkedFlip, historyChanged, historyConcat, stepChanged, step, xIsNextFlip, xIsNextByStep, highlightsChanged } from '../actions/index'
 
-const mapStateToProps = state =>
+
+
+const mapStateToProps = (state) =>
 {
     return {
-        history: store.history,
-        stepNumber: store.stepNumber,
-        xIsNext: store.xIsNext,
-        highlights: store.highlights,
-        checked: store.checked
+        history: state.history,
+        stepNumber: state.stepNumber,
+        xIsNext: state.xIsNext,
+        highlights: state.highlights,
+        checked: state.checked
     };
 }
 
@@ -21,15 +22,14 @@ function mapDispatchToProps(dispatch)
 {
     return {
         init: () => dispatch(init()),
-        checked: () => dispatch(checked()),
+        checkedFlip: () => dispatch(checkedFlip()),
         historyChanged: () => dispatch(historyChanged()),
         historyConcat: (history, squares) => dispatch(historyConcat(history, squares)),
         stepChanged: history => dispatch(stepChanged(history)),
         step: stepInput => dispatch(step(stepInput)),
-        xIsNext: () => dispatch(xIsNext()),
+        xIsNextFlip: () => dispatch(xIsNextFlip()),
         xIsNextByStep: step => dispatch(xIsNextByStep(step)),
         highlightsChanged: highlightsInput => dispatch(highlightsChanged(highlightsInput))
-
     };
 }
 
@@ -44,7 +44,7 @@ class Game extends React.Component
 
     handleChange(checked)
     {
-        this.props.checked();   
+        this.props.checkedFlip();   
         this.props.historyChanged();
     }
 
@@ -61,7 +61,7 @@ class Game extends React.Component
         squares[i] = this.props.xIsNext ? 'X' : 'O';
         this.props.historyConcat(history, squares);
         this.props.stepChanged(history);
-        this.props.xIsNext();
+        this.props.xIsNextFlip();
     }
 
     jumpTo(step, i)

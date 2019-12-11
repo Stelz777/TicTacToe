@@ -4,12 +4,12 @@ export const HISTORY_CHANGED = 'HISTORY_CHANGED';
 export const HISTORY_CONCAT = 'HISTORY_CONCAT';
 export const STEP_CHANGED = 'STEP_CHANGED';
 export const STEP = 'STEP';
-export const X_IS_NEXT = 'X_IS_NEXT';
+export const X_IS_NEXT_FLIP = 'X_IS_NEXT_FLIP';
 export const X_IS_NEXT_BY_STEP = 'X_IS_NEXT_BY_STEP';
 export const COLUMN_CHANGED = 'COLUMN_CHANGED';
 export const ROW_CHANGED = 'ROW_CHANGED';
 export const HIGHLIGHTS_CHANGED = 'HIGHLIGHTS_CHANGED';
-export const CHECKED = 'CHECKED';
+export const CHECKED_FLIP = 'CHECKED_FLIP';
 export const INIT = 'INIT';
 
 //Action Creator
@@ -53,10 +53,10 @@ export function step(stepInput = null)
     }
 }
 
-export function xIsNext()
+export function xIsNextFlip()
 {
     return {
-        type: X_IS_NEXT
+        type: X_IS_NEXT_FLIP
     }
 }
 
@@ -94,10 +94,10 @@ export function highlightsChanged(highlightsInput = null)
     }
 }
 
-export function checked()
+export function checkedFlip()
 {
     return {
-        type: CHECKED
+        type: CHECKED_FLIP
     }
 }
 
