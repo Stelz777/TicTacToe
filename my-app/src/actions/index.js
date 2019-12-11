@@ -1,0 +1,106 @@
+//Action Type
+
+export const HISTORY_CHANGED = 'HISTORY_CHANGED';
+export const HISTORY_CONCAT = 'HISTORY_CONCAT';
+export const STEP_CHANGED = 'STEP_CHANGED';
+export const STEP = 'STEP';
+export const X_IS_NEXT = 'X_IS_NEXT';
+export const X_IS_NEXT_BY_STEP = 'X_IS_NEXT_BY_STEP';
+export const COLUMN_CHANGED = 'COLUMN_CHANGED';
+export const ROW_CHANGED = 'ROW_CHANGED';
+export const HIGHLIGHTS_CHANGED = 'HIGHLIGHTS_CHANGED';
+export const CHECKED = 'CHECKED';
+export const INIT = 'INIT';
+
+//Action Creator
+export function historyChanged()
+{
+    //Action
+    return {
+        type: HISTORY_CHANGED
+    }
+}
+
+export function init()
+{
+    return {
+        type: INIT
+    }
+}
+
+export function historyConcat(history = null, squares = null)
+{
+    return {
+        type: HISTORY_CONCAT,
+        history,
+        squares
+    }
+}
+
+export function stepChanged(history = null)
+{
+    return {
+        type: STEP_CHANGED,
+        history
+    }
+}
+
+export function step(stepInput = null)
+{
+    return {
+        type: 'STEP',
+        stepInput
+    }
+}
+
+export function xIsNext()
+{
+    return {
+        type: X_IS_NEXT
+    }
+}
+
+export function xIsNextByStep(step = null)
+{
+    return {
+        type: X_IS_NEXT_BY_STEP,
+        step
+    }
+}
+
+export function columnChanged(term = null)
+{
+    console.log(term);
+    return {
+        type: COLUMN_CHANGED,
+        term
+    }
+}
+
+export function rowChanged(term = null)
+{
+    console.log(term);
+    return {
+        type: ROW_CHANGED,
+        term
+    }
+}
+
+export function highlightsChanged(highlightsInput = null)
+{
+    return {
+        type: HIGHLIGHTS_CHANGED,
+        highlightsInput
+    }
+}
+
+export function checked()
+{
+    return {
+        type: CHECKED
+    }
+}
+
+
+
+
