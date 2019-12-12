@@ -7,8 +7,8 @@ const mapStateToProps = (state) =>
 {
     return {
         history: state.history,
-        stepNumber: state.stepNumber,
-        xIsNext: state.xIsNext,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext,
         reverseIsChecked: state.reverseIsChecked
     };
 }
