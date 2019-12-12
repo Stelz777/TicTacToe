@@ -1,7 +1,7 @@
 import React from 'react';
 import Switch from "react-switch";
 import { connect } from 'react-redux';
-import { historyButtonSwitched, historyItemClicked } from '../actions/index';
+import { historyButtonSwitched, historyItemClicked } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {

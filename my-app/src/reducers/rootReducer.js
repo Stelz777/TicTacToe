@@ -1,6 +1,6 @@
-import { HISTORY_BUTTON_SWITCHED } from '../actions';
-import { HISTORY_ITEM_CLICKED } from '../actions';
-import { GAME_BOARD_CLICKED } from '../actions';
+import { HISTORY_BUTTON_SWITCHED } from '../actions/actions';
+import { HISTORY_ITEM_CLICKED } from '../actions/actions';
+import { GAME_BOARD_CLICKED } from '../actions/actions';
 
 const initialState = {
     history: [{ squares: Array(9).fill(null), }],

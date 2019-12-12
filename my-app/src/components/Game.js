@@ -2,7 +2,7 @@ import React from 'react';
 import Board from './Board.js';
 import Info from './Info.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked } from '../actions/index'
+import { gameBoardClicked } from '../actions/actions'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 
@@ -43,7 +43,6 @@ class Game extends React.Component
         const current = history[this.props.stepNumber];
         
         return (
-            
                 <div className="game">
                     
                     <Board
@@ -51,11 +50,7 @@ class Game extends React.Component
                         squares = { current.squares }
                         onClick = { (i) => this.handleClick(i) }
                     />
-                    
-                    
-                    <Info/>
-                    
-                        
+                    <Info/>     
                 </div> 
         );
     }
