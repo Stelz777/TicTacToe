@@ -2,7 +2,7 @@ import React from 'react';
 import Board from './Board.js';
 import Info from './Info.js';
 import { connect } from 'react-redux';
-import { init, historyConcat, stepChanged, xIsNextFlip } from '../actions/index'
+import { init, gameBoardClicked } from '../actions/index'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps =
 {
-    init, historyConcat, stepChanged, xIsNextFlip
+    init, gameBoardClicked
 }
 
 class Game extends React.Component
@@ -40,9 +40,7 @@ class Game extends React.Component
             return;
         }
         squares[i] = this.props.xIsNext ? 'X' : 'O';
-        this.props.historyConcat(history, squares);
-        this.props.stepChanged(history);
-        this.props.xIsNextFlip();
+        this.props.gameBoardClicked(history, squares);
     }
 
     render()

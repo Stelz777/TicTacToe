@@ -29,7 +29,7 @@ class Info extends React.Component
         }
         else
         {
-            if (this.props.checked && history.length % 2 == 0)
+            if (this.props.reverseIsChecked && history.length % 2 == 0)
             {
                 status = 'Следующий ход: ' + (this.props.xIsNext ? 'O' : 'X');
             }

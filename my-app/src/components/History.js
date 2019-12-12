@@ -1,18 +1,18 @@
 import React from 'react';
 import Switch from "react-switch";
 import { connect } from 'react-redux';
-import { checkedFlip, historyChanged, step, xIsNextByStep, highlightsChanged } from '../actions/index';
+import { historyButtonSwitched, historyItemClicked } from '../actions/index';
 
 const mapStateToProps = (state) =>
 {
     return {
         history: state.history,
-        checked: state.checked
+        reverseIsChecked: state.reverseIsChecked
     };
 }
 
 const mapDispatchToProps = {
-    checkedFlip, historyChanged, step, xIsNextByStep, highlightsChanged
+    historyButtonSwitched, historyItemClicked
 };
 
 
@@ -26,17 +26,14 @@ class History extends React.Component
 
     handleChange(checked)
     {
-        this.props.checkedFlip();   
-        this.props.historyChanged();
+        this.props.historyButtonSwitched();
     }
 
     jumpTo(step, i)
     {
         let highlights = Array(9).fill(false);
         highlights[i] = true;    
-        this.props.step(step);
-        this.props.xIsNextByStep(step);
-        this.props.highlightsChanged(highlights);      
+        this.props.historyItemClicked(step, highlights);     
     }
 
     getRow(i)
@@ -75,7 +72,7 @@ class History extends React.Component
         {
             let i;
             let desc;
-            if (!this.props.checked)
+            if (!this.props.reverseIsChecked)
             {
                 i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
                 desc = this.generateDescription(desc, move, move, i);
@@ -117,7 +114,7 @@ class History extends React.Component
                 <ol> { moves } </ol>
                 <Switch
                     onChange = { this.handleChange }
-                    checked = { this.props.checked }
+                    checked = { this.props.reverseIsChecked }
                 />
             </div>
         )

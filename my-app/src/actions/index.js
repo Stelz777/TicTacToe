@@ -1,21 +1,25 @@
 //Action Type
 
-export const HISTORY_CHANGED = 'HISTORY_CHANGED';
-export const HISTORY_CONCAT = 'HISTORY_CONCAT';
-export const STEP_CHANGED = 'STEP_CHANGED';
-export const STEP = 'STEP';
-export const X_IS_NEXT_FLIP = 'X_IS_NEXT_FLIP';
-export const X_IS_NEXT_BY_STEP = 'X_IS_NEXT_BY_STEP';
-export const HIGHLIGHTS_CHANGED = 'HIGHLIGHTS_CHANGED';
-export const CHECKED_FLIP = 'CHECKED_FLIP';
+export const HISTORY_BUTTON_SWITCHED = 'HISTORY_BUTTON_SWITCHED'
 export const INIT = 'INIT';
+export const HISTORY_ITEM_CLICKED = 'HISTORY_ITEM_CLICKED';
+export const GAME_BOARD_CLICKED = 'GAME_BOARD_CLICKED';
 
 //Action Creator
-export function historyChanged()
+export function historyButtonSwitched()
 {
     //Action
     return {
-        type: HISTORY_CHANGED
+        type: HISTORY_BUTTON_SWITCHED
+    }
+}
+
+export function historyItemClicked(stepInput = null, highlightsInput = null)
+{
+    return {
+        type: HISTORY_ITEM_CLICKED,
+        stepInput,
+        highlightsInput
     }
 }
 
@@ -26,60 +30,20 @@ export function init()
     }
 }
 
-export function historyConcat(history = null, squares = null)
+export function gameBoardClicked(history = null, squares = null)
 {
     return {
-        type: HISTORY_CONCAT,
+        type: GAME_BOARD_CLICKED,
         history,
         squares
     }
 }
 
-export function stepChanged(history = null)
-{
-    return {
-        type: STEP_CHANGED,
-        history
-    }
-}
 
-export function step(stepInput = null)
-{
-    return {
-        type: 'STEP',
-        stepInput
-    }
-}
 
-export function xIsNextFlip()
-{
-    return {
-        type: X_IS_NEXT_FLIP
-    }
-}
 
-export function xIsNextByStep(step = null)
-{
-    return {
-        type: X_IS_NEXT_BY_STEP,
-        step
-    }
-}
 
-export function highlightsChanged(highlightsInput = null)
-{
-    return {
-        type: HIGHLIGHTS_CHANGED,
-        highlightsInput
-    }
-}
 
-export function checkedFlip()
-{
-    return {
-        type: CHECKED_FLIP
-    }
-}
 
 
 
