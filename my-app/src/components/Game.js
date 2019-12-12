@@ -2,7 +2,7 @@ import React from 'react';
 import Board from './Board.js';
 import Info from './Info.js';
 import { connect } from 'react-redux';
-import { init, gameBoardClicked } from '../actions/index'
+import { gameBoardClicked } from '../actions/index'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 
@@ -18,17 +18,11 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps =
 {
-    init, gameBoardClicked
+    gameBoardClicked
 }
 
 class Game extends React.Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.props.init();
-    }
-
     handleClick(i)
     {
         const history = this.props.history.slice(0, this.props.stepNumber + 1);

@@ -1,5 +1,4 @@
 import { HISTORY_BUTTON_SWITCHED } from '../actions';
-import { INIT } from '../actions';
 import { HISTORY_ITEM_CLICKED } from '../actions';
 import { GAME_BOARD_CLICKED } from '../actions';
 
@@ -15,8 +14,6 @@ function rootReducer(state = initialState, action)
 {
     switch (action.type)
     {
-        case INIT:
-            return initialState;
         case HISTORY_ITEM_CLICKED:
             return Object.assign({}, state, { highlights: action.highlightsInput, xIsNext: (action.stepInput % 2) === 0, stepNumber: action.stepInput });
         case HISTORY_BUTTON_SWITCHED:

@@ -9,7 +9,7 @@ const mapStateToProps = (state) =>
         history: state.history,
         stepNumber: state.stepNumber,
         xIsNext: state.xIsNext,
-        checked: state.checked
+        reverseIsChecked: state.reverseIsChecked
     };
 }
 

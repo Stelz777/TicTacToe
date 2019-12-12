@@ -11,8 +11,10 @@ const mapStateToProps = (state) =>
     };
 }
 
-const mapDispatchToProps = {
-    historyButtonSwitched, historyItemClicked
+const mapDispatchToProps = 
+{
+    historyButtonSwitched, 
+    historyItemClicked
 };
 
 

@@ -1,7 +1,6 @@
 //Action Type
 
 export const HISTORY_BUTTON_SWITCHED = 'HISTORY_BUTTON_SWITCHED'
-export const INIT = 'INIT';
 export const HISTORY_ITEM_CLICKED = 'HISTORY_ITEM_CLICKED';
 export const GAME_BOARD_CLICKED = 'GAME_BOARD_CLICKED';
 
@@ -14,7 +13,7 @@ export function historyButtonSwitched()
     }
 }
 
-export function historyItemClicked(stepInput = null, highlightsInput = null)
+export function historyItemClicked(stepInput, highlightsInput)
 {
     return {
         type: HISTORY_ITEM_CLICKED,
@@ -23,14 +22,7 @@ export function historyItemClicked(stepInput = null, highlightsInput = null)
     }
 }
 
-export function init()
-{
-    return {
-        type: INIT
-    }
-}
-
-export function gameBoardClicked(history = null, squares = null)
+export function gameBoardClicked(history, squares)
 {
     return {
         type: GAME_BOARD_CLICKED,
