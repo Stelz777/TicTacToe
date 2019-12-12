@@ -4,8 +4,6 @@ import { STEP_CHANGED } from '../actions';
 import { STEP } from '../actions';
 import { X_IS_NEXT_FLIP } from '../actions';
 import { X_IS_NEXT_BY_STEP } from '../actions';
-import { COLUMN_CHANGED } from '../actions';
-import { ROW_CHANGED } from '../actions';
 import { HIGHLIGHTS_CHANGED } from '../actions';
 import { CHECKED_FLIP } from '../actions'; 
 import { INIT } from '../actions';
@@ -14,8 +12,6 @@ const initialState = {
     history: [{ squares: Array(9).fill(null), }],
     stepNumber: 0,
     xIsNext: true,
-    currentColumn: 1,
-    currentRow: 1,
     highlights: Array(9).fill(false),
     checked: false,
 }
@@ -25,7 +21,6 @@ function rootReducer(state = initialState, action)
     switch (action.type)
     {
         case INIT:
-            //alert(initialState.stepNumber);
             return initialState;
         case HISTORY_CHANGED:
             return Object.assign({}, state, { history: state.history.slice().reverse() });
@@ -39,10 +34,6 @@ function rootReducer(state = initialState, action)
             return Object.assign({}, state, { xIsNext: !state.xIsNext });
         case X_IS_NEXT_BY_STEP:
             return Object.assign({}, state, { xIsNext: (action.step % 2) === 0 });
-        case COLUMN_CHANGED:
-            return state;
-        case ROW_CHANGED:
-            return state;
         case HIGHLIGHTS_CHANGED:
             return Object.assign({}, state, { highlights: action.highlightsInput });
         case CHECKED_FLIP:

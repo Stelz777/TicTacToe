@@ -16,14 +16,9 @@ const mapStateToProps = (state) =>
     };
 }
 
-function mapDispatchToProps(dispatch)
+const mapDispatchToProps =
 {
-    return {
-        init: () => dispatch(init()),
-        historyConcat: (history, squares) => dispatch(historyConcat(history, squares)),
-        stepChanged: history => dispatch(stepChanged(history)),
-        xIsNextFlip: () => dispatch(xIsNextFlip()),
-    };
+    init, historyConcat, stepChanged, xIsNextFlip
 }
 
 class Game extends React.Component
@@ -58,16 +53,16 @@ class Game extends React.Component
         return (
             
                 <div className="game">
-                    <div className="game-board">
-                        <Board
-                            highlights = { this.props.highlights }
-                            squares = { current.squares }
-                            onClick = { (i) => this.handleClick(i) }
-                        />
-                    </div>
-                    <div className="game-info">
-                        <Info></Info>
-                    </div>
+                    
+                    <Board
+                        highlights = { this.props.highlights }
+                        squares = { current.squares }
+                        onClick = { (i) => this.handleClick(i) }
+                    />
+                    
+                    
+                    <Info/>
+                    
                         
                 </div> 
         );

@@ -11,16 +11,10 @@ const mapStateToProps = (state) =>
     };
 }
 
-function mapDispatchToProps(dispatch)
-{
-    return {
-        checkedFlip: () => dispatch(checkedFlip()),
-        historyChanged: () => dispatch(historyChanged()),
-        step: stepInput => dispatch(step(stepInput)),
-        xIsNextByStep: step => dispatch(xIsNextByStep(step)),
-        highlightsChanged: highlightsInput => dispatch(highlightsChanged(highlightsInput))
-    };
-}
+const mapDispatchToProps = {
+    checkedFlip, historyChanged, step, xIsNextByStep, highlightsChanged
+};
+
 
 class History extends React.Component
 {

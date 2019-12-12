@@ -6,8 +6,6 @@ export const STEP_CHANGED = 'STEP_CHANGED';
 export const STEP = 'STEP';
 export const X_IS_NEXT_FLIP = 'X_IS_NEXT_FLIP';
 export const X_IS_NEXT_BY_STEP = 'X_IS_NEXT_BY_STEP';
-export const COLUMN_CHANGED = 'COLUMN_CHANGED';
-export const ROW_CHANGED = 'ROW_CHANGED';
 export const HIGHLIGHTS_CHANGED = 'HIGHLIGHTS_CHANGED';
 export const CHECKED_FLIP = 'CHECKED_FLIP';
 export const INIT = 'INIT';
@@ -65,24 +63,6 @@ export function xIsNextByStep(step = null)
     return {
         type: X_IS_NEXT_BY_STEP,
         step
-    }
-}
-
-export function columnChanged(term = null)
-{
-    console.log(term);
-    return {
-        type: COLUMN_CHANGED,
-        term
-    }
-}
-
-export function rowChanged(term = null)
-{
-    console.log(term);
-    return {
-        type: ROW_CHANGED,
-        term
     }
 }
 

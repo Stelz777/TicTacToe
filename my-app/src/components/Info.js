@@ -40,9 +40,9 @@ class Info extends React.Component
         }
 
         return (
-            <div>
+            <div className="game-info">
                 <div> { status } </div>
-                <History></History>
+                <History/>
             </div>
         );
     }
