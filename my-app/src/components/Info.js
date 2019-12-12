@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        reverseIsChecked: state.reverseIsChecked
+        history: state.history.history,
+        stepNumber: state.game.status.stepNumber,
+        xIsNext: state.game.status.xIsNext,
+        reverseIsChecked: state.history.reverseIsChecked
     };
 }
 

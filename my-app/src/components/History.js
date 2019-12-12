@@ -6,8 +6,8 @@ import { historyButtonSwitched, historyItemClicked } from '../actions/actions';
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history,
-        reverseIsChecked: state.reverseIsChecked
+        history: state.history.history,
+        reverseIsChecked: state.history.reverseIsChecked
     };
 }
 

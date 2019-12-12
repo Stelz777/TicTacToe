@@ -9,10 +9,10 @@ import CalculateWinner from '../gameLogic/CalculateWinner';
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        highlights: state.highlights
+        history: state.history.history,
+        stepNumber: state.game.status.stepNumber,
+        xIsNext: state.game.status.xIsNext,
+        highlights: state.game.highlights
     };
 }
 
@@ -41,7 +41,7 @@ class Game extends React.Component
     {
         const history = this.props.history;
         const current = history[this.props.stepNumber];
-        
+
         return (
                 <div className="game">
                     
