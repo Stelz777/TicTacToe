@@ -3,7 +3,7 @@ import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
 import { gameBoardClicked } from '../actions/actions'
-import CalculateWinner from '../gameLogic/CalculateWinner';
+
 
 const mapStateToProps = (state) =>
 {
@@ -81,32 +81,7 @@ class Board extends React.Component
 
     handleClick(i)
     {
-        let history;
-        if (this.props.reverseIsChecked)
-        {
-            history = this.props.history.slice(this.props.history.length - this.props.stepNumber - 1, this.props.history.length);
-        }
-        else
-        {
-            history = this.props.history.slice(0, this.props.stepNumber + 1);
-        }
-        let current;
-        if (this.props.reverseIsChecked)
-        {
-            current = history[0];
-        }
-        else
-        {
-            current = history[history.length - 1];
-        }
-        const squares = current.squares.slice();
-       
-        if (CalculateWinner(squares) || squares[i])
-        {
-            return;
-        }
-        squares[i] = this.props.xIsNext ? 'X' : 'O';
-        this.props.gameBoardClicked(history, squares);
+        this.props.gameBoardClicked(i);
     }
 
     render()

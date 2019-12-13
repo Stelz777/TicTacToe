@@ -1,6 +1,7 @@
 import { HISTORY_BUTTON_SWITCHED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
+import CalculateWinner from '../gameLogic/CalculateWinner';
 
 const initialState = {
     history: [{ squares: Array(9).fill(null), }],
@@ -28,12 +29,39 @@ function rootReducer(state = initialState, action)
 
 
         case GAME_BOARD_CLICKED:
+            let history;
+            if (state.reverseIsChecked)
+            {
+                history = state.history.slice(state.history.length - state.status.stepNumber - 1, state.history.length);
+            }
+            else
+            {
+                history = state.history.slice(0, state.status.stepNumber + 1);
+            }
+            let current;
+            if (state.reverseIsChecked)
+            {
+                current = history[0];
+            }
+            else
+            {
+                current = history[history.length - 1];
+            }
+            const squares = current.squares.slice();
+               
+            if (CalculateWinner(squares) || squares[action.i])
+            {
+                return;
+            }
+            squares[action.i] = state.status.xIsNext ? 'X' : 'O';
             return { 
                 ...state, 
-                history: state.reverseIsChecked ? action.history.reverse().concat([{ squares: action.squares, }]).reverse() : action.history.concat([{ squares: action.squares, }]),
+                history: state.reverseIsChecked 
+                ? history.reverse().concat([{ squares: squares, }]).reverse() 
+                : history.concat([{ squares: squares, }]),
                 status: { 
                     xIsNext: !state.status.xIsNext,
-                    stepNumber: action.history.length, 
+                    stepNumber: history.length, 
                 }
             };
         case HISTORY_BUTTON_SWITCHED:

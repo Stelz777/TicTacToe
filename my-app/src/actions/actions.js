@@ -22,12 +22,11 @@ export function historyItemClicked(stepInput, highlightsInput)
     }
 }
 
-export function gameBoardClicked(history, squares)
+export function gameBoardClicked(i)
 {
     return {
         type: GAME_BOARD_CLICKED,
-        history,
-        squares
+        i
     }
 }
 
