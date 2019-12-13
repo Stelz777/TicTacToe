@@ -8,11 +8,11 @@ import CalculateWinner from '../gameLogic/CalculateWinner';
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history.history,
-        reverseIsChecked: state.history.reverseIsChecked,
-        stepNumber: state.game.status.stepNumber,
-        xIsNext: state.game.status.xIsNext,
-        highlights: state.game.highlights
+        history: state.history,
+        reverseIsChecked: state.reverseIsChecked,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext,
+        highlights: state.highlights
     };
 }
 

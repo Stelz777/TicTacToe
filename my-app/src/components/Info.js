@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history.history,
-        stepNumber: state.game.status.stepNumber,
-        xIsNext: state.game.status.xIsNext,
-        reverseIsChecked: state.history.reverseIsChecked
+        history: state.history,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext,
+        reverseIsChecked: state.reverseIsChecked
     };
 }
 
@@ -27,7 +27,6 @@ class Info extends React.Component
         {
             current = history[this.props.stepNumber];
         }
-
         const winner = CalculateWinner(current.squares);
         
         let status;
