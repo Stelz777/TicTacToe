@@ -18,9 +18,11 @@ function rootReducer(state = initialState, action)
     switch (action.type)
     {
         case HISTORY_ITEM_CLICKED:
+            let highlights = Array(9).fill(false);
+            highlights[action.squareIndex] = true; 
             return ({ 
                 ...state, 
-                highlights: action.highlightsInput,
+                highlights: highlights,
                 status: { 
                     xIsNext: (action.stepInput % 2) === 0, 
                     stepNumber: action.stepInput
@@ -49,11 +51,11 @@ function rootReducer(state = initialState, action)
             }
             const squares = current.squares.slice();
                
-            if (CalculateWinner(squares) || squares[action.i])
+            if (CalculateWinner(squares) || squares[action.squareIndex])
             {
                 return;
             }
-            squares[action.i] = state.status.xIsNext ? 'X' : 'O';
+            squares[action.squareIndex] = state.status.xIsNext ? 'X' : 'O';
             return { 
                 ...state, 
                 history: state.reverseIsChecked 

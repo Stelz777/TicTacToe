@@ -13,20 +13,20 @@ export function historyButtonSwitched()
     }
 }
 
-export function historyItemClicked(stepInput, highlightsInput)
+export function historyItemClicked(stepInput, squareIndex)
 {
     return {
         type: HISTORY_ITEM_CLICKED,
         stepInput,
-        highlightsInput
+        squareIndex
     }
 }
 
-export function gameBoardClicked(i)
+export function gameBoardClicked(squareIndex)
 {
     return {
         type: GAME_BOARD_CLICKED,
-        i
+        squareIndex
     }
 }
 

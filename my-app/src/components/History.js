@@ -32,10 +32,8 @@ class History extends React.Component
     }
 
     jumpTo(step, i)
-    {
-        let highlights = Array(9).fill(false);
-        highlights[i] = true;    
-        this.props.historyItemClicked(step, highlights);     
+    {   
+        this.props.historyItemClicked(step, i);     
     }
 
     getRow(i)
