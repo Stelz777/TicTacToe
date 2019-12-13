@@ -1,18 +1,38 @@
 import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
+import { connect } from 'react-redux';
+import { gameBoardClicked } from '../actions/actions'
+import CalculateWinner from '../gameLogic/CalculateWinner';
+
+const mapStateToProps = (state) =>
+{
+    return {
+        history: state.history.history,
+        stepNumber: state.game.status.stepNumber,
+        xIsNext: state.game.status.xIsNext,
+        highlights: state.game.highlights
+    };
+}
+
+const mapDispatchToProps =
+{
+    gameBoardClicked
+}
 
 class Board extends React.Component
 {
     renderSquare(i, isHighlighted)
     {
-        //alert(i, isHighlighted);
+        const history = this.props.history;
+        const current = history[this.props.stepNumber];
+        const squares = current.squares;
         if (isHighlighted)
         {
             return (
                 <HighlightedSquare 
-                    value= { this.props.squares[i] }
-                    onClick= { () => this.props.onClick(i) }
+                    value= { squares[i] }
+                    onClick= { () => this.handleClick(i) }
                 />
             );
         }
@@ -20,8 +40,8 @@ class Board extends React.Component
         {
             return (
                 <Square
-                    value= { this.props.squares[i] }
-                    onClick= { () => this.props.onClick(i) }
+                    value= { squares[i] }
+                    onClick= { () => this.handleClick(i) }
                 />
             );
         }
@@ -50,6 +70,20 @@ class Board extends React.Component
         return rows;
     }
 
+    handleClick(i)
+    {
+        const history = this.props.history.slice(0, this.props.stepNumber + 1);
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();
+       
+        if (CalculateWinner(squares) || squares[i])
+        {
+            return;
+        }
+        squares[i] = this.props.xIsNext ? 'X' : 'O';
+        this.props.gameBoardClicked(history, squares);
+    }
+
     render()
     {
         return (
@@ -58,4 +92,4 @@ class Board extends React.Component
     }
 }
 
-export default Board;
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
