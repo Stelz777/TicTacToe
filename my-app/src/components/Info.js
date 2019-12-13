@@ -18,7 +18,15 @@ class Info extends React.Component
     render() 
     {
         const history = this.props.history;
-        const current = history[this.props.stepNumber];
+        let current;
+        if (this.props.reverseIsChecked)
+        {
+            current = history[history.length - this.props.stepNumber - 1];
+        }
+        else
+        {
+            current = history[this.props.stepNumber];
+        }
 
         const winner = CalculateWinner(current.squares);
         
@@ -29,14 +37,7 @@ class Info extends React.Component
         }
         else
         {
-            if (this.props.reverseIsChecked && history.length % 2 == 0)
-            {
-                status = 'Следующий ход: ' + (this.props.xIsNext ? 'O' : 'X');
-            }
-            else
-            {
-                status = 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
-            }
+            status = 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
         }
 
         return (

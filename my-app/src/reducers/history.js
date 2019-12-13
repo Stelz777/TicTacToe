@@ -20,7 +20,7 @@ function history(state = initialState, action)
         case GAME_BOARD_CLICKED:
             return { 
                 ...state, 
-                history: action.history.concat([{ squares: action.squares, }]), 
+                history: state.reverseIsChecked ? action.history.reverse().concat([{ squares: action.squares, }]).reverse() : action.history.concat([{ squares: action.squares, }]), 
             };
         default: 
             return state;

@@ -9,6 +9,7 @@ const mapStateToProps = (state) =>
 {
     return {
         history: state.history.history,
+        reverseIsChecked: state.history.reverseIsChecked,
         stepNumber: state.game.status.stepNumber,
         xIsNext: state.game.status.xIsNext,
         highlights: state.game.highlights
@@ -25,7 +26,15 @@ class Board extends React.Component
     renderSquare(i, isHighlighted)
     {
         const history = this.props.history;
-        const current = history[this.props.stepNumber];
+        let current;
+        if (this.props.reverseIsChecked)
+        {
+            current = history[history.length - this.props.stepNumber - 1];
+        }
+        else
+        {
+            current = history[this.props.stepNumber];
+        }
         const squares = current.squares;
         if (isHighlighted)
         {
@@ -72,8 +81,24 @@ class Board extends React.Component
 
     handleClick(i)
     {
-        const history = this.props.history.slice(0, this.props.stepNumber + 1);
-        const current = history[history.length - 1];
+        let history;
+        if (this.props.reverseIsChecked)
+        {
+            history = this.props.history.slice(this.props.history.length - this.props.stepNumber - 1, this.props.history.length);
+        }
+        else
+        {
+            history = this.props.history.slice(0, this.props.stepNumber + 1);
+        }
+        let current;
+        if (this.props.reverseIsChecked)
+        {
+            current = history[0];
+        }
+        else
+        {
+            current = history[history.length - 1];
+        }
         const squares = current.squares.slice();
        
         if (CalculateWinner(squares) || squares[i])
