@@ -7,13 +7,26 @@ import { gameBoardClicked } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
-    return {
-        history: state.history,
-        reverseIsChecked: state.reverseIsChecked,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        highlights: state.highlights
-    };
+    if (state == undefined)
+    {
+        return {
+            history: [{ squares: Array(9).fill(null), }],
+            reverseIsChecked: false,
+            xIsNext: true,
+            stepNumber: 0,
+            highlights: Array(9).fill(false),
+        }
+    }
+    else
+    {
+        return {
+            history: state.history,
+            reverseIsChecked: state.reverseIsChecked,
+            stepNumber: state.status.stepNumber,
+            xIsNext: state.status.xIsNext,
+            highlights: state.highlights
+        };
+    }
 }
 
 const mapDispatchToProps =

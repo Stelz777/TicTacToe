@@ -5,12 +5,24 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) =>
 {
-    return {
-        history: state.history,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        reverseIsChecked: state.reverseIsChecked
-    };
+    if (state == undefined)
+    {
+        return {
+            history: [{ squares: Array(9).fill(null), }],
+            reverseIsChecked: false,
+            xIsNext: true,
+            stepNumber: 0
+        }
+    }
+    else
+    {
+        return {
+            history: state.history,
+            stepNumber: state.status.stepNumber,
+            xIsNext: state.status.xIsNext,
+            reverseIsChecked: state.reverseIsChecked
+        };
+    }
 }
 
 class Info extends React.Component
