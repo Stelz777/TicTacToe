@@ -36,6 +36,21 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
+    /*componentDidMount() 
+    {
+        this.ensureDataFetched();
+    }
+
+    componentDidUpdate() 
+    {
+        this.ensureDataFetched();
+    }
+
+    ensureDataFetched() 
+    {
+        this.props.requestBoard();
+    }*/
+
     renderSquare(i, isHighlighted)
     {
         const history = this.props.history;
@@ -92,9 +107,33 @@ class Board extends React.Component
         return rows;
     }
 
+    handleGetJson()
+    {
+        console.log("inside handleGetJson");
+        fetch(`Board`, {
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((messages) => {
+            console.log(messages.cellNumber);
+            this.props.gameBoardClicked(messages.cellNumber)});
+    }
+
     handleClick(i)
     {
+
         this.props.gameBoardClicked(i);
+        this.handleGetJson();
+        /*let botTurn = fetch(`board`)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Unable to get board.', error));*/
+            //then(data => console.log(data));
+        //console.log("fetched ", botTurn);
+
     }
 
     render()

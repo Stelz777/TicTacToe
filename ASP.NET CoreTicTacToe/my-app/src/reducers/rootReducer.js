@@ -27,7 +27,7 @@ function rootReducer(state = initialState, action)
                     xIsNext: (action.stepInput % 2) === 0, 
                     stepNumber: action.stepInput
                 }
-             });
+            });
 
 
         case GAME_BOARD_CLICKED:
@@ -53,7 +53,7 @@ function rootReducer(state = initialState, action)
                
             if (CalculateWinner(squares) || squares[action.squareIndex])
             {
-                return;
+                return state;
             }
             squares[action.squareIndex] = state.status.xIsNext ? 'X' : 'O';
             return { 

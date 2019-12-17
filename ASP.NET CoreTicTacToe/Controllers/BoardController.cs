@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
+    [Route("[controller]")]
     [ApiController]
     public class BoardController : ControllerBase
     {
