@@ -1,2 +1,1 @@
-C:\Users\yu.abramov\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.njsprojAssemblyReference.cache
 C:\Users\yu.abramov\source\repos\TicTacToe\TicTacToe\bin\Microsoft.NodejsTools.WebRole.dll
