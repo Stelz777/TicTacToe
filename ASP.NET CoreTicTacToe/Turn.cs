@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe
 {
-    public class Board
+    public class Turn
     {
         public int CellNumber { get; set; }
     }

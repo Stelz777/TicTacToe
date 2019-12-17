@@ -69,7 +69,7 @@ class Board extends React.Component
             return (
                 <HighlightedSquare 
                     value= { squares[i] }
-                    onClick= { () => this.handleClick(i) }
+                    onClick= { () => this.handleClick(i, squares) }
                 />
             );
         }
@@ -78,7 +78,7 @@ class Board extends React.Component
             return (
                 <Square
                     value= { squares[i] }
-                    onClick= { () => this.handleClick(i) }
+                    onClick= { () => this.handleClick(i, squares) }
                 />
             );
         }
@@ -107,33 +107,22 @@ class Board extends React.Component
         return rows;
     }
 
-    handleGetJson()
+    handleGetJson(squares)
     {
         console.log("inside handleGetJson");
-        fetch(`Board`, {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        .then((response) => response.json())
-        .then((messages) => {
-            console.log(messages.cellNumber);
-            this.props.gameBoardClicked(messages.cellNumber)});
+        //const url = 
+        fetch(`api/board/nextturn`, { method: 'POST'})
+            .then((response) => response.json())
+            .then((messages) => {
+                console.log(messages.cellNumber);
+                this.props.gameBoardClicked(messages.cellNumber)
+            });
     }
 
-    handleClick(i)
+    handleClick(i, squares)
     {
-
         this.props.gameBoardClicked(i);
-        this.handleGetJson();
-        /*let botTurn = fetch(`board`)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Unable to get board.', error));*/
-            //then(data => console.log(data));
-        //console.log("fetched ", botTurn);
-
+        this.handleGetJson(squares);
     }
 
     render()

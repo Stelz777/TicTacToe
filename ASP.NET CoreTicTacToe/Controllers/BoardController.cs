@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BoardController : ControllerBase
     {
@@ -18,14 +18,14 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         {
             _logger = logger;
         }
-
-        [HttpGet]
-        public Board Get()
+        [Route("nextturn")]
+        [HttpPost]
+        public Turn NextTurn()
         {
             var random = new Random();
             int randomTurn = random.Next(1, 9);
-            _logger.LogInformation($"Bot turn: { randomTurn.ToString() }");
-            return new Board
+            _logger.LogInformation($"Bot turn: { randomTurn }");
+            return new Turn
             {
                 CellNumber = randomTurn
             };
