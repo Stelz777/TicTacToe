@@ -5,7 +5,7 @@ import { historyButtonSwitched, historyItemClicked } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-    if (state == undefined)
+    if (state === undefined)
     {
         return {
             history: [{ squares: Array(9).fill(null), }],
@@ -64,11 +64,11 @@ class History extends React.Component
 
     findDifferencesBetweenTwoArrays(step, previous)
     {
-        if (step != undefined)
+        if (step !== undefined)
         {
             for (let i = 0; i < step.length; i++)
             {
-                if (step[i] != previous[i])
+                if (step[i] !== previous[i])
                 {
                     return i;
                 }
@@ -89,7 +89,7 @@ class History extends React.Component
             }
             else
             {
-                if (history[move + 1] != undefined)
+                if (history[move + 1] !== undefined)
                 {
                     i = this.findDifferencesBetweenTwoArrays(step.squares, history[move + 1].squares);
                 }

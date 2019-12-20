@@ -2,12 +2,12 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked } from '../actions/actions'
+import { gameBoardClicked, boardRequested } from '../actions/actions'
 
 
 const mapStateToProps = (state) =>
 {
-    if (state == undefined)
+    if (state === undefined)
     {
         return {
             history: [{ squares: Array(9).fill(null), }],
@@ -15,6 +15,7 @@ const mapStateToProps = (state) =>
             xIsNext: true,
             stepNumber: 0,
             highlights: Array(9).fill(false),
+            //squares: Array(9).fill(0)
         }
     }
     else
@@ -24,52 +25,63 @@ const mapStateToProps = (state) =>
             reverseIsChecked: state.reverseIsChecked,
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
-            highlights: state.highlights
+            highlights: state.highlights,
+            board: state.board
         };
     }
 }
 
 const mapDispatchToProps =
 {
-    gameBoardClicked
+    gameBoardClicked,
+    boardRequested
 }
+
+
 
 class Board extends React.Component
 {
-    /*componentDidMount() 
+    fetcher()
     {
-        this.ensureDataFetched();
+        
     }
 
-    componentDidUpdate() 
+    componentDidMount()
     {
-        this.ensureDataFetched();
+        console.log("mounted!");
+        fetch(`api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => { console.log(data.squares);  this.props.boardRequested(data.squares) } );
+        
     }
-
-    ensureDataFetched() 
-    {
-        this.props.requestBoard();
-    }*/
 
     renderSquare(i, isHighlighted)
     {
-        const history = this.props.history;
-        let current;
-        if (this.props.reverseIsChecked)
+        //boardRequested();
+        console.log('inside rendersquare');
+        
+        /*async function getBoard()
         {
-            current = history[history.length - this.props.stepNumber - 1];
-        }
-        else
+            await fetch(`api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => squares = data.squares );
+            //await promise;
+            return squares;
+        }*/
+        //squares = this.componentDidMount();
+        console.log("renderSquare squares: ", this.props.board);
+        let symbol = "";
+        if (this.props.board[i] === 0)
         {
-            current = history[this.props.stepNumber];
+            symbol = 'X';
         }
-        const squares = current.squares;
+        else if (this.props.board[i] === 1)
+        {
+            symbol = 'O';
+        }
+        
         if (isHighlighted)
         {
             return (
                 <HighlightedSquare 
-                    value= { squares[i] }
-                    onClick= { () => this.handleClick(i, squares) }
+                    value= { symbol }
+                    onClick= { () => this.handleClick(i, this.props.board) }
                 />
             );
         }
@@ -77,8 +89,8 @@ class Board extends React.Component
         {
             return (
                 <Square
-                    value= { squares[i] }
-                    onClick= { () => this.handleClick(i, squares) }
+                    value= { symbol }
+                    onClick= { () => this.handleClick(i, this.props.board) }
                 />
             );
         }
@@ -89,7 +101,7 @@ class Board extends React.Component
         let squares = [];
         for (var j = 0; j < 3; j++)
         {
-            if (this.props.highlights != undefined)
+            if (this.props.highlights !== undefined)
             {
                 squares.push(this.renderSquare(i * 3 + j, this.props.highlights[i * 3 + j]));
             }
@@ -110,18 +122,20 @@ class Board extends React.Component
     handleGetJson(squares)
     {
         console.log("inside handleGetJson");
-        //const url = 
         fetch(`api/board/nextturn`, { method: 'POST'})
             .then((response) => response.json())
             .then((messages) => {
-                console.log(messages.cellNumber);
-                this.props.gameBoardClicked(messages.cellNumber)
+                console.log("bot turn: ", messages.cellNumber);
+                this.props.gameBoardClicked(messages.cellNumber, false)
             });
+        fetch(`api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => { console.log(data.squares);  this.props.boardRequested(data.squares) });
     }
 
     handleClick(i, squares)
     {
-        this.props.gameBoardClicked(i);
+        console.log("squares in handleclick: ", squares);
+        //console.log(i);
+        this.props.gameBoardClicked(i, true);
         this.handleGetJson(squares);
     }
 

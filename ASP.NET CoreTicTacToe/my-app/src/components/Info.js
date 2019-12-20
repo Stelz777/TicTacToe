@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) =>
 {
-    if (state == undefined)
+    if (state === undefined)
     {
         return {
             history: [{ squares: Array(9).fill(null), }],

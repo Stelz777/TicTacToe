@@ -1,6 +1,7 @@
 import { HISTORY_BUTTON_SWITCHED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
+import { BOARD_REQUESTED } from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 const initialState = {
@@ -11,12 +12,20 @@ const initialState = {
         stepNumber: 0
     },
     highlights: Array(9).fill(false), 
+    board: Array(9).fill(null)
 }
 
 function rootReducer(state = initialState, action)
 {
     switch (action.type)
     {
+        case BOARD_REQUESTED:
+            console.log("board in reducer: ", action.board);
+            return ({
+                ...state,
+                board: action.board
+            });
+
         case HISTORY_ITEM_CLICKED:
             let highlights = Array(9).fill(false);
             highlights[action.squareIndex] = true; 
@@ -56,6 +65,7 @@ function rootReducer(state = initialState, action)
                 return state;
             }
             squares[action.squareIndex] = state.status.xIsNext ? 'X' : 'O';
+            //TODO fetch(i) in action
             return { 
                 ...state, 
                 history: state.reverseIsChecked 
