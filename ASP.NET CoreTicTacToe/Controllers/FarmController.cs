@@ -20,24 +20,14 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         }
 
         [HttpGet]
-        public RedirectResult GetGame(int id)
+        public IActionResult GetGame(int? id)
         {
-            if (farm.Boards.ContainsKey(id))
-            {
-                farm.CurrentGame = id;
-            }
-            else
-            {
-                Board board = new Board();
-                board.Squares = new List<Cell>();
-                for (int i = 0; i < 9; i++)
-                {
-                    board.Squares.Add(Cell.Empty);
-                }
-                farm.Boards.Add(id, board);
-                farm.CurrentGame = id;
-            }
-            return Redirect("/");
+            var (boardId, board) = farm.FindBoard(id);
+            return Json(new {
+
+                id = boardId, 
+                board
+            });
         }
 
     }

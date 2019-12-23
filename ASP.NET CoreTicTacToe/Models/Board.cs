@@ -15,10 +15,17 @@ namespace ASP.NET_CoreTicTacToe.Models
 
     public class Board
     {
-        public List<Cell> Squares { get; set; }
+        private List<Cell> squares = new List<Cell>();
+        public IReadOnlyList<Cell> Squares => squares;
 
-        public bool HasWinner(Board board)
+        public Board()
         {
+            squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
+        }
+
+        public bool HasWinner()
+        {
+            var board = this;
             for (int i = 0; i < 9; i += 3)
             {
                 if (board.Squares[i] != Cell.Empty && board.Squares[i] == board.Squares[i + 1] && board.Squares[i + 1] == board.Squares[i + 2])
@@ -43,6 +50,30 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
             return false;
 
+        }
+
+        public Turn MakeAutoMove() {
+            var possibleTurns = board.Squares.Where(sq => sq == Cell.Empty).ToList();
+           
+            var random = new Random();
+            int randomTurn = random.Next(0, possibleTurns.Count);
+
+            if (possibleTurns.Count > 0)
+            {
+                return new Turn
+                {
+                    CellNumber = possibleTurns[randomTurn],
+                    TicTurn = false
+                };
+            }
+            else
+            {
+                return new Turn
+                {
+                    CellNumber = -1,
+                    TicTurn = false
+                };
+            }
         }
     }
 

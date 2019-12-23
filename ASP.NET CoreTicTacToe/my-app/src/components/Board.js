@@ -50,7 +50,14 @@ class Board extends React.Component
     {
         console.log("mounted!");
         //window.history.replaceState(null, null, "/../../..");
-        fetch(`/api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => { console.log(data.squares);  this.props.boardRequested(data.squares) } );
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        fetch(`/api/farm/getboard/${id}`, { method: 'GET' })
+            .then(result => result.json())
+            .then(data => { 
+                console.log(data.squares);  
+                this.props.boardRequested(data.squares) 
+            });
         
     }
 
@@ -122,8 +129,8 @@ class Board extends React.Component
 
     refreshBoard()
     {
-        /*console.log("inside makeBotTurn");
-        fetch(`/api/board/nextturn`, { method: 'POST'})
+        console.log("inside makeBotTurn");
+        fetch(`/api/board/nextturn`, { method: 'POST' })
             .then((response) => response.json())
             .then((messages) => {
                 console.log("bot turn: ", messages.cellNumber);
@@ -131,8 +138,7 @@ class Board extends React.Component
                 {
                     this.props.gameBoardClicked(messages.cellNumber, false)
                 }
-            });*/
-        fetch(`/api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => { console.log(data.squares);  this.props.boardRequested(data.squares) });
+            });
     }
 
     handleClick(i, squares)
