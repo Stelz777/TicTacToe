@@ -7,8 +7,32 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Farm
     {
-        public Dictionary<int, Board> boards;
-        public int currentGame = 0;
+        private Dictionary<int, Board> boards;
+        private int currentGame = 0;
+
+        public Dictionary<int, Board> Boards
+        {
+            get
+            {
+                return boards;
+            }
+            set
+            {
+                boards = value;
+            }
+        }
+
+        public int CurrentGame
+        {
+            get
+            {
+                return currentGame;
+            }
+            set
+            {
+                currentGame = value;
+            }
+        }
 
         public Farm()
         {

@@ -9,5 +9,7 @@ namespace ASP.NET_CoreTicTacToe.Models
     {
         public int CellNumber { get; set; }
         public bool TicTurn { get; set; } 
+
+
     }
 }

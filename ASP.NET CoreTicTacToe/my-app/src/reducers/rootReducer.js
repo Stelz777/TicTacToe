@@ -65,7 +65,7 @@ function rootReducer(state = initialState, action)
                 return state;
             }
             squares[action.squareIndex] = state.status.xIsNext ? 'X' : 'O';
-            //TODO fetch(i) in action
+            
             return { 
                 ...state, 
                 history: state.reverseIsChecked 

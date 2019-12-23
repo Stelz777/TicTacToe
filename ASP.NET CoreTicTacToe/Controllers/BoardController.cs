@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("/api/[controller]/[action]")]
     [ApiController]
     public class BoardController : ControllerBase
     {
@@ -20,34 +20,66 @@ namespace ASP.NET_CoreTicTacToe.Controllers
 
         public BoardController(Farm farm, ILogger<BoardController> logger)
         {
-            board = farm.boards[farm.currentGame];
+            int currentGame = farm.CurrentGame;
+            board = farm.Boards[farm.CurrentGame];
             _logger = logger;
         }
 
-        [HttpPost]
+        //[HttpPost]
         public Turn NextTurn()
         {
-            var random = new Random();
-            int randomTurn = random.Next(1, 9);
-            _logger.LogInformation($"Bot turn: { randomTurn }");
-            return new Turn
+            List<int> possibleTurns = new List<int>();
+            for (int i = 0; i < board.Squares.Count; i++)
             {
-                CellNumber = randomTurn
-            };
+                if (board.Squares[i] != Cell.Cross && board.Squares[i] != Cell.Nought)
+                {
+                    possibleTurns.Add(i);
+                }
+            }
+            var random = new Random();
+            int randomTurn = random.Next(0, possibleTurns.Count);
+
+            _logger.LogInformation($"Bot turn: { randomTurn }");
+            if (possibleTurns.Count > 0)
+            {
+                return new Turn
+                {
+                    CellNumber = possibleTurns[randomTurn],
+                    TicTurn = false
+                };
+            }
+            else
+            {
+                return new Turn
+                {
+                    CellNumber = -1,
+                    TicTurn = false
+                };
+            }
         }
+
+
 
         [HttpPost]
         public void SetBoard(Turn turn)
         {
-            if (turn.TicTurn)
+            if (!board.HasWinner(board))
             {
-                board.Squares[turn.CellNumber] = Cell.Cross;
+                if (board.Squares[turn.CellNumber] == Cell.Empty)
+                {
+
+                    board.Squares[turn.CellNumber] = Cell.Cross;
+
+                    if (!board.HasWinner(board))
+                    {
+                        Turn nextTurn = NextTurn();
+                        if (nextTurn.CellNumber >= 0)
+                        {
+                            board.Squares[nextTurn.CellNumber] = Cell.Nought;
+                        }
+                    }
+                }
             }
-            else
-            {
-                board.Squares[turn.CellNumber] = Cell.Nought;
-            }
-            
         }
 
         [HttpPost]

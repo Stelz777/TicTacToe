@@ -40,7 +40,7 @@ export function gameBoardClicked(squareIndex, ticTurn)
 {
     console.log("gameBoardClicked squareIndex: ", squareIndex);
     console.log("gameBoardClicked ticTurn: ", ticTurn);
-    fetch(`api/board/setboard`, {
+    fetch(`/api/board/setboard`, {
         method: 'POST',
         body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
         headers: {
