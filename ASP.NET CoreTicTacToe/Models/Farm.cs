@@ -7,8 +7,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Farm
     {
-        private Dictionary<int, Board> boards;
-        private int currentGame = 0;
+        private Dictionary<int, Board> boards = new Dictionary<int, Board>();
 
         public Dictionary<int, Board> Boards
         {
@@ -22,28 +21,34 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public int CurrentGame
-        {
-            get
+        public (int, Board) FindBoard(int? id) {
+            if (!id.HasValue || !boards.TryGetValue(id.Value, out Board foundBoard)) 
             {
-                return currentGame;
+                var newBoard = new Board();
+                
+                int newId;
+                if (id == null)
+                {
+                    if (boards.Count > 0)
+                    {
+                        newId = boards.Keys.Max() + 1;
+                        
+                    }
+                    else
+                    {
+                        newId = 0;
+                    }
+                }
+                else
+                {
+                    newId = id.Value;
+                    
+                }
+                boards.Add(newId, newBoard);
+                return (newId, newBoard);
             }
-            set
-            {
-                currentGame = value;
-            }
-        }
-
-        public Farm()
-        {
-            boards = new Dictionary<int, Board>();
-            Board board = new Board();
-            board.Squares = new List<Cell>();
-            for (int i = 0; i < 9; i++)
-            {
-                board.Squares.Add(Cell.Empty);
-            }
-            boards.Add(0, board);
+            
+            return (id.Value, foundBoard);
         }
     }
 }

@@ -38,16 +38,7 @@ export function historyItemClicked(stepInput, squareIndex)
 
 export function gameBoardClicked(squareIndex, ticTurn)
 {
-    console.log("gameBoardClicked squareIndex: ", squareIndex);
-    console.log("gameBoardClicked ticTurn: ", ticTurn);
-    fetch(`/api/board/setboard`, {
-        method: 'POST',
-        body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    });
+    
     return {
         type: GAME_BOARD_CLICKED,
         squareIndex

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
-    [Route("api/[controller]/[action]/{id}")]
+    [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
     public class FarmController : ControllerBase
     {
@@ -20,25 +20,36 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         }
 
         [HttpGet]
-        public RedirectResult GetGame(int id)
+        public IActionResult GetGame(int? id)
         {
-            if (farm.Boards.ContainsKey(id))
+            var (boardId, board) = farm.FindBoard(id);
+            return Ok(new {
+
+                id = boardId, 
+                board
+            });
+        }
+
+        [HttpPost]
+        public bool SetBoard(int? id, Turn turn)
+        {
+            var (boardId, board) = farm.FindBoard(id);
+            if (!board.HasWinner())
             {
-                farm.CurrentGame = id;
+                if (board.Squares[turn.CellNumber] == Cell.Empty)
+                {
+                    board.SetSquare(turn.CellNumber, Cell.Cross);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                Board board = new Board();
-                board.Squares = new List<Cell>();
-                for (int i = 0; i < 9; i++)
-                {
-                    board.Squares.Add(Cell.Empty);
-                }
-                farm.Boards.Add(id, board);
-                farm.CurrentGame = id;
+                return false;
             }
-            return Redirect("/");
         }
-
     }
 }
