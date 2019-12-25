@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
-    [Route("/api/[controller]/[action]")]
+    [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
     public class BoardController : ControllerBase
     {
@@ -23,40 +23,17 @@ namespace ASP.NET_CoreTicTacToe.Controllers
             this.farm = farm;
         }
 
-        //[HttpPost]
-        public Turn NextTurn(int boardId)
+        [HttpPost]
+        public Turn NextTurn(int? id)
         {
-            var (_, turn) = farm.FindBoard(boardId).MakeAutoMove();
+            var (_, board) = farm.FindBoard(id);
+            Turn turn = board.MakeAutoMove();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
 
-        // [HttpPost]
-        // public void SetBoard(Turn turn)
-        // {
-        //     if (!board.HasWinner(board))
-        //     {
-        //         if (board.Squares[turn.CellNumber] == Cell.Empty)
-        //         {
+        
 
-        //             board.Squares[turn.CellNumber] = Cell.Cross;
 
-        //             if (!board.HasWinner(board))
-        //             {
-        //                 Turn nextTurn = NextTurn();
-        //                 if (nextTurn.CellNumber >= 0)
-        //                 {
-        //                     board.Squares[nextTurn.CellNumber] = Cell.Nought;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // [HttpPost]
-        // public Board GetBoard()
-        // {
-        //     return board;
-        // }
     }
 }

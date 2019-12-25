@@ -74,7 +74,8 @@ function rootReducer(state = initialState, action)
                 status: { 
                     xIsNext: !state.status.xIsNext,
                     stepNumber: history.length, 
-                }
+                },
+                board: squares,
             };
         case HISTORY_BUTTON_SWITCHED:
             return ({ 

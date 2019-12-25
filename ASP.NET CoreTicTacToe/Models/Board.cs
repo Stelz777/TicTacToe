@@ -23,28 +23,33 @@ namespace ASP.NET_CoreTicTacToe.Models
             squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
         }
 
+        public void SetSquare(int cellNumber, Cell square)
+        {
+            squares[cellNumber] = square;
+        }
+
         public bool HasWinner()
         {
             var board = this;
             for (int i = 0; i < 9; i += 3)
             {
-                if (board.Squares[i] != Cell.Empty && board.Squares[i] == board.Squares[i + 1] && board.Squares[i + 1] == board.Squares[i + 2])
+                if (board.squares[i] != Cell.Empty && board.squares[i] == board.squares[i + 1] && board.squares[i + 1] == board.squares[i + 2])
                 {
                     return true;
                 }
             }
             for (int i = 0; i < 3; i++)
             {
-                if (board.Squares[i] != Cell.Empty && board.Squares[i] == board.Squares[i + 3] && board.Squares[i + 3] == board.Squares[i + 6])
+                if (board.squares[i] != Cell.Empty && board.squares[i] == board.squares[i + 3] && board.squares[i + 3] == board.squares[i + 6])
                 {
                     return true;
                 }
             }
-            if (board.Squares[0] != Cell.Empty && board.Squares[0] == board.Squares[4] && board.Squares[4] == board.Squares[8])
+            if (board.squares[0] != Cell.Empty && board.squares[0] == board.squares[4] && board.squares[4] == board.squares[8])
             {
                 return true;
             }
-            if (board.Squares[2] != Cell.Empty && board.Squares[2] == board.Squares[4] && board.Squares[4] == board.Squares[6])
+            if (board.squares[2] != Cell.Empty && board.squares[2] == board.squares[4] && board.squares[4] == board.squares[6])
             {
                 return true;
             }
@@ -52,17 +57,31 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         }
 
-        public Turn MakeAutoMove() {
-            var possibleTurns = board.Squares.Where(sq => sq == Cell.Empty).ToList();
+        public Turn MakeAutoMove() 
+        {
+            //var possibleTurns = Squares.Where(sq => sq == Cell.Empty).ToList();
+            var possibleTurns = new List<int>();
+            for (var i = 0; i < squares.Count; i++)
+            {
+                if (squares[i] == Cell.Empty)
+                {
+                    possibleTurns.Add(i);
+                }
+            }
            
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
 
+            
             if (possibleTurns.Count > 0)
             {
+                if (!HasWinner())
+                {
+                    SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), Cell.Nought);
+                }
                 return new Turn
                 {
-                    CellNumber = possibleTurns[randomTurn],
+                    CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
                     TicTurn = false
                 };
             }
