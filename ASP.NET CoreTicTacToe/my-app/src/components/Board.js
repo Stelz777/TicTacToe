@@ -2,7 +2,7 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested } from '../actions/actions'
+import { gameBoardClicked, boardRequested, historyRequested } from '../actions/actions'
 
 
 const mapStateToProps = (state) =>
@@ -15,7 +15,6 @@ const mapStateToProps = (state) =>
             xIsNext: true,
             stepNumber: 0,
             highlights: Array(9).fill(false),
-            //squares: Array(9).fill(0)
         }
     }
     else
@@ -26,7 +25,7 @@ const mapStateToProps = (state) =>
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
             highlights: state.highlights,
-            board: state.board
+           // board: state.board
         };
     }
 }
@@ -34,18 +33,14 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps =
 {
     gameBoardClicked,
-    boardRequested
+    boardRequested,
+    historyRequested
 }
 
 
 
 class Board extends React.Component
 {
-    fetcher()
-    {
-        
-    }
-
     componentDidMount()
     {
         console.log("mounted!");
@@ -54,9 +49,13 @@ class Board extends React.Component
         fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => { 
-                console.log(data.squares);  
-
-                this.props.boardRequested(data.board.squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null));
+                console.log("componentdidmount history before: ", data.history);  
+                for (var i = 0; i < data.history.turns.length; i++)
+                {
+                    data.history.turns[i].squares = data.history.turns[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
+                }
+                console.log("componentdidmount history after: ", data.history);    
+                this.props.historyRequested(data.history);
                 window.history.replaceState(null, null, `?id=${data.id}`) 
             });
         
@@ -65,15 +64,27 @@ class Board extends React.Component
     renderSquare(i, isHighlighted)
     {
         console.log('inside rendersquare');
-        console.log("renderSquare squares: ", this.props.board);
+        //console.log("renderSquare squares: ", this.props.board);
         
-        
+        const history = this.props.history;
+        let current;
+        if (this.props.reverseIsChecked)
+        {
+            current = history[history.length - this.props.stepNumber - 1];
+        }
+        else
+        {
+            current = history[this.props.stepNumber];
+        }
+        //let current = history[this.props.stepNumber];
+        console.log("history: ", history);
+        console.log("renderSquare current.squares[i]: ", current.squares[i]);
         if (isHighlighted)
         {
             return (
                 <HighlightedSquare 
-                    value= { this.props.board[i] }
-                    onClick= { () => this.handleClick(i, this.props.board) }
+                    value= { current.squares[i] }
+                    onClick= { () => this.handleClick(i) }
                 />
             );
         }
@@ -81,8 +92,8 @@ class Board extends React.Component
         {
             return (
                 <Square
-                    value= { this.props.board[i] }
-                    onClick= { () => this.handleClick(i, this.props.board) }
+                    value= { current.squares[i] }
+                    onClick= { () => this.handleClick(i) }
                 />
             );
         }
@@ -111,8 +122,6 @@ class Board extends React.Component
         return rows;
     }
 
-
-
     refreshBoard()
     {
         console.log("inside makeBotTurn");
@@ -135,7 +144,7 @@ class Board extends React.Component
         console.log("gameBoardClicked ticTurn: ", ticTurn);
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        fetch(`/api/farm/setboard/${id}`, {
+        fetch(`/api/board/setboard/${id}`, {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
             headers: {
@@ -150,15 +159,14 @@ class Board extends React.Component
             {
                 this.props.gameBoardClicked(squareIndex, true);
                 this.refreshBoard();
+                console.log(this.props.history);
             }
         })
     }
 
-    handleClick(i, squares)
+    handleClick(i)
     {
         this.sendTurn(i, true);
-        //console.log("squares in handleclick: ", squares);
-        
     }
 
     render()

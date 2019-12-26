@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -19,6 +19,18 @@ function rootReducer(state = initialState, action)
 {
     switch (action.type)
     {
+        case HISTORY_REQUESTED:
+            console.log("history in reducer: ", action.history.turns);
+            /*var newHistory;
+            for (var i = 0; i < action.history.turns.length; i++)
+            {
+                newHistory[i] = action.history.turns[i].squares;
+            }*/
+            return ({
+                ...state,
+                history: action.history.turns
+            })
+
         case BOARD_REQUESTED:
             console.log("board in reducer: ", action.board);
             return ({

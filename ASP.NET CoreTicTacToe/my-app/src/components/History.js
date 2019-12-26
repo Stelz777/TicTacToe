@@ -42,7 +42,7 @@ class History extends React.Component
     }
 
     jumpTo(step, i)
-    {   
+    {  
         this.props.historyItemClicked(step, i);     
     }
 
@@ -113,6 +113,7 @@ class History extends React.Component
     render()
     {
         const history = this.props.history;
+        console.log("history render history: ", history);
         let previousStep;
         previousStep = Array(9).fill(null);
         let moves;

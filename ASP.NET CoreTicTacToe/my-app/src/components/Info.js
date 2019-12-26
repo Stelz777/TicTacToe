@@ -39,6 +39,7 @@ class Info extends React.Component
         {
             current = history[this.props.stepNumber];
         }
+        //console.log("Info render current.squares")
         const winner = CalculateWinner(current.squares);
         
         let status;

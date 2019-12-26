@@ -12,7 +12,6 @@ namespace ASP.NET_CoreTicTacToe.Models
         Empty
     }
 
-
     public class Board
     {
         private List<Cell> squares = new List<Cell>();
@@ -23,9 +22,25 @@ namespace ASP.NET_CoreTicTacToe.Models
             squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
         }
 
+        public Board Copy()
+        {
+            var result = new Board();
+            result.squares = squares;
+            return result;
+        }
+
         public void SetSquare(int cellNumber, Cell square)
         {
             squares[cellNumber] = square;
+        }
+
+        public void SetSquares(IReadOnlyList<Cell> squares)
+        {
+            this.squares = new List<Cell>();
+            foreach (var square in squares)
+            {
+                this.squares.Add(square);
+            }
         }
 
         public bool HasWinner()
@@ -59,7 +74,6 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public Turn MakeAutoMove() 
         {
-            //var possibleTurns = Squares.Where(sq => sq == Cell.Empty).ToList();
             var possibleTurns = new List<int>();
             for (var i = 0; i < squares.Count; i++)
             {
@@ -72,18 +86,25 @@ namespace ASP.NET_CoreTicTacToe.Models
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
 
-            
             if (possibleTurns.Count > 0)
             {
                 if (!HasWinner())
                 {
                     SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), Cell.Nought);
+                    return new Turn
+                    {
+                        CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
+                        TicTurn = false
+                    };
                 }
-                return new Turn
+                else
                 {
-                    CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
-                    TicTurn = false
-                };
+                    return new Turn
+                    {
+                        CellNumber = -1,
+                        TicTurn = false
+                    };
+                }
             }
             else
             {

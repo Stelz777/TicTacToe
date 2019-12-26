@@ -22,34 +22,12 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var (boardId, board) = farm.FindBoard(id);
-            return Ok(new {
-
-                id = boardId, 
-                board
+            var (historyId, history) = farm.FindHistory(id);
+            return Ok(new 
+            {
+                id = historyId, 
+                history
             });
-        }
-
-        [HttpPost]
-        public bool SetBoard(int? id, Turn turn)
-        {
-            var (boardId, board) = farm.FindBoard(id);
-            if (!board.HasWinner())
-            {
-                if (board.Squares[turn.CellNumber] == Cell.Empty)
-                {
-                    board.SetSquare(turn.CellNumber, Cell.Cross);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

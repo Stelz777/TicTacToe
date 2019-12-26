@@ -7,7 +7,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class History
     {
-        private List<Board> turns;
+        private List<Board> turns = new List<Board>();
 
         public List<Board> Turns
         {
@@ -19,6 +19,11 @@ namespace ASP.NET_CoreTicTacToe.Models
             {
                 turns = value;
             }
+        }
+
+        public History()
+        {
+            turns.Add(new Board());
         }
     }
 }

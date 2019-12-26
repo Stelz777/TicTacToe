@@ -7,32 +7,32 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Farm
     {
-        private Dictionary<int, Board> boards = new Dictionary<int, Board>();
+        private Dictionary<int, History> histories = new Dictionary<int, History>();
 
-        public Dictionary<int, Board> Boards
+        public Dictionary<int, History> Histories
         {
             get
             {
-                return boards;
+                return histories;
             }
             set
             {
-                boards = value;
+                histories = value;
             }
         }
 
-        public (int, Board) FindBoard(int? id) {
-            if (!id.HasValue || !boards.TryGetValue(id.Value, out Board foundBoard)) 
+        public (int, History) FindHistory(int? id) 
+        {
+            if (!id.HasValue || !histories.TryGetValue(id.Value, out History foundHistory)) 
             {
-                var newBoard = new Board();
+                var newHistory = new History();
                 
                 int newId;
                 if (id == null)
                 {
-                    if (boards.Count > 0)
+                    if (histories.Count > 0)
                     {
-                        newId = boards.Keys.Max() + 1;
-                        
+                        newId = histories.Keys.Max() + 1;
                     }
                     else
                     {
@@ -41,14 +41,13 @@ namespace ASP.NET_CoreTicTacToe.Models
                 }
                 else
                 {
-                    newId = id.Value;
-                    
+                    newId = id.Value;  
                 }
-                boards.Add(newId, newBoard);
-                return (newId, newBoard);
+                histories.Add(newId, newHistory);
+                return (newId, newHistory);
             }
             
-            return (id.Value, foundBoard);
+            return (id.Value, foundHistory);
         }
     }
 }

@@ -6,6 +6,16 @@ export const GAME_BOARD_CLICKED = 'GAME_BOARD_CLICKED';
 export const BOT_TURN_REQUESTED = 'BOT_TURN_REQUESTED';
 export const BOT_TURN_RESPONDED = 'BOT_TURN_RESPONDED';
 export const BOARD_REQUESTED = 'BOARD_REQUESTED';
+export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
+
+export function historyRequested(history)
+{
+    console.log("history in action: ", history);
+    return {
+        type: HISTORY_REQUESTED,
+        history
+    }
+}
 
 export function boardRequested(board)
 {
