@@ -115,6 +115,29 @@ namespace ASP.NET_CoreTicTacToe.Models
                 };
             }
         }
+
+        public bool SetBoard(History history, Turn turn)
+        {
+            SetSquares(history.Turns[history.Turns.Count - 1].Squares);
+            if (!HasWinner())
+            {
+                if (Squares[turn.CellNumber] == Cell.Empty)
+                {
+                    SetSquare(turn.CellNumber, Cell.Cross);
+                    history.Turns.Add(this);
+                    
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     

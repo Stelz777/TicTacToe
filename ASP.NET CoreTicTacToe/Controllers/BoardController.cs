@@ -40,37 +40,12 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public bool SetBoard(int? id, Turn turn)
+        public bool MakeTurn(int? id, Turn turn)
         {
-            var (boardId, history) = farm.FindHistory(id);
-            //List<Board> copy = history.Turns.ToList();
-            //Board newBoard = copy[copy.Count - 1];
+            var (_, history) = farm.FindHistory(id);
             Board newBoard = new Board();
-            newBoard.SetSquares(history.Turns[history.Turns.Count - 1].Squares); 
-            if (!newBoard.HasWinner())
-            {
-                if (newBoard.Squares[turn.CellNumber] == Cell.Empty)
-                {
-                    newBoard.SetSquare(turn.CellNumber, Cell.Cross);
-                    history.Turns.Add(newBoard);
-                    foreach (var turnInfo in history.Turns)
-                    {
-                        foreach (var cell in turnInfo.Squares)
-                        {
-                            _logger.LogInformation($"turn: {cell}");
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            return newBoard.SetBoard(history, turn);
+            
         }
 
 

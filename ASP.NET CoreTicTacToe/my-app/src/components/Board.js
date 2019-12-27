@@ -144,7 +144,7 @@ class Board extends React.Component
         console.log("gameBoardClicked ticTurn: ", ticTurn);
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        fetch(`/api/board/setboard/${id}`, {
+        fetch(`/api/board/maketurn/${id}`, {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
             headers: {
