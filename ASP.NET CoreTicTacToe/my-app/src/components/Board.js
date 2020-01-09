@@ -25,7 +25,6 @@ const mapStateToProps = (state) =>
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
             highlights: state.highlights,
-           // board: state.board
         };
     }
 }
@@ -41,73 +40,101 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
+    createUrlParams()
+    {
+        return new URLSearchParams(window.location.search);
+    }
+
+    getIdFromUrlParams(urlParams)
+    {
+        return urlParams.get('id');
+    }
+
     componentDidMount()
     {
-        console.log("mounted!");
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+        const urlParams = this.createUrlParams();
+        const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
             .then(result => result.json())
-            .then(data => { 
-                console.log("componentdidmount history before: ", data.history);  
-                for (var i = 0; i < data.history.turns.length; i++)
-                {
-                    data.history.turns[i].squares = data.history.turns[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
-                }
-                console.log("componentdidmount history after: ", data.history);    
+            .then(data => {   
+                this.fillSquares(data); 
                 this.props.historyRequested(data.history);
                 window.history.replaceState(null, null, `?id=${data.id}`) 
             });
         
     }
 
-    renderSquare(i, isHighlighted)
+    fillSquares(data)
     {
-        console.log('inside rendersquare');
-        //console.log("renderSquare squares: ", this.props.board);
-        
-        const history = this.props.history;
-        let current;
-        if (this.props.reverseIsChecked)
+        for (var i = 0; i < data.history.turns.length; i++)
         {
-            current = history[history.length - this.props.stepNumber - 1];
-        }
-        else
-        {
-            current = history[this.props.stepNumber];
-        }
-        //let current = history[this.props.stepNumber];
-        console.log("history: ", history);
-        console.log("renderSquare current.squares[i]: ", current.squares[i]);
-        if (isHighlighted)
-        {
-            return (
-                <HighlightedSquare 
-                    value= { current.squares[i] }
-                    onClick= { () => this.handleClick(i) }
-                />
-            );
-        }
-        else
-        {
-            return (
-                <Square
-                    value= { current.squares[i] }
-                    onClick= { () => this.handleClick(i) }
-                />
-            );
+            data.history.turns[i].squares = data.history.turns[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
         }
     }
 
-    renderRow(i)
+    getCurrentHistoryItem(history)
+    {
+        if (this.props.reverseIsChecked)
+        {
+            return history[history.length - this.props.stepNumber - 1];
+        }
+        else
+        {
+            return history[this.props.stepNumber];
+        }
+    }
+
+    renderHighlightedSquare(current, index)
+    {
+        return (
+            <HighlightedSquare 
+                value= { current.squares[index] }
+                onClick= { () => this.handleClick(index) }
+            />
+        );
+    }
+
+    renderSimpleSquare(current, index)
+    {
+        return (
+            <Square
+                value= { current.squares[index] }
+                onClick= { () => this.handleClick(index) }
+            />
+        );
+    }
+
+    renderSquare(index, isHighlighted)
+    {
+        const history = this.props.history;
+        let current = this.getCurrentHistoryItem(history);
+        let square;
+        if (isHighlighted)
+        {
+            square = this.renderHighlightedSquare(current, index);
+        }
+        else
+        {
+            square = this.renderSimpleSquare(current, index);
+        }
+        return square;
+    }
+
+    addSquareToRow(squares, rowIndex, columnIndex)
+    {
+        if (this.props.highlights !== undefined)
+        {
+            squares.push(this.renderSquare(rowIndex * 3 + columnIndex, this.props.highlights[rowIndex * 3 + columnIndex]));
+        }
+        return squares;
+    }
+
+    renderRow(index)
     {
         let squares = [];
         for (var j = 0; j < 3; j++)
         {
-            if (this.props.highlights !== undefined)
-            {
-                squares.push(this.renderSquare(i * 3 + j, this.props.highlights[i * 3 + j]));
-            }
+            squares = this.addSquareToRow(squares, index, j);
         }
         return squares;
     }
@@ -124,13 +151,11 @@ class Board extends React.Component
 
     refreshBoard()
     {
-        console.log("inside makeBotTurn");
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+        const urlParams = this.createUrlParams();
+        const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/board/nextturn/${id}`, { method: 'POST' })
             .then((response) => response.json())
             .then((messages) => {
-                console.log("bot turn: ", messages.cellNumber);
                 if (messages.cellNumber >= 0)
                 {
                     this.props.gameBoardClicked(messages.cellNumber, false)
@@ -140,10 +165,8 @@ class Board extends React.Component
 
     sendTurn(squareIndex, ticTurn)
     {
-        console.log("gameBoardClicked squareIndex: ", squareIndex);
-        console.log("gameBoardClicked ticTurn: ", ticTurn);
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+        const urlParams = this.createUrlParams();
+        const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/board/maketurn/${id}`, {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
@@ -154,12 +177,10 @@ class Board extends React.Component
         })
         .then(response => response.json())
         .then(data => {
-            console.log("DATA: ", data);
             if (data)
             {
                 this.props.gameBoardClicked(squareIndex, true);
                 this.refreshBoard();
-                console.log(this.props.history);
             }
         })
     }
@@ -178,3 +199,4 @@ class Board extends React.Component
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
+

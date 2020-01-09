@@ -10,7 +10,6 @@ export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
 
 export function historyRequested(history)
 {
-    console.log("history in action: ", history);
     return {
         type: HISTORY_REQUESTED,
         history
@@ -19,9 +18,6 @@ export function historyRequested(history)
 
 export function boardRequested(board)
 {
-    console.log("board in action: ", board);
-    //let board;
-    //fetch(`api/board/getboard`, { method: 'POST'}).then(result => result.json()).then(data => { console.log(data.squares);  board = data.squares; });
     return {
         type: BOARD_REQUESTED,
         board

@@ -15,24 +15,41 @@ const initialState = {
     board: Array(9).fill(null)
 }
 
+function getHistorySlice(state)
+{
+    if (state.reverseIsChecked)
+    {
+        return state.history.slice(state.history.length - state.status.stepNumber - 1, state.history.length);
+    }
+    else
+    {
+        return state.history.slice(0, state.status.stepNumber + 1);
+    }
+}
+
+function getFirstHistoryItem(state, history)
+{
+    if (state.reverseIsChecked)
+    {
+        return history[0];
+    }
+    else
+    {
+        return history[history.length - 1];
+    }
+}
+
 function rootReducer(state = initialState, action)
 {
     switch (action.type)
     {
         case HISTORY_REQUESTED:
-            console.log("history in reducer: ", action.history.turns);
-            /*var newHistory;
-            for (var i = 0; i < action.history.turns.length; i++)
-            {
-                newHistory[i] = action.history.turns[i].squares;
-            }*/
             return ({
                 ...state,
                 history: action.history.turns
             })
 
         case BOARD_REQUESTED:
-            console.log("board in reducer: ", action.board);
             return ({
                 ...state,
                 board: action.board
@@ -52,24 +69,10 @@ function rootReducer(state = initialState, action)
 
 
         case GAME_BOARD_CLICKED:
-            let history;
-            if (state.reverseIsChecked)
-            {
-                history = state.history.slice(state.history.length - state.status.stepNumber - 1, state.history.length);
-            }
-            else
-            {
-                history = state.history.slice(0, state.status.stepNumber + 1);
-            }
-            let current;
-            if (state.reverseIsChecked)
-            {
-                current = history[0];
-            }
-            else
-            {
-                current = history[history.length - 1];
-            }
+            let history = getHistorySlice(state);
+        
+            let current = getFirstHistoryItem(state, history);
+            
             const squares = current.squares.slice();
                
             if (CalculateWinner(squares) || squares[action.squareIndex])

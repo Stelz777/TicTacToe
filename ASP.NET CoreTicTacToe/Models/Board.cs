@@ -43,38 +43,54 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public bool HasWinner()
+        bool CheckColumnsWinCondition()
         {
-            var board = this;
-            for (int i = 0; i < 9; i += 3)
+            for (var i = 0; i < 9; i += 3)
             {
-                if (board.squares[i] != Cell.Empty && board.squares[i] == board.squares[i + 1] && board.squares[i + 1] == board.squares[i + 2])
+                if (squares[i] != Cell.Empty && squares[i] == squares[i + 1] && squares[i + 1] == squares[i + 2])
                 {
                     return true;
                 }
             }
-            for (int i = 0; i < 3; i++)
+            return false;
+        }
+
+        bool CheckRowsWinCondition()
+        {
+            for (var i = 0; i < 3; i++)
             {
-                if (board.squares[i] != Cell.Empty && board.squares[i] == board.squares[i + 3] && board.squares[i + 3] == board.squares[i + 6])
+                if (squares[i] != Cell.Empty && squares[i] == squares[i + 3] && squares[i + 3] == squares[i + 6])
                 {
                     return true;
                 }
             }
-            if (board.squares[0] != Cell.Empty && board.squares[0] == board.squares[4] && board.squares[4] == board.squares[8])
+            return false;
+        }
+
+        bool CheckDiagonalWinConditions()
+        {
+            if (squares[0] != Cell.Empty && squares[0] == squares[4] && squares[4] == squares[8])
             {
                 return true;
             }
-            if (board.squares[2] != Cell.Empty && board.squares[2] == board.squares[4] && board.squares[4] == board.squares[6])
+            if (squares[2] != Cell.Empty && squares[2] == squares[4] && squares[4] == squares[6])
             {
                 return true;
             }
             return false;
-
         }
 
-        public Turn MakeAutoMove() 
+        public bool HasWinner()
         {
-            var possibleTurns = new List<int>();
+            if (CheckColumnsWinCondition() || CheckRowsWinCondition() || CheckDiagonalWinConditions())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void CalculatePossibleTurns(ref List<int> possibleTurns)
+        {
             for (var i = 0; i < squares.Count; i++)
             {
                 if (squares[i] == Cell.Empty)
@@ -82,6 +98,21 @@ namespace ASP.NET_CoreTicTacToe.Models
                     possibleTurns.Add(i);
                 }
             }
+        }
+
+        public Turn GetInvalidTurn()
+        {
+            return new Turn
+            {
+                CellNumber = -1,
+                TicTurn = false
+            };
+        }
+
+        public Turn MakeAutoMove() 
+        {
+            var possibleTurns = new List<int>();
+            CalculatePossibleTurns(ref possibleTurns);
            
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
@@ -99,20 +130,12 @@ namespace ASP.NET_CoreTicTacToe.Models
                 }
                 else
                 {
-                    return new Turn
-                    {
-                        CellNumber = -1,
-                        TicTurn = false
-                    };
+                    return GetInvalidTurn();
                 }
             }
             else
             {
-                return new Turn
-                {
-                    CellNumber = -1,
-                    TicTurn = false
-                };
+                return GetInvalidTurn();
             }
         }
 

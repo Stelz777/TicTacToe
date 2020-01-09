@@ -26,7 +26,6 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            //return null;
             var (_, history) = farm.FindHistory(id);
             Board newBoard = new Board();
             newBoard.SetSquares(history.Turns[history.Turns.Count - 1].Squares);
@@ -44,10 +43,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         {
             var (_, history) = farm.FindHistory(id);
             Board newBoard = new Board();
-            return newBoard.SetBoard(history, turn);
-            
+            return newBoard.SetBoard(history, turn);  
         }
-
-
     }
 }

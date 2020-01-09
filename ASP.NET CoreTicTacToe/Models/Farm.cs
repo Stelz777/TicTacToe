@@ -21,28 +21,33 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
+        int GetNewId(int? id)
+        {
+            if (id == null)
+            {
+                if (histories.Count > 0)
+                {
+                    return histories.Keys.Max() + 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return id.Value;
+            }
+        }
+
         public (int, History) FindHistory(int? id) 
         {
             if (!id.HasValue || !histories.TryGetValue(id.Value, out History foundHistory)) 
             {
                 var newHistory = new History();
+
+                int newId = GetNewId(id);
                 
-                int newId;
-                if (id == null)
-                {
-                    if (histories.Count > 0)
-                    {
-                        newId = histories.Keys.Max() + 1;
-                    }
-                    else
-                    {
-                        newId = 0;
-                    }
-                }
-                else
-                {
-                    newId = id.Value;  
-                }
                 histories.Add(newId, newHistory);
                 return (newId, newHistory);
             }

@@ -27,30 +27,41 @@ const mapStateToProps = (state) =>
 
 class Info extends React.Component
 {
+    getCurrentHistoryItem(history)
+    {
+        if (this.props.reverseIsChecked)
+        {
+            return history[history.length - this.props.stepNumber - 1];
+        }
+        else
+        {
+            return history[this.props.stepNumber];
+        }
+    }
+
+    calculateStatus(winner)
+    {
+        if (winner)
+        {
+            return 'Выиграл ' + winner;
+        }
+        else
+        {
+            return 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
+        }
+    }
+
+
+
     render() 
     {
         const history = this.props.history;
-        let current;
-        if (this.props.reverseIsChecked)
-        {
-            current = history[history.length - this.props.stepNumber - 1];
-        }
-        else
-        {
-            current = history[this.props.stepNumber];
-        }
-        //console.log("Info render current.squares")
+        let current = this.getCurrentHistoryItem(history);
+        
         const winner = CalculateWinner(current.squares);
         
-        let status;
-        if (winner)
-        {
-            status = 'Выиграл ' + winner;
-        }
-        else
-        {
-            status = 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
-        }
+        let status = this.calculateStatus(winner);
+        
 
         return (
             <div className="game-info">
