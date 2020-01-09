@@ -7,8 +7,13 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
-        //TODO
-        //Ферма хранит геймы
-        //Гейм хранит борду и историю!
+        public History History { get; set; }
+        public Board Board { get; set; }
+
+        public Game()
+        {
+            History = new History();
+            Board = History.Turns[0];
+        }
     }
 }

@@ -22,10 +22,11 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var (historyId, history) = farm.FindHistory(id);
+            var (gameId, game) = farm.FindGame(id);
+            var history = game.History;
             return Ok(new 
             {
-                id = historyId, 
+                id = gameId, 
                 history
             });
         }

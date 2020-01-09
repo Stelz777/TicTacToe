@@ -26,10 +26,11 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            var (_, history) = farm.FindHistory(id);
-            Board newBoard = new Board();
+            var (_, game) = farm.FindGame(id);
+            var history = game.History;
+            var newBoard = new Board();
             newBoard.SetSquares(history.Turns[history.Turns.Count - 1].Squares);
-            Turn turn = newBoard.MakeAutoMove();
+            var turn = newBoard.MakeAutoMove();
             if (turn.CellNumber != -1)
             {
                 history.Turns.Add(newBoard);
@@ -41,9 +42,9 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
-            var (_, history) = farm.FindHistory(id);
-            Board newBoard = new Board();
-            return newBoard.SetBoard(history, turn);  
+            var (_, game) = farm.FindGame(id);
+            var newBoard = new Board();
+            return newBoard.SetBoard(game, turn);  
         }
     }
 }

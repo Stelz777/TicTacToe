@@ -139,8 +139,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public bool SetBoard(History history, Turn turn)
+        public bool SetBoard(Game game, Turn turn)
         {
+            var history = game.History;
             SetSquares(history.Turns[history.Turns.Count - 1].Squares);
             if (!HasWinner())
             {
@@ -148,7 +149,6 @@ namespace ASP.NET_CoreTicTacToe.Models
                 {
                     SetSquare(turn.CellNumber, Cell.Cross);
                     history.Turns.Add(this);
-                    
                     return true;
                 }
                 else
