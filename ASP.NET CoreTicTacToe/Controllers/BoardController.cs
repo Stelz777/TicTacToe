@@ -28,12 +28,14 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         {
             var (_, game) = farm.FindGame(id);
             var history = game.History;
+            var board = game.Board;
             var newBoard = new Board();
-            newBoard.SetSquares(history.Turns[history.Turns.Count - 1].Squares);
+            newBoard.SetSquares(board.Squares);
             var turn = newBoard.MakeAutoMove();
             if (turn.CellNumber != -1)
             {
                 history.Turns.Add(newBoard);
+                game.Board = newBoard;
             }
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;

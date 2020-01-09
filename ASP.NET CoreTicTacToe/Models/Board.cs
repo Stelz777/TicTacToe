@@ -142,13 +142,15 @@ namespace ASP.NET_CoreTicTacToe.Models
         public bool SetBoard(Game game, Turn turn)
         {
             var history = game.History;
-            SetSquares(history.Turns[history.Turns.Count - 1].Squares);
+            var board = game.Board;
+            SetSquares(board.Squares);
             if (!HasWinner())
             {
                 if (Squares[turn.CellNumber] == Cell.Empty)
                 {
                     SetSquare(turn.CellNumber, Cell.Cross);
                     history.Turns.Add(this);
+                    game.Board = this;
                     return true;
                 }
                 else

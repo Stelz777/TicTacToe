@@ -13,7 +13,7 @@ namespace ASP.NET_CoreTicTacToe.Models
         public Game()
         {
             History = new History();
-            Board = History.Turns[0];
+            Board = History.Turns[History.Turns.Count - 1];
         }
     }
 }
