@@ -27,16 +27,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public Turn NextTurn(int? id)
         {
             var (_, game) = farm.FindGame(id);
-            var history = game.History;
-            var board = game.Board;
-            var newBoard = new Board();
-            newBoard.SetSquares(board.Squares);
-            var turn = newBoard.MakeAutoMove();
-            if (turn.CellNumber != -1)
-            {
-                history.Turns.Add(newBoard);
-                game.Board = newBoard;
-            }
+            var turn = game.MakeAutoMove();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
@@ -45,8 +36,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public bool MakeTurn(int? id, Turn turn)
         {
             var (_, game) = farm.FindGame(id);
-            var newBoard = new Board();
-            return newBoard.SetBoard(game, turn);  
+            return game.MakeMove(turn);
         }
     }
 }
