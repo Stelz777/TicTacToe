@@ -4,7 +4,6 @@ import Square from './Square.js';
 import { connect } from 'react-redux';
 import { gameBoardClicked, boardRequested, historyRequested } from '../actions/actions'
 
-
 const mapStateToProps = (state) =>
 {
     if (state === undefined)
@@ -35,8 +34,6 @@ const mapDispatchToProps =
     boardRequested,
     historyRequested
 }
-
-
 
 class Board extends React.Component
 {
@@ -153,7 +150,7 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/board/nextturn/${id}`, { method: 'POST' })
+        fetch(`/api/game/nextturn/${id}`, { method: 'POST' })
             .then((response) => response.json())
             .then((messages) => {
                 if (messages.cellNumber >= 0)
@@ -167,7 +164,7 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/board/maketurn/${id}`, {
+        fetch(`/api/game/maketurn/${id}`, {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
             headers: {

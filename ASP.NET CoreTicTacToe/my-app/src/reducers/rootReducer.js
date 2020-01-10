@@ -27,7 +27,7 @@ function getHistorySlice(state)
     }
 }
 
-function getFirstHistoryItem(state, history)
+function getLastHistoryItem(state, history)
 {
     if (state.reverseIsChecked)
     {
@@ -71,7 +71,7 @@ function rootReducer(state = initialState, action)
         case GAME_BOARD_CLICKED:
             let history = getHistorySlice(state);
         
-            let current = getFirstHistoryItem(state, history);
+            let current = getLastHistoryItem(state, history);
             
             const squares = current.squares.slice();
                

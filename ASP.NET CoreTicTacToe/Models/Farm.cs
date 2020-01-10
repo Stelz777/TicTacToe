@@ -9,17 +9,7 @@ namespace ASP.NET_CoreTicTacToe.Models
     {
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 
-        public Dictionary<int, Game> Games
-        {
-            get
-            {
-                return games;
-            }
-            set
-            {
-                games = value;
-            }
-        }
+        public Dictionary<int, Game> Games => games;
 
         int GetNewId(int? id)
         {

@@ -12,12 +12,12 @@ namespace ASP.NET_CoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
-    public class BoardController : ControllerBase
+    public class GameController : ControllerBase
     {
-        private readonly ILogger<BoardController> _logger;
+        private readonly ILogger<GameController> _logger;
         private readonly Farm farm;
 
-        public BoardController(Farm farm, ILogger<BoardController> logger)
+        public GameController(Farm farm, ILogger<GameController> logger)
         {
             _logger = logger;
             this.farm = farm;
@@ -27,16 +27,18 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public Turn NextTurn(int? id)
         {
             var (_, game) = farm.FindGame(id);
-            var history = game.History;
-            var board = game.Board;
-            var newBoard = new Board();
-            newBoard.SetSquares(board.Squares);
-            var turn = newBoard.MakeAutoMove();
-            if (turn.CellNumber != -1)
+            var players = game.Players;
+            Bot bot = null;
+            foreach (var player in players)
             {
-                history.Turns.Add(newBoard);
-                game.Board = newBoard;
+                if (player.GetType() == typeof(Bot))
+                {
+                    bot = player as Bot;
+                }
             }
+            var newBoard = new Board();
+            newBoard.SetSquares(game.Board.Squares);
+            var turn = bot.MakeAutoMove(newBoard);
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
@@ -45,8 +47,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public bool MakeTurn(int? id, Turn turn)
         {
             var (_, game) = farm.FindGame(id);
-            var newBoard = new Board();
-            return newBoard.SetBoard(game, turn);  
+            return game.MakeMove(turn);
         }
     }
 }

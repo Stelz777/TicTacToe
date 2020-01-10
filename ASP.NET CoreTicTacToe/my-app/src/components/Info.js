@@ -51,8 +51,6 @@ class Info extends React.Component
         }
     }
 
-
-
     render() 
     {
         const history = this.props.history;
