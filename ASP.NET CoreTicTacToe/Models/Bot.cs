@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
-    public class Bot
+    public class Bot : IBot
     {
         public bool isActive;
         public string side;

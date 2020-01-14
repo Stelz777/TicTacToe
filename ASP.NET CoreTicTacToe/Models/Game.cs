@@ -14,12 +14,15 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public Bot Bot => bot;
 
+        private BotFarm botFarm = new BotFarm();
+
         public Game()
         {
             History = new History();
             Board = History.Turns[0];
             player = new RealPlayer();
-            bot = new Bot(this);
+            bot = botFarm.CreateSimpleBot(this);
+            botFarm.AddBotToGroup(bot);
         }
 
         public bool MakeMove(Turn turn)
