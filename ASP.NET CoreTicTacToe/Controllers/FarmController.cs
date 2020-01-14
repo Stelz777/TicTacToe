@@ -6,6 +6,10 @@ using ASP.NET_CoreTicTacToe.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary>
+/// TODO убрать реализацию интерфейса
+/// </summary>
+
 namespace ASP.NET_CoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]/{id?}")]

@@ -8,18 +8,18 @@ namespace ASP.NET_CoreTicTacToe.Models
         public History History { get; set; }
         public Board Board { get; set; }
 
-        private List<Player> players = new List<Player>();
+        private RealPlayer player;
 
-        public List<Player> Players => players;
+        private Bot bot;
+
+        public Bot Bot => bot;
 
         public Game()
         {
             History = new History();
             Board = History.Turns[0];
-            var realPlayer = new RealPlayer();
-            var bot = new Bot(this);
-            players.Add(realPlayer);
-            players.Add(bot);
+            player = new RealPlayer();
+            bot = new Bot(this);
         }
 
         public bool MakeMove(Turn turn)

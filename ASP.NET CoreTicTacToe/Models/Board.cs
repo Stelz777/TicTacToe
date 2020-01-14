@@ -14,13 +14,6 @@ namespace ASP.NET_CoreTicTacToe.Models
             squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
         }
 
-        public Board Copy()
-        {
-            var result = new Board();
-            result.squares = squares;
-            return result;
-        }
-
         public void SetSquare(int cellNumber, Cell square)
         {
             squares[cellNumber] = square;
@@ -28,11 +21,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public void SetSquares(IReadOnlyList<Cell> squares)
         {
-            this.squares = new List<Cell>();
-            foreach (var square in squares)
-            {
-                this.squares.Add(square);
-            }
+            this.squares = new List<Cell>(squares);
         }
 
         public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);

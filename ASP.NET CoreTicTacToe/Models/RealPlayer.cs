@@ -5,16 +5,9 @@ using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
-    public class RealPlayer : Player
+    public class RealPlayer
     {
         public bool isActive;
         public string side;
-        
-
-        public void InitSide()
-        {
-            
-        }
-
     }
 }

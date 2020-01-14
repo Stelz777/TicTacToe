@@ -27,18 +27,9 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public Turn NextTurn(int? id)
         {
             var (_, game) = farm.FindGame(id);
-            var players = game.Players;
-            Bot bot = null;
-            foreach (var player in players)
-            {
-                if (player.GetType() == typeof(Bot))
-                {
-                    bot = player as Bot;
-                }
-            }
             var newBoard = new Board();
             newBoard.SetSquares(game.Board.Squares);
-            var turn = bot.MakeAutoMove(newBoard);
+            var turn = game.Bot.MakeAutoMove(newBoard);
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
