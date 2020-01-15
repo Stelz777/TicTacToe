@@ -12,17 +12,10 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     [ApiController]
     public class FarmController : ControllerBase
     {
-        private GameFarm farm;
-
-        public FarmController(GameFarm farm)
-        {
-            this.farm = farm;
-        }
-
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var (gameId, game) = farm.FindGame(id);
+            var (gameId, game) = GameFarm.Current.FindGame(id);
             var history = game.History;
             return Ok(new 
             {

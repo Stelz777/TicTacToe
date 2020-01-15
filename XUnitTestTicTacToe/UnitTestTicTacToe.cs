@@ -124,8 +124,7 @@ namespace XUnitTestTicTacToe
         [Fact]
         public void GetGameFact()
         {
-            var farm = new GameFarm();
-            var farmController = new FarmController(farm);
+            var farmController = new FarmController();
             OkObjectResult result = farmController.GetGame(0) as OkObjectResult;
             var history = new History();
             var expectedResult = Ok(new
@@ -144,8 +143,7 @@ namespace XUnitTestTicTacToe
         {
             var loggerFactory = new LoggerFactory();
             var logger = new Logger<GameController>(loggerFactory);
-            var farm = new GameFarm();
-            var gameController = new GameController(farm, logger);
+            var gameController = new GameController(logger);
             var result = gameController.MakeTurn(0, new Turn());
             Assert.True(result);
         }

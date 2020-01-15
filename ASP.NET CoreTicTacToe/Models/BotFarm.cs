@@ -13,6 +13,9 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public IBot Bot { get; }
 
+        private static readonly BotFarm instance = new BotFarm();
+        public static BotFarm Current => instance;
+
         public static SimpleBot CreateSimpleBot(Game game)
         {
             SimpleBot bot = new SimpleBot(game);

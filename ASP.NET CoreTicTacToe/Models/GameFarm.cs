@@ -7,6 +7,10 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class GameFarm
     {
+        private static readonly GameFarm instance = new GameFarm();
+
+        public static GameFarm Current => instance;
+
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 
         public Dictionary<int, Game> Games => games;
