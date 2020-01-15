@@ -12,9 +12,9 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     [ApiController]
     public class FarmController : ControllerBase
     {
-        private Farm farm;
+        private GameFarm farm;
 
-        public FarmController(Farm farm)
+        public FarmController(GameFarm farm)
         {
             this.farm = farm;
         }

@@ -51,7 +51,7 @@ namespace XUnitTestTicTacToe
         public void InitSideTheory(string expectedResult)
         {
             var game = new Game();
-            var bot = new Bot(game);
+            var bot = new SimpleBot(game);
             bot.InitSide();
             Assert.Equal(expectedResult, bot.side);
         }
@@ -101,9 +101,8 @@ namespace XUnitTestTicTacToe
         public void CreateSimpleBotFact()
         {
             var game = new Game();
-            var botFarm = new BotFarm();
-            var result = botFarm.CreateSimpleBot(game);
-            var expectedResult = new Bot(game);
+            var result = BotFarm.CreateSimpleBot(game);
+            var expectedResult = new SimpleBot(game);
             Assert.Equal(expectedResult.game, result.game);
         }
 
@@ -112,9 +111,9 @@ namespace XUnitTestTicTacToe
         {
             var botFarm = new BotFarm();
             var game = new Game();
-            var bot = new Bot(game);
+            var bot = new SimpleBot(game);
             botFarm.AddBotToGroup(bot);
-            var expectedResult = new List<Bot>();
+            var expectedResult = new List<SimpleBot>();
             expectedResult.Add(bot);
             Assert.Equal(expectedResult, botFarm.BotGroup);
         }
@@ -125,7 +124,7 @@ namespace XUnitTestTicTacToe
         [Fact]
         public void GetGameFact()
         {
-            var farm = new Farm();
+            var farm = new GameFarm();
             var farmController = new FarmController(farm);
             OkObjectResult result = farmController.GetGame(0) as OkObjectResult;
             var history = new History();
@@ -145,7 +144,7 @@ namespace XUnitTestTicTacToe
         {
             var loggerFactory = new LoggerFactory();
             var logger = new Logger<GameController>(loggerFactory);
-            var farm = new Farm();
+            var farm = new GameFarm();
             var gameController = new GameController(farm, logger);
             var result = gameController.MakeTurn(0, new Turn());
             Assert.True(result);

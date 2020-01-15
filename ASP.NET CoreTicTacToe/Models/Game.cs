@@ -10,9 +10,9 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         private RealPlayer player;
 
-        private Bot bot;
+        private SimpleBot bot;
 
-        public Bot Bot => bot;
+        public SimpleBot Bot => bot;
 
         private BotFarm botFarm = new BotFarm();
 
@@ -21,7 +21,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             History = new History();
             Board = History.Turns[0];
             player = new RealPlayer();
-            bot = botFarm.CreateSimpleBot(this);
+            bot = BotFarm.CreateSimpleBot(this);
             botFarm.AddBotToGroup(bot);
         }
 

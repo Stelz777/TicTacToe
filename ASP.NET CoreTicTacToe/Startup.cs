@@ -26,7 +26,8 @@ namespace ASP.NET_CoreTicTacToe
                 configuration.RootPath = "my-app/build";
             });
 
-            services.AddSingleton<Models.Farm>();
+            services.AddSingleton<Models.GameFarm>();
+            services.AddSingleton<Models.BotFarm>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

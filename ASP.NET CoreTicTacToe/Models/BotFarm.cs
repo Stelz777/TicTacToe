@@ -11,13 +11,15 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public IReadOnlyList<IBot> BotGroup => botGroup;
 
-        public Bot CreateSimpleBot(Game game)
+        public IBot Bot { get; }// = CreateSimpleBot();
+
+        public static SimpleBot CreateSimpleBot(Game game)
         {
-            Bot bot = new Bot(game);
+            SimpleBot bot = new SimpleBot(game);
             return bot;
         }
 
-        public void AddBotToGroup(Bot bot)
+        public void AddBotToGroup(SimpleBot bot)
         {
             botGroup.Add(bot);
         }

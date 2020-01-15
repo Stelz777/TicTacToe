@@ -15,9 +15,9 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     public class GameController : ControllerBase
     {
         private readonly ILogger<GameController> _logger;
-        private readonly Farm farm;
+        private readonly GameFarm farm;
 
-        public GameController(Farm farm, ILogger<GameController> logger)
+        public GameController(GameFarm farm, ILogger<GameController> logger)
         {
             _logger = logger;
             this.farm = farm;

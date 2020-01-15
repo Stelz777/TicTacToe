@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
-    public class Farm
+    public class GameFarm
     {
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 

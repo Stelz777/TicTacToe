@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
-    public class Bot : IBot
+    public class SimpleBot : IBot
     {
         public bool isActive;
         public string side;
         public Game game;
 
-        public Bot(Game game)
+        public SimpleBot(Game game)
         {
             this.game = game;
         }
