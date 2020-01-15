@@ -21,10 +21,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public Turn MakeAutoMove(Board board)
         {
-            var ticTacToeRulesHelper = new TicTacToeRulesHelper();
             var possibleTurns = new List<int>(board.GetEmptySquareIndexes());
-            
-
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
 

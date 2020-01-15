@@ -29,7 +29,10 @@ namespace ASP.NET_CoreTicTacToe.Controllers
             var (_, game) = farm.FindGame(id);
             var newBoard = new Board();
             newBoard.SetSquares(game.Board.Squares);
-            var turn = game.Bot.MakeAutoMove(newBoard);
+            var bot = new SimpleBot(game);
+            var botFarm = new BotFarm();
+            botFarm.AddBotToGroup(bot);
+            var turn = bot.MakeAutoMove(newBoard);
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
