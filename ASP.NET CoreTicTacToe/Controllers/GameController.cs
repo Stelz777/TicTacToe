@@ -32,7 +32,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
             var bot = new SimpleBot(game);
             var botFarm = new BotFarm();
             botFarm.AddBotToGroup(bot);
-            var turn = bot.MakeAutoMove(newBoard);
+            var turn = bot.MakeAutoMove();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }

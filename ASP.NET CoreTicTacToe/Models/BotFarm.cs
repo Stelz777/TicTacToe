@@ -11,7 +11,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public IReadOnlyList<IBot> BotGroup => botGroup;
 
-        public IBot Bot { get; }// = CreateSimpleBot();
+        public IBot Bot { get; }
 
         public static SimpleBot CreateSimpleBot(Game game)
         {
