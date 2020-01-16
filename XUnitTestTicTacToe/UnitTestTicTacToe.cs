@@ -112,7 +112,7 @@ namespace XUnitTestTicTacToe
             var botFarm = new BotFarm();
             var game = new Game();
             var bot = new SimpleBot(game);
-            botFarm.AddBotToGroup(bot);
+            botFarm.AddBotToPool(bot);
             var expectedResult = new List<SimpleBot>();
             expectedResult.Add(bot);
             Assert.Equal(expectedResult, botFarm.BotGroup);

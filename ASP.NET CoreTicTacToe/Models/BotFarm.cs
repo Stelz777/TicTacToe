@@ -7,9 +7,9 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class BotFarm
     {
-        private List<IBot> botGroup = new List<IBot>();
+        private List<IBot> botPool = new List<IBot>();
 
-        public IReadOnlyList<IBot> BotGroup => botGroup;
+        public IReadOnlyList<IBot> BotGroup => botPool;
 
         public IBot Bot { get; }
 
@@ -22,9 +22,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             return bot;
         }
 
-        public void AddBotToGroup(SimpleBot bot)
+        public void AddBotToPool(SimpleBot bot)
         {
-            botGroup.Add(bot);
+            botPool.Add(bot);
         }
     }
 }

@@ -15,20 +15,22 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     public class GameController : ControllerBase
     {
         private readonly ILogger<GameController> _logger;
+        private BotFarm botFarm;
+        private GameFarm gameFarm;
 
-        public GameController(ILogger<GameController> logger)
+        public GameController(BotFarm botFarm, GameFarm gameFarm, ILogger<GameController> logger)
         {
             _logger = logger;
+            this.botFarm = botFarm;
+            this.gameFarm = gameFarm;
         }
 
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            var (_, game) = GameFarm.Current.FindGame(id);
-            var newBoard = new Board();
-            newBoard.SetSquares(game.Board.Squares);
+            var (_, game) = gameFarm.FindGame(id);
             var bot = new SimpleBot(game);
-            BotFarm.Current.AddBotToGroup(bot);
+            botFarm.AddBotToPool(bot);
             var turn = bot.MakeAutoMove();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
@@ -37,7 +39,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
-            var (_, game) = GameFarm.Current.FindGame(id);
+            var (_, game) = gameFarm.FindGame(id);
             return game.MakeMove(turn);
         }
     }
