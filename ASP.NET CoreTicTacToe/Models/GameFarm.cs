@@ -11,9 +11,11 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public static GameFarm Current => instance;
 
+       
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 
         public Dictionary<int, Game> Games => games;
+
 
         int GetNewId(int? id)
         {
