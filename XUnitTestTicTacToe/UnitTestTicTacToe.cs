@@ -52,7 +52,7 @@ namespace XUnitTestTicTacToe
         {
             var game = new Game();
             var bot = new SimpleBot(game);
-            bot.InitSide();
+            bot.InitSide("Tac");
             Assert.Equal(expectedResult, bot.side);
         }
     }
@@ -124,7 +124,7 @@ namespace XUnitTestTicTacToe
         [Fact]
         public void GetGameFact()
         {
-            var farmController = new FarmController();
+            var farmController = new FarmController(GameFarm.Current);
             OkObjectResult result = farmController.GetGame(0) as OkObjectResult;
             var history = new History();
             var expectedResult = Ok(new
@@ -143,9 +143,42 @@ namespace XUnitTestTicTacToe
         {
             var loggerFactory = new LoggerFactory();
             var logger = new Logger<GameController>(loggerFactory);
-            var gameController = new GameController(logger);
+            var gameController = new GameController(BotFarm.Current, GameFarm.Current, logger);
             var result = gameController.MakeTurn(0, new Turn());
             Assert.True(result);
+        }
+    }
+
+    public class CustomUnitTests
+    {
+        [Fact]
+        public void PlayBotVersusBot()
+        {
+            var game = new Game();
+            var ticBot = new SimpleBot(game);
+            ticBot.InitSide("Tic");
+            var tacBot = new SimpleBot(game);
+            tacBot.InitSide("Tac");
+            while (!BoardIsFull(game.Board) && !TicTacToeRulesHelper.HasWinner(game.Board.Squares))
+            {
+                ticBot.MakeAutoMove();
+                tacBot.MakeAutoMove();
+            }
+            Assert.True(true);
+        }
+
+        public bool BoardIsFull(Board board)
+        {
+            
+
+            foreach (var square in board.Squares)
+            {
+                if (square == Cell.Empty)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 

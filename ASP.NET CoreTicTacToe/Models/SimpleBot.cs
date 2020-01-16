@@ -14,9 +14,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             this.game = game;
         }
 
-        public void InitSide()
+        public void InitSide(string side)
         {
-            side = "Tac";
+            this.side = side;
         }
 
         public Turn MakeAutoMove()
@@ -31,13 +31,25 @@ namespace ASP.NET_CoreTicTacToe.Models
             {
                 if (!board.HasWinner)
                 {
-                    board.SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), Cell.Nought);
+                    Cell filler = Cell.Empty;
+                    bool isTicTurn = false;
+                    if (side.Equals("Tic"))
+                    {
+                        filler = Cell.Cross;
+                        isTicTurn = true;
+                    }
+                    if (side.Equals("Tac"))
+                    {
+                        filler = Cell.Nought;
+                        isTicTurn = false;
+                    }
+                    board.SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), filler);
                     game.History.Turns.Add(board);
                     game.Board = board;
                     return new Turn
                     {
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
-                        TicTurn = false
+                        TicTurn = isTicTurn
                     };
                 }
                 else
