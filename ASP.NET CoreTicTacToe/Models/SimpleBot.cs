@@ -9,13 +9,9 @@ namespace ASP.NET_CoreTicTacToe.Models
         public Side side;
         public Game game;
 
-        public SimpleBot(Game game)
+        public SimpleBot(Game game, Side side)
         {
             this.game = game;
-        }
-
-        public void InitSide(Side side)
-        {
             this.side = side;
         }
 

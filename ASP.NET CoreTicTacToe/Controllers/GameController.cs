@@ -29,8 +29,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         public Turn NextTurn(int? id)
         {
             var (_, game) = gameFarm.FindGame(id);
-            var bot = new SimpleBot(game);
-            bot.InitSide(Side.Tac);
+            var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
             var turn = bot.MakeAutoMove();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");

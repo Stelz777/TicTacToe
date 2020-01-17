@@ -89,7 +89,7 @@ namespace XUnitTestTicTacToe
         {
             var game = new Game();
             var result = BotFarm.CreateSimpleBot(game);
-            var expectedResult = new SimpleBot(game);
+            var expectedResult = new SimpleBot(game, Side.Tac);
             Assert.Equal(expectedResult.game, result.game);
         }
 
@@ -98,7 +98,7 @@ namespace XUnitTestTicTacToe
         {
             var botFarm = new BotFarm();
             var game = new Game();
-            var bot = new SimpleBot(game);
+            var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
             var expectedResult = new List<SimpleBot>();
             expectedResult.Add(bot);
@@ -139,17 +139,14 @@ namespace XUnitTestTicTacToe
     public class CustomUnitTests
     {
         //TODO
-        // init в конструктор
         // добавить в тест ассерт на добавление крестика / нолика
         // бот должен makemove
         [Fact]
         public void PlayBotVersusBot()
         {
             var game = new Game();
-            var ticBot = new SimpleBot(game);
-            ticBot.InitSide(Side.Tic);
-            var tacBot = new SimpleBot(game);
-            tacBot.InitSide(Side.Tac);
+            var ticBot = new SimpleBot(game, Side.Tic);
+            var tacBot = new SimpleBot(game, Side.Tac);
             while (!BoardIsFull(game.Board) && !TicTacToeRulesHelper.HasWinner(game.Board.Squares))
             {
                 ticBot.MakeAutoMove();

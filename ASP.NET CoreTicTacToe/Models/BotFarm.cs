@@ -18,7 +18,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public static SimpleBot CreateSimpleBot(Game game)
         {
-            SimpleBot bot = new SimpleBot(game);
+            SimpleBot bot = new SimpleBot(game, Side.Tac);
             return bot;
         }
 
