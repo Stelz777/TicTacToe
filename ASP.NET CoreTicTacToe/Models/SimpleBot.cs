@@ -27,26 +27,13 @@ namespace ASP.NET_CoreTicTacToe.Models
             {
                 if (!board.HasWinner)
                 {
-                    Cell filler = Cell.Empty;
-                    if (side == Side.Tic)
-                    {
-                        filler = Cell.Cross;
-                    }
-                    if (side == Side.Tac)
-                    {
-                        filler = Cell.Nought;
-                    }
-                    board.SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), filler);
-                    game.History.Boards.Add(board);
-                    game.SetBoard(board);
-                    //!!!
-                    //передать turn в game, чтобы поменять board
-                    //!!!
-                    return new Turn
+                    var validTurn = new Turn
                     {
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
                         WhichTurn = side
                     };
+                    game.MakeMove(validTurn);
+                    return validTurn;
                 }
                 else
                 {

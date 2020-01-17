@@ -7,7 +7,8 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class History
     {
-        //TODO later
+        //TODO 3
+        //TODO not really later
         //Хранит turns, восстанавливает board
         //Добавить свойство для получения последнего хода
 

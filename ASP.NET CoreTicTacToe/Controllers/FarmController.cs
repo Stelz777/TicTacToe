@@ -10,10 +10,6 @@ namespace ASP.NET_CoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
-
-   
-
-
     public class FarmController : ControllerBase
     {
         private GameFarm farm;

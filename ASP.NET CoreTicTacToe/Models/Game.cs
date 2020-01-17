@@ -5,6 +5,8 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
+        //TODO 1
+        //TODO после того, как история будет хранить ходы
         //TODOпроверять очередность ходов, чтобы не было подряд двух крестов
 
         public History History { get; private set; }
@@ -13,11 +15,6 @@ namespace ASP.NET_CoreTicTacToe.Models
         private RealPlayer player;
 
         private BotFarm botFarm = new BotFarm();
-
-        public void SetBoard(Board board)
-        {
-            this.Board = board;
-        }
 
         public Game()
         {
@@ -35,7 +32,14 @@ namespace ASP.NET_CoreTicTacToe.Models
                 {
                     Board newBoard = new Board();
                     newBoard.SetSquares(Board.Squares);
-                    newBoard.SetSquare(turn.CellNumber, Cell.Cross);
+                    if (turn.WhichTurn == Side.Tic)
+                    {
+                        newBoard.SetSquare(turn.CellNumber, Cell.Cross);
+                    }
+                    else if (turn.WhichTurn == Side.Tac)
+                    {
+                        newBoard.SetSquare(turn.CellNumber, Cell.Nought);
+                    }
                     History.Boards.Add(newBoard);
                     Board = newBoard;
                     return true;
