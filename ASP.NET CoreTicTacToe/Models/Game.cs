@@ -5,10 +5,6 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
-        //TODO 1
-        //TODO после того, как история будет хранить ходы
-        //TODOпроверять очередность ходов, чтобы не было подряд двух крестов
-
         public History History { get; private set; }
         public Board Board { get; private set; }
 
@@ -25,25 +21,33 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public bool MakeMove(Turn turn)
         {
-            if (!Board.HasWinner)
+            Turn lastTurn = History.GetLastTurn();
+            if (lastTurn.WhichTurn == turn.WhichTurn)
             {
-                if (Board.Squares[turn.CellNumber] == Cell.Empty)
+                return false;
+            }
+            else
+            {
+                if (!Board.HasWinner)
                 {
-                    Board newBoard = new Board();
-                    newBoard.SetSquares(Board.Squares);
-                    newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
-                    History.Turns.Add(turn);
-                    Board = newBoard;
-                    return true;
+                    if (Board.Squares[turn.CellNumber] == Cell.Empty)
+                    {
+                        Board newBoard = new Board();
+                        newBoard.SetSquares(Board.Squares);
+                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
+                        History.Turns.Add(turn);
+                        Board = newBoard;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
                     return false;
                 }
-            }
-            else
-            {
-                return false;
             }
         }
 
