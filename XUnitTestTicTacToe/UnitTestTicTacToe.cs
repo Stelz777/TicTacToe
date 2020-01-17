@@ -2,7 +2,6 @@ using ASP.NET_CoreTicTacToe.Controllers;
 using ASP.NET_CoreTicTacToe.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -141,7 +140,6 @@ namespace XUnitTestTicTacToe
     {
         //TODO
         // добавить в тест ассерт на добавление крестика / нолика
-        // бот должен makemove
         [Fact]
         public void PlayBotVersusBot()
         {
@@ -153,7 +151,27 @@ namespace XUnitTestTicTacToe
                 ticBot.MakeAutoMove();
                 tacBot.MakeAutoMove();
             }
-            
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void CheckIfTicBotAddsCrosses()
+        {
+            var game = new Game();
+            var ticBot = new SimpleBot(game, Side.Tic);
+            ticBot.MakeAutoMove();
+            Assert.Equal(Side.Tic, game.History.GetLastTurn().WhichTurn);
+        }
+
+        [Fact]
+        public void CheckIfTacBotAddsCrosses()
+        {
+            var game = new Game();
+            var ticBot = new SimpleBot(game, Side.Tic);
+            var tacBot = new SimpleBot(game, Side.Tac);
+            ticBot.MakeAutoMove();
+            tacBot.MakeAutoMove();
+            Assert.Equal(Side.Tac, game.History.GetLastTurn().WhichTurn);
         }
 
         public bool BoardIsFull(Board board)
