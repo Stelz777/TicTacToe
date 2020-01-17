@@ -55,8 +55,9 @@ class Board extends React.Component
             .then(result => result.json())
             .then(data => {   
                 console.log("componentdidmount data: ", data);
+
                 this.fillSquares(data); 
-                this.props.historyRequested(data.history);
+                this.props.historyRequested(data.boards);
                 window.history.replaceState(null, null, `?id=${data.id}`) 
             });
         
@@ -64,9 +65,9 @@ class Board extends React.Component
 
     fillSquares(data)
     {
-        for (var i = 0; i < data.history.boards.length; i++)
+        for (var i = 0; i < data.boards.length; i++)
         {
-            data.history.boards[i].squares = data.history.boards[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
+            data.boards[i].squares = data.boards[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
         }
     }
 
@@ -155,20 +156,21 @@ class Board extends React.Component
         fetch(`/api/game/nextturn/${id}`, { method: 'POST' })
             .then((response) => response.json())
             .then((messages) => {
+                console.log("refreshboard messages: ", messages);
                 if (messages.cellNumber >= 0)
                 {
-                    this.props.gameBoardClicked(messages.cellNumber, false)
+                    this.props.gameBoardClicked(messages.cellNumber)
                 }
             });
     }
 
-    sendTurn(squareIndex, ticTurn)
+    sendTurn(squareIndex, whichTurn)
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/game/maketurn/${id}`, {
             method: 'POST',
-            body: JSON.stringify({ CellNumber: squareIndex, TicTurn: ticTurn }),
+            body: JSON.stringify({ CellNumber: squareIndex, WhichTurn: whichTurn }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -178,7 +180,7 @@ class Board extends React.Component
         .then(data => {
             if (data)
             {
-                this.props.gameBoardClicked(squareIndex, true);
+                this.props.gameBoardClicked(squareIndex);
                 this.refreshBoard();
             }
         })
@@ -186,7 +188,7 @@ class Board extends React.Component
 
     handleClick(i)
     {
-        this.sendTurn(i, true);
+        this.sendTurn(i, 0);
     }
 
     render()

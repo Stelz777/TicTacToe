@@ -46,7 +46,7 @@ function rootReducer(state = initialState, action)
         case HISTORY_REQUESTED:
             return ({
                 ...state,
-                history: action.history.boards
+                history: action.boards
             })
 
         case BOARD_REQUESTED:

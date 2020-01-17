@@ -19,28 +19,20 @@ namespace ASP.NET_CoreTicTacToe.Models
         public Game()
         {
             History = new History();
-            Board = History.Boards[0];
+            Board = History.RestoreBoardByTurn(0);
             player = new RealPlayer();
         }
 
         public bool MakeMove(Turn turn)
         {
-            Board.SetSquares(Board.Squares);
             if (!Board.HasWinner)
             {
                 if (Board.Squares[turn.CellNumber] == Cell.Empty)
                 {
                     Board newBoard = new Board();
                     newBoard.SetSquares(Board.Squares);
-                    if (turn.WhichTurn == Side.Tic)
-                    {
-                        newBoard.SetSquare(turn.CellNumber, Cell.Cross);
-                    }
-                    else if (turn.WhichTurn == Side.Tac)
-                    {
-                        newBoard.SetSquare(turn.CellNumber, Cell.Nought);
-                    }
-                    History.Boards.Add(newBoard);
+                    newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
+                    History.Turns.Add(turn);
                     Board = newBoard;
                     return true;
                 }
@@ -55,14 +47,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public Turn GetInvalidTurn()
-        {
-            return new Turn
-            {
-                CellNumber = -1,
-                WhichTurn = Side.Tac
-            };
-        }
+        
 
         
     }

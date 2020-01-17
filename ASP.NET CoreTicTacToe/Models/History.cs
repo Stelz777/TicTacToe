@@ -7,28 +7,50 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class History
     {
-        //TODO 3
-        //TODO not really later
-        //Хранит turns, восстанавливает board
-        //Добавить свойство для получения последнего хода
+        private List<Turn> turns = new List<Turn>();
 
-        private List<Board> boards = new List<Board>();
-
-        public List<Board> Boards
+        public List<Turn> Turns
         {
             get
             {
-                return boards;
+                return turns;
             }
             set
             {
-                boards = value;
+                turns = value;
             }
         }
 
         public History()
         {
-            boards.Add(new Board());
+            turns.Add(GetInvalidTurn());
+        }
+
+        public Board RestoreBoardByTurn(int turnNumber)
+        {
+            var board = new Board();
+            for (int i = 0; i <= turnNumber; i++)
+            {
+                if (turns[i].CellNumber >= 0)
+                {
+                    board.SetSquare(turns[i].CellNumber, board.GetCellBySide(turns[i].WhichTurn));
+                }
+            }
+            return board;
+        }
+
+        public Turn GetLastTurn()
+        {
+            return turns[turns.Count - 1];
+        }
+
+        public Turn GetInvalidTurn()
+        {
+            return new Turn
+            {
+                CellNumber = -1,
+                WhichTurn = Side.Tac
+            };
         }
     }
 }

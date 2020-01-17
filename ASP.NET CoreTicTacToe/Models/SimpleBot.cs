@@ -37,12 +37,12 @@ namespace ASP.NET_CoreTicTacToe.Models
                 }
                 else
                 {
-                    return game.GetInvalidTurn();
+                    return game.History.GetInvalidTurn();
                 }
             }
             else
             {
-                return game.GetInvalidTurn();
+                return game.History.GetInvalidTurn();
             }
         }
     }

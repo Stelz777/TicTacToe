@@ -36,5 +36,17 @@ namespace ASP.NET_CoreTicTacToe.Models
                 }
             }
         }   
+
+        public Cell GetCellBySide(Side side)
+        {
+            if (side == Side.Tic)
+            {
+                return Cell.Cross;
+            }
+            else
+            {
+                return Cell.Nought;
+            }
+        }
     }   
 }

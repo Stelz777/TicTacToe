@@ -60,7 +60,7 @@ namespace XUnitTestTicTacToe
         public void GetInvalidTurnFact()
         {
             var game = new Game();
-            Turn result = game.GetInvalidTurn();
+            Turn result = game.History.GetInvalidTurn();
             var expectedResult = new Turn
             {
                 CellNumber = -1,

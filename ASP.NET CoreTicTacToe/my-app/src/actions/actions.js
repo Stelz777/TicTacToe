@@ -8,11 +8,11 @@ export const BOT_TURN_RESPONDED = 'BOT_TURN_RESPONDED';
 export const BOARD_REQUESTED = 'BOARD_REQUESTED';
 export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
 
-export function historyRequested(history)
+export function historyRequested(boards)
 {
     return {
         type: HISTORY_REQUESTED,
-        history
+        boards
     }
 }
 
@@ -42,7 +42,7 @@ export function historyItemClicked(stepInput, squareIndex)
     }
 }
 
-export function gameBoardClicked(squareIndex, ticTurn)
+export function gameBoardClicked(squareIndex)
 {
     
     return {

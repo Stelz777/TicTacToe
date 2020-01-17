@@ -24,10 +24,16 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         {
             var (gameId, game) = farm.FindGame(id);
             var history = game.History;
+            var boards = new List<Board>();
+            
+            for (int i = 0; i < history.Turns.Count; i++)
+            {
+                boards.Add(history.RestoreBoardByTurn(i));
+            }
             return Ok(new 
             {
                 id = gameId, 
-                history
+                boards
             });
         }
     }
