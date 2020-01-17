@@ -23,7 +23,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             turns.Add(GetInvalidTurn());
         }
 
-        public Board RestoreBoardByTurn(int turnNumber)
+        public Board RestoreBoardByTurnNumber(int turnNumber)
         {
             var board = new Board();
             for (int i = 0; i <= turnNumber; i++)
@@ -36,10 +36,19 @@ namespace ASP.NET_CoreTicTacToe.Models
             return board;
         }
 
-        public Turn GetLastTurn()
+        public List<Board> GetBoardsForEachTurn()
         {
-            return turns[turns.Count - 1];
+            var boards = new List<Board>();
+            for (var i = 0; i < Turns.Count; i++)
+            {
+                boards.Add(RestoreBoardByTurnNumber(i));
+            }
+            return boards;
         }
+
+        public Turn LastTurn =>
+             turns[turns.Count - 1];
+       
 
         public Turn GetInvalidTurn()
         {

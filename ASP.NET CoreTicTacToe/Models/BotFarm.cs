@@ -4,6 +4,8 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class BotFarm
     {
+        //TODO сохранение игр и ботов
+
         private List<IBot> botPool = new List<IBot>();
 
         public IReadOnlyList<IBot> BotGroup => botPool;

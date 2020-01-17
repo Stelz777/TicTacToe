@@ -12,13 +12,13 @@
         public Game()
         {
             History = new History();
-            Board = History.RestoreBoardByTurn(0);
+            Board = History.RestoreBoardByTurnNumber(0);
             player = new RealPlayer();
         }
 
         public bool MakeMove(Turn turn)
         {
-            Turn lastTurn = History.GetLastTurn();
+            Turn lastTurn = History.LastTurn;
             if (lastTurn.WhichTurn == turn.WhichTurn)
             {
                 return false;

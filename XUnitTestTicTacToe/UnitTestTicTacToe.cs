@@ -138,8 +138,6 @@ namespace XUnitTestTicTacToe
 
     public class CustomUnitTests
     {
-        //TODO
-        // добавить в тест ассерт на добавление крестика / нолика
         [Fact]
         public void PlayBotVersusBot()
         {
@@ -151,7 +149,6 @@ namespace XUnitTestTicTacToe
                 ticBot.MakeAutoMove();
                 tacBot.MakeAutoMove();
             }
-            Assert.True(true);
         }
 
         [Fact]
@@ -160,18 +157,18 @@ namespace XUnitTestTicTacToe
             var game = new Game();
             var ticBot = new SimpleBot(game, Side.Tic);
             ticBot.MakeAutoMove();
-            Assert.Equal(Side.Tic, game.History.GetLastTurn().WhichTurn);
+            Assert.Equal(Side.Tic, game.History.LastTurn.WhichTurn);
         }
 
         [Fact]
-        public void CheckIfTacBotAddsCrosses()
+        public void CheckIfTacBotAddsNoughts()
         {
             var game = new Game();
             var ticBot = new SimpleBot(game, Side.Tic);
             var tacBot = new SimpleBot(game, Side.Tac);
             ticBot.MakeAutoMove();
             tacBot.MakeAutoMove();
-            Assert.Equal(Side.Tac, game.History.GetLastTurn().WhichTurn);
+            Assert.Equal(Side.Tac, game.History.LastTurn.WhichTurn);
         }
 
         public bool BoardIsFull(Board board)
