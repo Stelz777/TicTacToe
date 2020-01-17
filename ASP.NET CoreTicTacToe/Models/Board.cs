@@ -6,10 +6,6 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Board
     {
-        //TODO реверсировать зависимость между ботом и геймом
-        //передавать гейм, а не борд
-        //сделать игру между ботами как юнит-тест
-
         private List<Cell> squares = new List<Cell>();
         public IReadOnlyList<Cell> Squares => squares;
 

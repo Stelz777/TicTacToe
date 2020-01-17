@@ -44,19 +44,6 @@ namespace XUnitTestTicTacToe
         }
     }
 
-    public class UnitTestBot
-    {
-        [Theory]
-        [InlineData("Tac")]
-        public void InitSideTheory(string expectedResult)
-        {
-            var game = new Game();
-            var bot = new SimpleBot(game);
-            bot.InitSide("Tac");
-            Assert.Equal(expectedResult, bot.side);
-        }
-    }
-
     public class UnitTestGame
     {
         [Fact]
@@ -76,10 +63,10 @@ namespace XUnitTestTicTacToe
             var expectedResult = new Turn
             {
                 CellNumber = -1,
-                TicTurn = false
+                WhichTurn = Side.Tac
             };
             Assert.Equal(expectedResult.CellNumber, result.CellNumber);
-            Assert.Equal(expectedResult.TicTurn, result.TicTurn);
+            Assert.Equal(expectedResult.WhichTurn, result.WhichTurn);
         }
     }
 
@@ -151,20 +138,24 @@ namespace XUnitTestTicTacToe
 
     public class CustomUnitTests
     {
+        //TODO
+        // init в конструктор
+        // добавить в тест ассерт на добавление крестика / нолика
+        // бот должен makemove
         [Fact]
         public void PlayBotVersusBot()
         {
             var game = new Game();
             var ticBot = new SimpleBot(game);
-            ticBot.InitSide("Tic");
+            ticBot.InitSide(Side.Tic);
             var tacBot = new SimpleBot(game);
-            tacBot.InitSide("Tac");
+            tacBot.InitSide(Side.Tac);
             while (!BoardIsFull(game.Board) && !TicTacToeRulesHelper.HasWinner(game.Board.Squares))
             {
                 ticBot.MakeAutoMove();
                 tacBot.MakeAutoMove();
             }
-            Assert.True(true);
+            
         }
 
         public bool BoardIsFull(Board board)

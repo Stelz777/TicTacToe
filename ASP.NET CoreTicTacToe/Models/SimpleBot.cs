@@ -6,7 +6,7 @@ namespace ASP.NET_CoreTicTacToe.Models
     public class SimpleBot : IBot
     {
         public bool isActive;
-        public string side;
+        public Side side;
         public Game game;
 
         public SimpleBot(Game game)
@@ -14,7 +14,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             this.game = game;
         }
 
-        public void InitSide(string side)
+        public void InitSide(Side side)
         {
             this.side = side;
         }
@@ -32,24 +32,24 @@ namespace ASP.NET_CoreTicTacToe.Models
                 if (!board.HasWinner)
                 {
                     Cell filler = Cell.Empty;
-                    bool isTicTurn = false;
-                    if (side.Equals("Tic"))
+                    if (side == Side.Tic)
                     {
                         filler = Cell.Cross;
-                        isTicTurn = true;
                     }
-                    if (side.Equals("Tac"))
+                    if (side == Side.Tac)
                     {
                         filler = Cell.Nought;
-                        isTicTurn = false;
                     }
                     board.SetSquare(Convert.ToInt32(possibleTurns[randomTurn]), filler);
-                    game.History.Turns.Add(board);
-                    game.Board = board;
+                    game.History.Boards.Add(board);
+                    game.SetBoard(board);
+                    //!!!
+                    //передать turn в game, чтобы поменять board
+                    //!!!
                     return new Turn
                     {
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
-                        TicTurn = isTicTurn
+                        WhichTurn = side
                     };
                 }
                 else

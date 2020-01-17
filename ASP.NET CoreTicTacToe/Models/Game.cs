@@ -5,17 +5,24 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
-        public History History { get; set; }
-        public Board Board { get; set; }
+        //TODOпроверять очередность ходов, чтобы не было подряд двух крестов
+
+        public History History { get; private set; }
+        public Board Board { get; private set; }
 
         private RealPlayer player;
 
         private BotFarm botFarm = new BotFarm();
 
+        public void SetBoard(Board board)
+        {
+            this.Board = board;
+        }
+
         public Game()
         {
             History = new History();
-            Board = History.Turns[0];
+            Board = History.Boards[0];
             player = new RealPlayer();
         }
 
@@ -29,7 +36,7 @@ namespace ASP.NET_CoreTicTacToe.Models
                     Board newBoard = new Board();
                     newBoard.SetSquares(Board.Squares);
                     newBoard.SetSquare(turn.CellNumber, Cell.Cross);
-                    History.Turns.Add(newBoard);
+                    History.Boards.Add(newBoard);
                     Board = newBoard;
                     return true;
                 }
@@ -49,7 +56,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             return new Turn
             {
                 CellNumber = -1,
-                TicTurn = false
+                WhichTurn = Side.Tac
             };
         }
 

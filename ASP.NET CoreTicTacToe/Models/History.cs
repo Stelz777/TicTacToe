@@ -7,23 +7,27 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class History
     {
-        private List<Board> turns = new List<Board>();
+        //TODO later
+        //Хранит turns, восстанавливает board
+        //Добавить свойство для получения последнего хода
 
-        public List<Board> Turns
+        private List<Board> boards = new List<Board>();
+
+        public List<Board> Boards
         {
             get
             {
-                return turns;
+                return boards;
             }
             set
             {
-                turns = value;
+                boards = value;
             }
         }
 
         public History()
         {
-            turns.Add(new Board());
+            boards.Add(new Board());
         }
     }
 }

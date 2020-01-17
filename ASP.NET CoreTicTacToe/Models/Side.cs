@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
-    public class Turn
+    public enum Side
     {
-        public int CellNumber { get; set; }
-        public Side WhichTurn { get; set; } 
+        Tic,
+        Tac
     }
 }

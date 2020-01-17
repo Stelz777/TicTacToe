@@ -54,6 +54,7 @@ class Board extends React.Component
         fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
+                console.log("componentdidmount data: ", data);
                 this.fillSquares(data); 
                 this.props.historyRequested(data.history);
                 window.history.replaceState(null, null, `?id=${data.id}`) 
@@ -63,14 +64,15 @@ class Board extends React.Component
 
     fillSquares(data)
     {
-        for (var i = 0; i < data.history.turns.length; i++)
+        for (var i = 0; i < data.history.boards.length; i++)
         {
-            data.history.turns[i].squares = data.history.turns[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
+            data.history.boards[i].squares = data.history.boards[i].squares.map(cell => cell === 0 ? 'X' : cell === 1 ? 'O' : null);
         }
     }
 
     getCurrentHistoryItem(history)
     {
+        console.log("getCurrentHistoryItem history: ", history);
         if (this.props.reverseIsChecked)
         {
             return history[history.length - this.props.stepNumber - 1];
