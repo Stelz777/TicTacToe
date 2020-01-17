@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ASP.NET_CoreTicTacToe.Models
+﻿namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
