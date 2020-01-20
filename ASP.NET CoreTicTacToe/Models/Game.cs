@@ -1,9 +1,17 @@
-﻿namespace ASP.NET_CoreTicTacToe.Models
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+
+namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Game
     {
         public History History { get; private set; }
         public Board Board { get; private set; }
+
+        [Key]
+        public int ID { get; set; }
 
         private RealPlayer player;
 
@@ -11,9 +19,18 @@
 
         public Game()
         {
-            History = new History();
-            Board = History.RestoreBoardByTurnNumber(0);
             player = new RealPlayer();
+        }
+
+        public void InitHistory()
+        {
+            History = new History();
+            History.AddInvalidTurn();
+        }
+
+        public void InitBoard()
+        {
+            Board = History.RestoreBoardByTurnNumber(0);
         }
 
         public bool MakeMove(Turn turn)

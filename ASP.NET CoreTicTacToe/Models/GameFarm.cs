@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ASP.NET_CoreTicTacToe.Models
@@ -15,7 +16,7 @@ namespace ASP.NET_CoreTicTacToe.Models
         public Dictionary<int, Game> Games => games;
 
 
-        int GetNewId(int? id)
+        int GetNewIdLocally(int? id)
         {
             if (id == null)
             {
@@ -34,19 +35,73 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public (int, Game) FindGame(int? id) 
+        public (int, Game) FindGameLocally(int? id) 
         {
             if (!id.HasValue || !games.TryGetValue(id.Value, out Game foundGame)) 
             {
                 var newGame = new Game();
-
-                int newId = GetNewId(id);
+                newGame.InitHistory();
+                newGame.InitBoard();
+                int newId = GetNewIdLocally(id);
                 
                 games.Add(newId, newGame);
                 return (newId, newGame);
             }
             
             return (id.Value, foundGame);
+        }
+
+        int GetNewId(int? id, TicTacToeContext database)
+        {
+            if (id == null)
+            {
+                if (database.Games.Count() > 0)
+                {
+                    return database.Games.Max(entry => entry.ID) + 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return id.Value;
+            }
+        }
+
+        public (int, Game) GetGame(int? id, TicTacToeContext database)
+        {
+            Game gameInDatabase = null;
+            if (id.HasValue)
+            {
+                gameInDatabase = database.Games
+                    .Include(game => game.History)
+                    .ThenInclude(history => history.Turns)
+                    .Include(game => game.Board)
+                    .FirstOrDefault(game => game.ID == id.Value);
+            }
+            if (!id.HasValue || gameInDatabase == null)
+            {
+                var newGame = new Game();
+                newGame.InitHistory();
+                newGame.InitBoard();
+                int newId = GetNewId(id, database);
+                if (games.ContainsKey(newId))
+                {
+                    games[newId] = newGame;
+                }
+                else
+                {
+                    games.Add(newId, newGame);
+                }
+                database.Games.Add(newGame);
+                return (newId, newGame);
+            }
+            else
+            {
+                return (id.Value, gameInDatabase);
+            }
         }
     }
 }

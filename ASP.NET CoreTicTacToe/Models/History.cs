@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ASP.NET_CoreTicTacToe.Models
 {
     public class History
     {
         private List<Turn> turns = new List<Turn>();
+
+        [System.ComponentModel.DataAnnotations.Key]
+        public Guid ID { get; set; }
 
         public List<Turn> Turns
         {
@@ -18,10 +22,11 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public History()
+        public void AddInvalidTurn()
         {
             turns.Add(GetInvalidTurn());
         }
+
 
         public Board RestoreBoardByTurnNumber(int turnNumber)
         {
@@ -47,7 +52,7 @@ namespace ASP.NET_CoreTicTacToe.Models
         }
 
         public Turn LastTurn =>
-             turns[turns.Count - 1];
+             turns.Count > 0 ? turns[turns.Count - 1] : null;
        
 
         public Turn GetInvalidTurn()

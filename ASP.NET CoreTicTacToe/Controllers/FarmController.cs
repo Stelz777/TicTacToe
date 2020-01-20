@@ -9,19 +9,21 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     public class FarmController : ControllerBase
     {
         private GameFarm farm;
+        private TicTacToeContext database;
 
-        public FarmController(GameFarm farm)
+        public FarmController(GameFarm farm, TicTacToeContext database)
         {
             this.farm = farm;
+            this.database = database;
         }
 
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var (gameId, game) = farm.FindGame(id);
+            var (gameId, game) = farm.GetGame(id, database);
             var history = game.History;
             List<Board> boards = history.GetBoardsForEachTurn();
-            
+            database.SaveChanges();
             return Ok(new 
             {
                 id = gameId, 

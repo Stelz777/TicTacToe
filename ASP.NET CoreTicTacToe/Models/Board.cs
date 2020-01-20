@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace ASP.NET_CoreTicTacToe.Models
@@ -7,6 +9,10 @@ namespace ASP.NET_CoreTicTacToe.Models
     {
         private List<Cell> squares = new List<Cell>();
         public IReadOnlyList<Cell> Squares => squares;
+
+        [Key]
+        public Guid ID { get; set; }
+
 
         public Board()
         {
