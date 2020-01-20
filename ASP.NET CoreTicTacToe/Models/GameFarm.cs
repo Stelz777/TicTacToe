@@ -80,6 +80,7 @@ namespace ASP.NET_CoreTicTacToe.Models
                     .ThenInclude(history => history.Turns)
                     .Include(game => game.Board)
                     .FirstOrDefault(game => game.ID == id.Value);
+                gameInDatabase.Board.SetSquares(gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1).Squares);
             }
             if (!id.HasValue || gameInDatabase == null)
             {

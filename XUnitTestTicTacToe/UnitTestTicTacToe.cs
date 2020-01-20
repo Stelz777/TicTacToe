@@ -1,6 +1,7 @@
 using ASP.NET_CoreTicTacToe.Controllers;
 using ASP.NET_CoreTicTacToe.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,7 +112,9 @@ namespace XUnitTestTicTacToe
         [Fact]
         public void GetGameFact()
         {
-            var farmController = new FarmController(GameFarm.Current);
+            var options = new DbContextOptions<TicTacToeContext>();
+            var database = new TicTacToeContext(options);
+            var farmController = new FarmController(GameFarm.Current, database);
             OkObjectResult result = farmController.GetGame(0) as OkObjectResult;
             var history = new History();
             var expectedResult = Ok(new
@@ -130,7 +133,9 @@ namespace XUnitTestTicTacToe
         {
             var loggerFactory = new LoggerFactory();
             var logger = new Logger<GameController>(loggerFactory);
-            var gameController = new GameController(BotFarm.Current, GameFarm.Current, logger);
+            var options = new DbContextOptions<TicTacToeContext>();
+            var database = new TicTacToeContext(options);
+            var gameController = new GameController(BotFarm.Current, GameFarm.Current, database, logger);
             var result = gameController.MakeTurn(0, new Turn());
             Assert.True(result);
         }

@@ -25,7 +25,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            (_, var game) = gameFarm.GetGame(id, database);
+            var (_, game) = gameFarm.GetGame(id, database);
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
             var turn = bot.MakeAutoMove();
