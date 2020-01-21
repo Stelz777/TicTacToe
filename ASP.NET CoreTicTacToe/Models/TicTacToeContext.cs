@@ -8,11 +8,8 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class TicTacToeContext : DbContext
     {
-        public DbSet<Game> Games { get; set; }
-        /*public DbSet<History> Histories { get; set; }
-        public DbSet<Board> Boards { get; set; }
-        public DbSet<Turn> Turns { get; set; }*/
-
+        public DbSet<GameDataTransferObject> Games { get; set; }
+        
         public TicTacToeContext(DbContextOptions<TicTacToeContext> options) : base(options)
         {
             Database.EnsureCreated();

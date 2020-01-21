@@ -73,14 +73,16 @@ namespace ASP.NET_CoreTicTacToe.Models
         public (int, Game) GetGame(int? id, TicTacToeContext database)
         {
             Game gameInDatabase = null;
+            var autoMapperConfiguration = new AutoMapperConfiguration<Game, GameDataTransferObject>();
             if (id.HasValue)
             {
-                gameInDatabase = database.Games
+                
+                gameInDatabase = autoMapperConfiguration.GetOrigin(database.Games
                     .Include(game => game.History)
                     .ThenInclude(history => history.Turns)
                     .Include(game => game.Board)
-                    .FirstOrDefault(game => game.ID == id.Value);
-                gameInDatabase.Board.SetSquares(gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1).Squares);
+                    .FirstOrDefault(game => game.ID == id.Value));
+                //gameInDatabase.Board.SetSquares(gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1).Squares);
             }
             if (!id.HasValue || gameInDatabase == null)
             {
@@ -96,7 +98,7 @@ namespace ASP.NET_CoreTicTacToe.Models
                 {
                     games.Add(newId, newGame);
                 }
-                database.Games.Add(newGame);
+                database.Games.Add(autoMapperConfiguration.GetDTO(newGame));
                 return (newId, newGame);
             }
             else

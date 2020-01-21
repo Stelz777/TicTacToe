@@ -11,10 +11,11 @@ namespace ASP.NET_CoreTicTacToe.Models
         {
             if (!context.Games.Any())
             {
+                var autoMapperConfiguration = new AutoMapperConfiguration<Game, GameDataTransferObject>();
                 var game = new Game();
                 game.InitHistory();
                 game.InitBoard();
-                context.Games.Add(game);
+                context.Games.Add(autoMapperConfiguration.GetDTO(game));
                 context.SaveChanges();
             }
         }

@@ -7,8 +7,8 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Board
     {
-        private List<Cell> squares = new List<Cell>();
-        public IReadOnlyList<Cell> Squares => squares;
+        private List<Square> squares = new List<Square>();
+        public IReadOnlyList<Square> Squares => squares;
 
         [Key]
         public Guid ID { get; set; }
@@ -16,17 +16,18 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public Board()
         {
-            squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
+            squares.AddRange(Enumerable.Repeat(new Square(), 9));
         }
 
         public void SetSquare(int cellNumber, Cell square)
         {
-            squares[cellNumber] = square;
+            squares[cellNumber].Cell = square;
         }
 
-        public void SetSquares(IReadOnlyList<Cell> squares)
+        public void SetSquares(List<Square> squares)
         {
-            this.squares = new List<Cell>(squares);
+            this.squares = squares;
+            
         }
 
         public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);
@@ -35,7 +36,7 @@ namespace ASP.NET_CoreTicTacToe.Models
         {
             for (var i = 0; i < squares.Count; i++)
             {
-                if (squares[i] == Cell.Empty)
+                if (squares[i].Cell == Cell.Empty)
                 {
                     yield return i;
                 }

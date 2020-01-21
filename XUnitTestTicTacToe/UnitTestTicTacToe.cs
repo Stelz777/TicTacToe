@@ -13,29 +13,6 @@ namespace XUnitTestTicTacToe
     public class UnitTestBoard
     {
         [Fact]
-        public void SetSquareFact()
-        {
-            var board = new Board();
-            board.SetSquare(0, Cell.Cross);
-            var expectedResult = new List<Cell>();
-            expectedResult.AddRange(Enumerable.Repeat(Cell.Empty, 9));
-            expectedResult[0] = Cell.Cross;
-            Assert.Equal(expectedResult, board.Squares);
-        }
-
-        [Fact]
-        public void SetSquaresFact()
-        {
-            var board = new Board();
-            var squares = new List<Cell>();
-            squares.Add(Cell.Cross);
-            board.SetSquares(squares);
-            var expectedResult = new List<Cell>();
-            expectedResult.Add(Cell.Cross);
-            Assert.Equal(expectedResult, board.Squares);
-        }
-
-        [Fact]
         public void GetEmptySquareIndexesFact()
         {
             var board = new Board();
@@ -73,14 +50,7 @@ namespace XUnitTestTicTacToe
 
     public class UnitTestTicTacToeRulesHelper
     {
-        [Fact]
-        public void HasWinnerFact()
-        {
-            var squares = new List<Cell>();
-            squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
-            bool result = TicTacToeRulesHelper.HasWinner(squares);
-            Assert.False(result);
-        }
+       
     }
 
     public class UnitTestBotFarm
@@ -182,7 +152,7 @@ namespace XUnitTestTicTacToe
 
             foreach (var square in board.Squares)
             {
-                if (square == Cell.Empty)
+                if (square.Cell == Cell.Empty)
                 {
                     return false;
                 }
