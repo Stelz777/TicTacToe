@@ -44,7 +44,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             {
                 if (!Board.HasWinner)
                 {
-                    if (Board.Squares[turn.CellNumber].Cell == Cell.Empty)
+                    if (Board.Squares[turn.CellNumber] == Cell.Empty)
                     {
                         Board newBoard = new Board();
                         newBoard.SetSquares(Board.Squares);

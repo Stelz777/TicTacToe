@@ -14,7 +14,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             Squares = new List<Cell>();
             foreach (var square in source.Squares)
             {
-                Squares.Add(square.Cell);
+                Squares.Add(square);
             }
         }
     }

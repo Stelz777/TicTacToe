@@ -7,38 +7,35 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class Board
     {
-        private List<Square> squares = new List<Square>();
+        private List<Cell> squares = new List<Cell>();
 
         [Key]
         public Guid ID { get; set; }
-        public IReadOnlyList<Square> Squares => squares;
+        public IReadOnlyList<Cell> Squares => squares;
         public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);
 
         public Board()
         {
-            squares.AddRange(Enumerable.Range(1, 9).Select(item => new Square()).ToList());
+            squares.AddRange(Enumerable.Repeat(Cell.Empty, 9));
         }
 
         public void SetSquare(int cellNumber, Cell cell)
         {
-            squares[cellNumber].Cell = cell;
+            squares[cellNumber] = cell;
         }
 
-        public void SetSquares(List<Square> squares)
+        public void SetSquares(IReadOnlyList<Cell> squares)
         {
             this.squares = squares;
         }
 
-        public void SetSquares(IReadOnlyList<Square> squares)
-        {
-            this.squares = (List<Square>) squares;
-        }
+        
 
         public IEnumerable<int> GetEmptySquareIndexes()
         {
             for (var i = 0; i < squares.Count; i++)
             {
-                if (squares[i].Cell == Cell.Empty)
+                if (squares[i] == Cell.Empty)
                 {
                     yield return i;
                 }
