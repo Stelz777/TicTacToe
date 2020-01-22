@@ -1,4 +1,5 @@
 using ASP.NET_CoreTicTacToe.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -27,7 +28,7 @@ namespace ASP.NET_CoreTicTacToe
             services.AddDbContext<TicTacToeContext>(options => options.UseSqlServer(connection));
             services.AddCors();
             services.AddEntityFrameworkSqlServer();
-                
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

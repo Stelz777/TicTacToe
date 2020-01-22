@@ -22,6 +22,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
+        public Turn LastTurn =>
+             turns.Count > 0 ? turns[turns.Count - 1] : null;
+
         public void AddInvalidTurn()
         {
             turns.Add(GetInvalidTurn());
@@ -50,10 +53,6 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
             return boards;
         }
-
-        public Turn LastTurn =>
-             turns.Count > 0 ? turns[turns.Count - 1] : null;
-       
 
         public Turn GetInvalidTurn()
         {

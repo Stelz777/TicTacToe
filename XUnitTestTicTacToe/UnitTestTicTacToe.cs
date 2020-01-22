@@ -1,7 +1,11 @@
 using ASP.NET_CoreTicTacToe.Controllers;
 using ASP.NET_CoreTicTacToe.Models;
+using AutoMapper;
+using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,33 +86,29 @@ namespace XUnitTestTicTacToe
         [Fact]
         public void GetGameFact()
         {
+            var gameFarm = new GameFarm();
             var options = new DbContextOptions<TicTacToeContext>();
             var database = new TicTacToeContext(options);
-            var farmController = new FarmController(GameFarm.Current, database);
-            OkObjectResult result = farmController.GetGame(0) as OkObjectResult;
-            var history = new History();
+            
+            
+            
+            var farmController = new FarmController(gameFarm, database, AutomapperSingleton.Mapper);
+            int? id = 13;
+            var boards = new List<BoardForClient>();
             var expectedResult = Ok(new
             {
-                id = 0,
-                history
+                id = 13,
+                boards
             });
-            Assert.Equal(expectedResult.Value.ToString(), result.Value.ToString());
+            var result = farmController.GetGame(id);
         }
+
+
     }
 
     public class UnitTestGameController
     {
-        [Fact]
-        public void MakeTurnFact()
-        {
-            var loggerFactory = new LoggerFactory();
-            var logger = new Logger<GameController>(loggerFactory);
-            var options = new DbContextOptions<TicTacToeContext>();
-            var database = new TicTacToeContext(options);
-            var gameController = new GameController(BotFarm.Current, GameFarm.Current, database, logger);
-            var result = gameController.MakeTurn(0, new Turn());
-            Assert.True(result);
-        }
+        
     }
 
     public class CustomUnitTests
@@ -117,6 +117,8 @@ namespace XUnitTestTicTacToe
         public void PlayBotVersusBot()
         {
             var game = new Game();
+            game.InitHistory();
+            game.InitBoard();
             var ticBot = new SimpleBot(game, Side.Tic);
             var tacBot = new SimpleBot(game, Side.Tac);
             while (!BoardIsFull(game.Board) && !TicTacToeRulesHelper.HasWinner(game.Board.Squares))
@@ -130,6 +132,8 @@ namespace XUnitTestTicTacToe
         public void CheckIfTicBotAddsCrosses()
         {
             var game = new Game();
+            game.InitHistory();
+            game.InitBoard();
             var ticBot = new SimpleBot(game, Side.Tic);
             ticBot.MakeAutoMove();
             Assert.Equal(Side.Tic, game.History.LastTurn.WhichTurn);
@@ -139,6 +143,8 @@ namespace XUnitTestTicTacToe
         public void CheckIfTacBotAddsNoughts()
         {
             var game = new Game();
+            game.InitBoard();
+            game.InitHistory();
             var ticBot = new SimpleBot(game, Side.Tic);
             var tacBot = new SimpleBot(game, Side.Tac);
             ticBot.MakeAutoMove();

@@ -8,7 +8,7 @@ namespace ASP.NET_CoreTicTacToe.Models
     public class GameDataTransferObject
     {
         public int ID { get; set; }
-        public HistoryDataTransferObject History { get; set; }
-        public BoardDataTransferObject Board { get; set; }
+        public History History { get; set; }
+        public Board Board { get; set; }
     }
 }

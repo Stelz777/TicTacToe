@@ -5,12 +5,10 @@ namespace ASP.NET_CoreTicTacToe.Models
     public class BotFarm
     {
         private List<IBot> botPool = new List<IBot>();
+        private static readonly BotFarm instance = new BotFarm();
 
         public IReadOnlyList<IBot> BotGroup => botPool;
-
         public IBot Bot { get; }
-
-        private static readonly BotFarm instance = new BotFarm();
         public static BotFarm Current => instance;
 
         public static SimpleBot CreateSimpleBot(Game game)

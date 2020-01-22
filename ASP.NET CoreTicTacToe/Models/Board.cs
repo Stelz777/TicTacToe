@@ -8,29 +8,31 @@ namespace ASP.NET_CoreTicTacToe.Models
     public class Board
     {
         private List<Square> squares = new List<Square>();
-        public IReadOnlyList<Square> Squares => squares;
 
         [Key]
         public Guid ID { get; set; }
-
+        public IReadOnlyList<Square> Squares => squares;
+        public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);
 
         public Board()
         {
-            squares.AddRange(Enumerable.Repeat(new Square(), 9));
+            squares.AddRange(Enumerable.Range(1, 9).Select(item => new Square()).ToList());
         }
 
-        public void SetSquare(int cellNumber, Cell square)
+        public void SetSquare(int cellNumber, Cell cell)
         {
-            squares[cellNumber].Cell = square;
+            squares[cellNumber].Cell = cell;
         }
 
         public void SetSquares(List<Square> squares)
         {
             this.squares = squares;
-            
         }
 
-        public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);
+        public void SetSquares(IReadOnlyList<Square> squares)
+        {
+            this.squares = (List<Square>) squares;
+        }
 
         public IEnumerable<int> GetEmptySquareIndexes()
         {

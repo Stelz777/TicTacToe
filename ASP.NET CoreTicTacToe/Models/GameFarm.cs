@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,15 +7,28 @@ namespace ASP.NET_CoreTicTacToe.Models
 {
     public class GameFarm
     {
-        private static readonly GameFarm instance = new GameFarm();
-
-        public static GameFarm Current => instance;
-
-       
+      
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 
         public Dictionary<int, Game> Games => games;
 
+        private DatabaseWorker databaseWorker;
+
+        public (int, Game) FindGameLocally(int? id)
+        {
+            if (!id.HasValue || !games.TryGetValue(id.Value, out Game foundGame))
+            {
+                var newGame = new Game();
+                newGame.InitHistory();
+                newGame.InitBoard();
+                int newId = GetNewIdLocally(id);
+
+                games.Add(newId, newGame);
+                return (newId, newGame);
+            }
+
+            return (id.Value, foundGame);
+        }
 
         int GetNewIdLocally(int? id)
         {
@@ -35,61 +49,26 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }
 
-        public (int, Game) FindGameLocally(int? id) 
+        public (int, Game) GetGame(int? id, DatabaseWorker databaseWorker)
         {
-            if (!id.HasValue || !games.TryGetValue(id.Value, out Game foundGame)) 
-            {
-                var newGame = new Game();
-                newGame.InitHistory();
-                newGame.InitBoard();
-                int newId = GetNewIdLocally(id);
-                
-                games.Add(newId, newGame);
-                return (newId, newGame);
-            }
-            
-            return (id.Value, foundGame);
-        }
-
-        int GetNewId(int? id, TicTacToeContext database)
-        {
-            if (id == null)
-            {
-                if (database.Games.Count() > 0)
-                {
-                    return database.Games.Max(entry => entry.ID) + 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return id.Value;
-            }
-        }
-
-        public (int, Game) GetGame(int? id, TicTacToeContext database)
-        {
+            this.databaseWorker = databaseWorker;
             Game gameInDatabase = null;
-            var autoMapperConfiguration = new AutoMapperConfiguration<Game, GameDataTransferObject>();
             if (id.HasValue)
             {
-                
-                gameInDatabase = autoMapperConfiguration.GetOrigin(database.Games
-                    .Include(game => game.History)
-                    .ThenInclude(history => history.Turns)
-                    .Include(game => game.Board)
-                    .FirstOrDefault(game => game.ID == id.Value));
-                //gameInDatabase.Board.SetSquares(gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1).Squares);
+
+                gameInDatabase = databaseWorker.GetGameFromDatabase(id);
+                if (gameInDatabase != null)
+                {
+                    Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
+                    gameInDatabase.Board.SetSquares(restoredBoard.Squares);
+                }
             }
             if (!id.HasValue || gameInDatabase == null)
             {
                 var newGame = new Game();
                 newGame.InitHistory();
                 newGame.InitBoard();
-                int newId = GetNewId(id, database);
+                int newId = GetNewId(id);
                 if (games.ContainsKey(newId))
                 {
                     games[newId] = newGame;
@@ -98,12 +77,24 @@ namespace ASP.NET_CoreTicTacToe.Models
                 {
                     games.Add(newId, newGame);
                 }
-                database.Games.Add(autoMapperConfiguration.GetDTO(newGame));
+                databaseWorker.AddGameToDatabase(newGame);
                 return (newId, newGame);
             }
             else
             {
                 return (id.Value, gameInDatabase);
+            }
+        }
+
+        int GetNewId(int? id)
+        {
+            if (id == null)
+            {
+                return databaseWorker.GetNewId();
+            }
+            else
+            {
+                return id.Value;
             }
         }
     }

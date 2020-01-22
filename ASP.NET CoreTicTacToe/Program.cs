@@ -18,7 +18,6 @@ namespace ASP.NET_CoreTicTacToe
                 try
                 {
                     var context = services.GetRequiredService<TicTacToeContext>();
-                    SampleData.Initialize(context);
                 }
                 catch (Exception exception)
                 {

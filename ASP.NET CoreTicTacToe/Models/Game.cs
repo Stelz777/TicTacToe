@@ -47,7 +47,7 @@ namespace ASP.NET_CoreTicTacToe.Models
                     if (Board.Squares[turn.CellNumber].Cell == Cell.Empty)
                     {
                         Board newBoard = new Board();
-                        //newBoard.SetSquares(Board.Squares);
+                        newBoard.SetSquares(Board.Squares);
                         newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
                         History.Turns.Add(turn);
                         Board = newBoard;

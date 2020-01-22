@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ASP.NET_CoreTicTacToe.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_CoreTicTacToe.Controllers
@@ -10,19 +11,29 @@ namespace ASP.NET_CoreTicTacToe.Controllers
     {
         private GameFarm farm;
         private TicTacToeContext database;
+        private IMapper mapper;
 
-        public FarmController(GameFarm farm, TicTacToeContext database)
+        public FarmController(GameFarm farm, TicTacToeContext database, IMapper mapper)
         {
             this.farm = farm;
             this.database = database;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var (gameId, game) = farm.GetGame(id, database);
+            var databaseWorker = new DatabaseWorker(database, mapper);
+            var (gameId, game) = farm.GetGame(id, databaseWorker);
             var history = game.History;
-            List<Board> boards = history.GetBoardsForEachTurn();
+            List<Board> serverBoards = history.GetBoardsForEachTurn();
+            var boards = new List<BoardForClient>();
+            foreach (var board in serverBoards)
+            {
+                var boardForClient = new BoardForClient();
+                boardForClient.FillSquaresFromSource(board);
+                boards.Add(boardForClient);
+            }
             database.SaveChanges();
             return Ok(new 
             {
