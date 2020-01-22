@@ -26,14 +26,8 @@ namespace ASP.NET_CoreTicTacToe.Controllers
             var databaseWorker = new DatabaseWorker(database, mapper);
             var (gameId, game) = farm.GetGame(id, databaseWorker);
             var history = game.History;
-            List<Board> serverBoards = history.GetBoardsForEachTurn();
-            var boards = new List<BoardForClient>();
-            foreach (var board in serverBoards)
-            {
-                var boardForClient = new BoardForClient();
-                boardForClient.FillSquaresFromSource(board);
-                boards.Add(boardForClient);
-            }
+            List<Board> boards = history.GetBoardsForEachTurn();
+            
             database.SaveChanges();
             return Ok(new 
             {

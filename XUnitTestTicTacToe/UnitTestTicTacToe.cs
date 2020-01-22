@@ -158,7 +158,7 @@ namespace XUnitTestTicTacToe
 
             foreach (var square in board.Squares)
             {
-                if (square.Cell == Cell.Empty)
+                if (square == Cell.Empty)
                 {
                     return false;
                 }

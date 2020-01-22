@@ -26,7 +26,7 @@ namespace ASP.NET_CoreTicTacToe.Models
 
         public void SetSquares(IReadOnlyList<Cell> squares)
         {
-            this.squares = squares;
+            this.squares = new List<Cell>(squares);
         }
 
         
