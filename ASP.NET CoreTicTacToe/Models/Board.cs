@@ -29,7 +29,14 @@ namespace ASP.NET_CoreTicTacToe.Models
             this.squares = new List<Cell>(squares);
         }
 
+<<<<<<< Updated upstream
         
+=======
+        public void SetSquares(IReadOnlyList<Square> squares)
+        {
+            this.squares = new List<Square>(squares);
+        }
+>>>>>>> Stashed changes
 
         public IEnumerable<int> GetEmptySquareIndexes()
         {
