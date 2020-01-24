@@ -32,6 +32,22 @@ namespace ASP.NETCoreTicTacToe.Models
             Board = History.RestoreBoardByTurnNumber(0);
         }
 
+        public bool CanContinue()
+        {
+            if (Board.HasWinner)
+            {
+                return false;
+            }
+            foreach (var cell in Board.Squares)
+            {
+                if (cell == Cell.Empty)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool MakeMove(Turn turn, GameAPI gameAPI)
         {
             if (turn == null)
