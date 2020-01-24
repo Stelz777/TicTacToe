@@ -14,8 +14,7 @@ namespace ASP.NETCoreTicTacToe.Models
         public IReadOnlyList<Cell> Squares => squares;
         public bool HasWinner => TicTacToeRulesHelper.HasWinner(Squares);
 
-        [Key]
-        public Guid ID { get; set; }
+        
 
         public Board()
         {
