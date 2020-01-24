@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
 {
-    public class GameProfile : Profile
+    public class TurnProfile : Profile
     {
-        public GameProfile()
+        public TurnProfile()
         {
-            CreateMap<Game, GameDataTransferObject>()
+            CreateMap<Turn, TurnDataTransferObject>()
                 .ReverseMap();
-            
         }
     }
 }

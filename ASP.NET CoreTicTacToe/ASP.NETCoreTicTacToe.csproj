@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,10 +6,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200120134245_Initial.cs" />
+    <Compile Remove="Migrations\20200120134245_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200123111335_Migration2.cs" />
+    <Compile Remove="Migrations\20200123111335_Migration2.Designer.cs" />
+    <Compile Remove="Migrations\20200123112750_TicTacToeInitial.cs" />
+    <Compile Remove="Migrations\20200123112750_TicTacToeInitial.Designer.cs" />
+    <Compile Remove="Migrations\20200123114700_TicTacToeInitialTry2.cs" />
+    <Compile Remove="Migrations\20200123114700_TicTacToeInitialTry2.Designer.cs" />
+    <Compile Remove="Migrations\20200123120708_TicTacToeInitialTry3.cs" />
+    <Compile Remove="Migrations\20200123120708_TicTacToeInitialTry3.Designer.cs" />
+    <Compile Remove="Migrations\20200123121504_TicTacToeInitialTry4.cs" />
+    <Compile Remove="Migrations\20200123121504_TicTacToeInitialTry4.Designer.cs" />
+    <Compile Remove="Migrations\20200123133820_TicTacToeInitialTry5.cs" />
+    <Compile Remove="Migrations\20200123133820_TicTacToeInitialTry5.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />

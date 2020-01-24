@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class Game
     {
@@ -14,8 +14,6 @@ namespace ASP.NET_CoreTicTacToe.Models
         public int ID { get; set; }
 
         private RealPlayer player;
-
-        private BotFarm botFarm = new BotFarm();
 
         public Game()
         {
@@ -33,34 +31,46 @@ namespace ASP.NET_CoreTicTacToe.Models
             Board = History.RestoreBoardByTurnNumber(0);
         }
 
-        public bool MakeMove(Turn turn)
+        public bool MakeMove(Turn turn, DatabaseWorker databaseWorker)
         {
-            Turn lastTurn = History.LastTurn;
-            if (lastTurn.WhichTurn == turn.WhichTurn)
+            if (turn == null)
             {
                 return false;
             }
             else
             {
-                if (!Board.HasWinner)
+                Turn lastTurn = History.LastTurn;
+
+                if (lastTurn.WhichTurn == turn.WhichTurn)
                 {
-                    if (Board.Squares[turn.CellNumber] == Cell.Empty)
+                    return false;
+                }
+                else
+                {
+                    if (!Board.HasWinner)
                     {
-                        Board newBoard = new Board();
-                        newBoard.SetSquares(Board.Squares);
-                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
-                        History.Turns.Add(turn);
-                        Board = newBoard;
-                        return true;
+                        if (Board.Squares[turn.CellNumber] == Cell.Empty)
+                        {
+                            Board newBoard = new Board();
+                            newBoard.SetSquares(Board.Squares);
+                            newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
+                            History.Turns.Add(turn);
+                            if (databaseWorker != null)
+                            {
+                                databaseWorker.AddTurnToDatabase(turn, History);
+                            }
+                            Board = newBoard;
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
                         return false;
                     }
-                }
-                else
-                {
-                    return false;
                 }
             }
         }

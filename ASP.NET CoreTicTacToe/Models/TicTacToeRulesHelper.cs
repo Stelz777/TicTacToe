@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
-    public class TicTacToeRulesHelper
+    public static class TicTacToeRulesHelper
     {
         public static bool HasWinner(IReadOnlyList<Cell> squares)
         {
-            if (CheckColumnsWinCondition(squares) || CheckRowsWinCondition(squares) || CheckDiagonalWinConditions(squares))
+            if (squares == null)
             {
-                return true;
+                return false;
             }
-            return false;
+            else
+            {
+                if (CheckColumnsWinCondition(squares) || CheckRowsWinCondition(squares) || CheckDiagonalWinConditions(squares))
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
         private static bool CheckColumnsWinCondition(IReadOnlyList<Cell> squares)

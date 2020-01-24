@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class BotFarm
     {

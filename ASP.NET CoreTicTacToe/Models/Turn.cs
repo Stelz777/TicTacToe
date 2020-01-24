@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class Turn
     {

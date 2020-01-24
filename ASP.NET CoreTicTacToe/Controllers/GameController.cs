@@ -1,10 +1,10 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 
-namespace ASP.NET_CoreTicTacToe.Controllers
+namespace ASP.NETCoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
@@ -32,7 +32,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
             var (_, game) = gameFarm.GetGame(id, databaseWorker);
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
-            var turn = bot.MakeAutoMove();
+            var turn = bot.MakeAutoMove(databaseWorker);
             database.SaveChanges();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
@@ -43,7 +43,7 @@ namespace ASP.NET_CoreTicTacToe.Controllers
         {
             var databaseWorker = new DatabaseWorker(database, mapper);
             (_, var game) = gameFarm.GetGame(id, databaseWorker);
-            bool result = game.MakeMove(turn);
+            bool result = game.MakeMove(turn, databaseWorker);
             database.SaveChanges();
             return result;
         }

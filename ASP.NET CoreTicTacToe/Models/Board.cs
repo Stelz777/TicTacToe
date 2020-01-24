@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class Board
     {
@@ -40,7 +40,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             }
         }   
 
-        public Cell GetCellBySide(Side side)
+        public static Cell GetCellBySide(Side side)
         {
             if (side == Side.Tic)
             {

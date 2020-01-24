@@ -1,13 +1,13 @@
-using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace ASP.NET_CoreTicTacToe
+namespace ASP.NETCoreTicTacToe
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -19,10 +19,13 @@ namespace ASP.NET_CoreTicTacToe
                 {
                     var context = services.GetRequiredService<TicTacToeContext>();
                 }
-                catch (Exception exception)
+                catch (InvalidOperationException exception)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(exception, "An error occured seeding the DB.");
+                    var logger = services.GetRequiredService<ILogger<Startup>>();
+                    string errorMessage = "An error occured seeding the DB.";
+#pragma warning disable CA1303 // Не передавать литералы в качестве локализованных параметров
+                    logger.LogError(exception, errorMessage);
+#pragma warning restore CA1303 // Не передавать литералы в качестве локализованных параметров
                 }
             }
             host.Run();

@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class SimpleBot : IBot
     {
-        public bool isActive;
-        public Side side;
-        public Game game;
+        public bool IsActive { get; set; }
+        public Side Side { get; set; }
+        public Game Game { get; set; }
 
         public SimpleBot(Game game, Side side)
         {
-            this.game = game;
-            this.side = side;
+            Game = game;
+            Side = side;
         }
 
-        public Turn MakeAutoMove()
+        public Turn MakeAutoMove(DatabaseWorker databaseWorker)
         {
             var board = new Board();
-            board.SetSquares(game.Board.Squares);
+            board.SetSquares(Game.Board.Squares);
             var possibleTurns = new List<int>(board.GetEmptySquareIndexes());
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
@@ -30,19 +30,19 @@ namespace ASP.NET_CoreTicTacToe.Models
                     var validTurn = new Turn
                     {
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
-                        WhichTurn = side
+                        WhichTurn = Side
                     };
-                    game.MakeMove(validTurn);
+                    Game.MakeMove(validTurn, databaseWorker);
                     return validTurn;
                 }
                 else
                 {
-                    return game.History.GetInvalidTurn();
+                    return History.GetInvalidTurn();
                 }
             }
             else
             {
-                return game.History.GetInvalidTurn();
+                return History.GetInvalidTurn();
             }
         }
     }

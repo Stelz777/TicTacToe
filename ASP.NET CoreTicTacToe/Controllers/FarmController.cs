@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASP.NET_CoreTicTacToe.Controllers
+namespace ASP.NETCoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]

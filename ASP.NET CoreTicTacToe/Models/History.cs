@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class History
     {
@@ -10,17 +10,7 @@ namespace ASP.NET_CoreTicTacToe.Models
         [System.ComponentModel.DataAnnotations.Key]
         public Guid ID { get; set; }
 
-        public List<Turn> Turns
-        {
-            get
-            {
-                return turns;
-            }
-            set
-            {
-                turns = value;
-            }
-        }
+        public List<Turn> Turns => turns;
 
         public Turn LastTurn =>
              turns.Count > 0 ? turns[turns.Count - 1] : null;
@@ -38,7 +28,7 @@ namespace ASP.NET_CoreTicTacToe.Models
             {
                 if (turns[i].CellNumber >= 0)
                 {
-                    board.SetSquare(turns[i].CellNumber, board.GetCellBySide(turns[i].WhichTurn));
+                    board.SetSquare(turns[i].CellNumber, Board.GetCellBySide(turns[i].WhichTurn));
                 }
             }
             return board;
@@ -47,14 +37,17 @@ namespace ASP.NET_CoreTicTacToe.Models
         public List<Board> GetBoardsForEachTurn()
         {
             var boards = new List<Board>();
-            for (var i = 0; i < Turns.Count; i++)
+            if (turns != null)
             {
-                boards.Add(RestoreBoardByTurnNumber(i));
+                for (var i = 0; i < Turns.Count; i++)
+                {
+                    boards.Add(RestoreBoardByTurnNumber(i));
+                }
             }
             return boards;
         }
 
-        public Turn GetInvalidTurn()
+        public static Turn GetInvalidTurn()
         {
             return new Turn
             {

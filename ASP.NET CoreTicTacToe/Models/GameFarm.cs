@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ASP.NET_CoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class GameFarm
     {
@@ -55,10 +55,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             Game gameInDatabase = null;
             if (id.HasValue)
             {
-
-                gameInDatabase = databaseWorker.GetGameFromDatabase(id);
-                if (gameInDatabase != null)
+                if (databaseWorker != null)
                 {
+                    gameInDatabase = databaseWorker.GetGameFromDatabase(id);
                     Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
                     gameInDatabase.Board.SetSquares(restoredBoard.Squares);
                 }
@@ -77,7 +76,10 @@ namespace ASP.NET_CoreTicTacToe.Models
                 {
                     games.Add(newId, newGame);
                 }
-                databaseWorker.AddGameToDatabase(newGame);
+                if (databaseWorker != null)
+                {
+                    databaseWorker.AddGameToDatabase(newGame);
+                }
                 return (newId, newGame);
             }
             else

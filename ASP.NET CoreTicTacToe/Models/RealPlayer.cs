@@ -1,8 +1,8 @@
-﻿namespace ASP.NET_CoreTicTacToe.Models
+﻿namespace ASP.NETCoreTicTacToe.Models
 {
     public class RealPlayer
     {
-        public bool isActive;
-        public string side;
+        public bool IsActive { get; set; }
+        public string Side { get; set; }
     }
 }

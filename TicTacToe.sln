@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "TicTacToe", "TicTacToe\TicTacToe.njsproj", "{B288278F-4D81-42E9-87C2-1FB3DFB2A8D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NET CoreTicTacToe", "ASP.NET CoreTicTacToe\ASP.NET CoreTicTacToe.csproj", "{3E0333E3-A785-4D64-B787-501BAEB50A6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NETCoreTicTacToe", "ASP.NET CoreTicTacToe\ASP.NETCoreTicTacToe.csproj", "{3E0333E3-A785-4D64-B787-501BAEB50A6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestTicTacToe", "XUnitTestTicTacToe\XUnitTestTicTacToe.csproj", "{FC14F50C-D79B-4AD7-A55F-FD2333A53730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestTicTacToe", "XUnitTestTicTacToe\XUnitTestTicTacToe.csproj", "{FC14F50C-D79B-4AD7-A55F-FD2333A53730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

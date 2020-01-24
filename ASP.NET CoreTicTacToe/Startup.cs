@@ -1,4 +1,4 @@
-using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
-namespace ASP.NET_CoreTicTacToe
+namespace ASP.NETCoreTicTacToe
 {
     public class Startup
     {
@@ -28,7 +29,7 @@ namespace ASP.NET_CoreTicTacToe
             services.AddDbContext<TicTacToeContext>(options => options.UseSqlServer(connection));
             services.AddCors();
             services.AddEntityFrameworkSqlServer();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

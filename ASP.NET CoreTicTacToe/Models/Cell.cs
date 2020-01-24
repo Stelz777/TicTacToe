@@ -1,4 +1,4 @@
-﻿namespace ASP.NET_CoreTicTacToe.Models
+﻿namespace ASP.NETCoreTicTacToe.Models
 {
     public enum Cell
     {
