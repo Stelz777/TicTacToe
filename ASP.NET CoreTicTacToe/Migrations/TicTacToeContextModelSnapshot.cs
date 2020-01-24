@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASP.NETCoreTicTacToe.Migrations
+namespace ASP.NET_CoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
     partial class TicTacToeContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.BoardDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.BoardDataTransferObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.ToTable("Boards");
                 });
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.GameDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.GameDataTransferObject", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.ToTable("Histories");
                 });
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.TurnDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.TurnDataTransferObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,20 +91,20 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.ToTable("Turns");
                 });
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.GameDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.GameDataTransferObject", b =>
                 {
-                    b.HasOne("ASP.NET_CoreTicTacToe.Infrastructure.DTO.BoardDataTransferObject", "Board")
+                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.BoardDataTransferObject", "Board")
                         .WithMany()
                         .HasForeignKey("BoardId");
 
-                    b.HasOne("ASP.NET_CoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", "History")
+                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", "History")
                         .WithMany()
                         .HasForeignKey("HistoryId");
                 });
 
-            modelBuilder.Entity("ASP.NET_CoreTicTacToe.Infrastructure.DTO.TurnDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.TurnDataTransferObject", b =>
                 {
-                    b.HasOne("ASP.NET_CoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", null)
+                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", null)
                         .WithMany("Turns")
                         .HasForeignKey("HistoryDataTransferObjectId");
                 });

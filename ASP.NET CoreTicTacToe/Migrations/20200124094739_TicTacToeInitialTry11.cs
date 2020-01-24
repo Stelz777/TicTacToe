@@ -1,15 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ASP.NETCoreTicTacToe.Migrations
+namespace ASP.NET_CoreTicTacToe.Migrations
 {
-    public partial class TicTacToeInitialTry6 : Migration
+    public partial class TicTacToeInitialTry11 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-#pragma warning disable CA1062 // Проверить аргументы или открытые методы
             migrationBuilder.CreateTable(
-#pragma warning restore CA1062 // Проверить аргументы или открытые методы
                 name: "Boards",
                 columns: table => new
                 {
@@ -97,9 +95,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-#pragma warning disable CA1062 // Проверить аргументы или открытые методы
             migrationBuilder.DropTable(
-#pragma warning restore CA1062 // Проверить аргументы или открытые методы
                 name: "Games");
 
             migrationBuilder.DropTable(

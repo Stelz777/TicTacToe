@@ -20,6 +20,12 @@
     <Compile Remove="Migrations\20200123121504_TicTacToeInitialTry4.Designer.cs" />
     <Compile Remove="Migrations\20200123133820_TicTacToeInitialTry5.cs" />
     <Compile Remove="Migrations\20200123133820_TicTacToeInitialTry5.Designer.cs" />
+    <Compile Remove="Migrations\20200123135534_TicTacToeInitialTry6.cs" />
+    <Compile Remove="Migrations\20200123135534_TicTacToeInitialTry6.Designer.cs" />
+    <Compile Remove="Migrations\20200124093233_TicTacToeInitialTry9.cs" />
+    <Compile Remove="Migrations\20200124093233_TicTacToeInitialTry9.Designer.cs" />
+    <Compile Remove="Migrations\20200124094255_TicTacToeInitialTry10.cs" />
+    <Compile Remove="Migrations\20200124094255_TicTacToeInitialTry10.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
