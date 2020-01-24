@@ -1,7 +1,9 @@
-﻿namespace ASP.NETCoreTicTacToe.Models
+﻿using ASP.NET_CoreTicTacToe.Models;
+
+namespace ASP.NETCoreTicTacToe.Models
 {
     public interface IBot
     {
-        Turn MakeAutoMove(DatabaseWorker databaseWorker);
+        Turn MakeAutoMove(GameAPI gameAPI);
     }
 }

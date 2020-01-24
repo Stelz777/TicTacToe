@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using ASP.NET_CoreTicTacToe.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -31,7 +32,7 @@ namespace ASP.NETCoreTicTacToe.Models
             Board = History.RestoreBoardByTurnNumber(0);
         }
 
-        public bool MakeMove(Turn turn, DatabaseWorker databaseWorker)
+        public bool MakeMove(Turn turn, GameAPI gameAPI)
         {
             if (turn == null)
             {
@@ -55,9 +56,9 @@ namespace ASP.NETCoreTicTacToe.Models
                             newBoard.SetSquares(Board.Squares);
                             newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
                             History.Turns.Add(turn);
-                            if (databaseWorker != null)
+                            if (gameAPI != null)
                             {
-                                databaseWorker.AddTurnToDatabase(turn, History);
+                                gameAPI.AddTurn(turn, History);
                             }
                             Board = newBoard;
                             return true;

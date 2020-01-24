@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ASP.NET_CoreTicTacToe.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public Dictionary<int, Game> Games => games;
 
-        private DatabaseWorker databaseWorker;
+        private GameAPI gameAPI;
 
         public (int, Game) FindGameLocally(int? id)
         {
@@ -49,15 +50,15 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public (int, Game) GetGame(int? id, DatabaseWorker databaseWorker)
+        public (int, Game) GetGame(int? id, GameAPI gameAPI)
         {
-            this.databaseWorker = databaseWorker;
+            this.gameAPI = gameAPI;
             Game gameInDatabase = null;
             if (id.HasValue)
             {
-                if (databaseWorker != null)
+                if (gameAPI != null)
                 {
-                    gameInDatabase = databaseWorker.GetGameFromDatabase(id);
+                    gameInDatabase = gameAPI.GetGame(id);
                     Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
                     gameInDatabase.Board.SetSquares(restoredBoard.Squares);
                 }
@@ -76,9 +77,9 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     games.Add(newId, newGame);
                 }
-                if (databaseWorker != null)
+                if (gameAPI != null)
                 {
-                    databaseWorker.AddGameToDatabase(newGame);
+                    gameAPI.AddGame(newGame);
                 }
                 return (newId, newGame);
             }
@@ -92,7 +93,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (id == null)
             {
-                return databaseWorker.GetNewId();
+                return gameAPI.GetNewId();
             }
             else
             {

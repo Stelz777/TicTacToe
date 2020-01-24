@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,11 +29,11 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            var databaseWorker = new DatabaseWorker(database, mapper);
-            var (_, game) = gameFarm.GetGame(id, databaseWorker);
+            var gameAPI = new GameAPI(database, mapper);
+            var (_, game) = gameFarm.GetGame(id, gameAPI);
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
-            var turn = bot.MakeAutoMove(databaseWorker);
+            var turn = bot.MakeAutoMove(gameAPI);
             database.SaveChanges();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
@@ -41,9 +42,9 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
-            var databaseWorker = new DatabaseWorker(database, mapper);
-            (_, var game) = gameFarm.GetGame(id, databaseWorker);
-            bool result = game.MakeMove(turn, databaseWorker);
+            var gameAPI = new GameAPI(database, mapper);
+            (_, var game) = gameFarm.GetGame(id, gameAPI);
+            bool result = game.MakeMove(turn, gameAPI);
             database.SaveChanges();
             return result;
         }

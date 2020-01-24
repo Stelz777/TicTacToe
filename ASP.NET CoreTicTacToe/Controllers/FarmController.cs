@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ASP.NET_CoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,8 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult GetGame(int? id)
         {
-            var databaseWorker = new DatabaseWorker(database, mapper);
-            var (gameId, game) = farm.GetGame(id, databaseWorker);
+            var gameAPI = new GameAPI(database, mapper);
+            var (gameId, game) = farm.GetGame(id, gameAPI);
             var history = game.History;
             List<Board> boards = history.GetBoardsForEachTurn();
             

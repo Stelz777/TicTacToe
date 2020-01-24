@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASP.NET_CoreTicTacToe.Models;
+using System;
 using System.Collections.Generic;
 
 namespace ASP.NETCoreTicTacToe.Models
@@ -15,7 +16,7 @@ namespace ASP.NETCoreTicTacToe.Models
             Side = side;
         }
 
-        public Turn MakeAutoMove(DatabaseWorker databaseWorker)
+        public Turn MakeAutoMove(GameAPI gameAPI)
         {
             var board = new Board();
             board.SetSquares(Game.Board.Squares);
@@ -32,7 +33,7 @@ namespace ASP.NETCoreTicTacToe.Models
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
                         WhichTurn = Side
                     };
-                    Game.MakeMove(validTurn, databaseWorker);
+                    Game.MakeMove(validTurn, gameAPI);
                     return validTurn;
                 }
                 else
