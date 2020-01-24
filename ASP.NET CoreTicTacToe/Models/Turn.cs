@@ -7,8 +7,5 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         public int CellNumber { get; set; }
         public Side WhichTurn { get; set; } 
-
-        [Key]
-        public Guid ID { get; set; }
     }
 }
