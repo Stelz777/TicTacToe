@@ -26,10 +26,13 @@ namespace ASP.NETCoreTicTacToe.Models
                 .ThenInclude(history => history.Turns)
                 .Include(game => game.Board)
                 .FirstOrDefault(game => game.ID == id.Value));
-            var turns = database.Turns.Where(turn => turn.HistoryId == game.History.ID).ToList();
-            foreach (var turn in turns)
+            if (game != null)
             {
-                game.History.Turns.Add(mapper.Map<Turn>(turn));
+                var turns = database.Turns.Where(turn => turn.HistoryId == game.History.ID).ToList();
+                foreach (var turn in turns)
+                {
+                    game.History.Turns.Add(mapper.Map<Turn>(turn));
+                }
             }
             return game;
         }

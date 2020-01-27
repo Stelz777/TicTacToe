@@ -59,8 +59,11 @@ namespace ASP.NETCoreTicTacToe.Models
                 if (gameAPI != null)
                 {
                     gameInDatabase = gameAPI.GetGame(id);
-                    Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
-                    gameInDatabase.Board.SetSquares(restoredBoard.Squares);
+                    if (gameInDatabase != null)
+                    {
+                        Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
+                        gameInDatabase.Board.SetSquares(restoredBoard.Squares);
+                    }
                 }
             }
             if (!id.HasValue || gameInDatabase == null)
