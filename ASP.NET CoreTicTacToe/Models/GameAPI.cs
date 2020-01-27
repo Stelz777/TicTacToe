@@ -35,5 +35,10 @@ namespace ASP.NET_CoreTicTacToe.Models
         {
             databaseWorker.AddTurnsToDatabase(game, gameId);
         }
+
+        public void UpdateBoard(Game game, int gameId)
+        {
+            databaseWorker.UpdateBoard(game, gameId);
+        }
     }
 }

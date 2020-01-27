@@ -55,7 +55,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return -1;
         }
 
-        public Guid GetHistoryId(int gameId)
+        public DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
         {
             var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
             var configuration = new ConfigurationBuilder()
@@ -64,6 +64,12 @@ namespace ASP.NETCoreTicTacToe.Models
                 .Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
+            return optionsBuilder;
+        }
+
+        public Guid GetHistoryId(int gameId)
+        {
+            var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
                 var query = context.Games
@@ -71,6 +77,19 @@ namespace ASP.NETCoreTicTacToe.Models
                     .Include(game => game.History)
                     .FirstOrDefault<GameDataTransferObject>();
                 return query.History.Id;
+            }
+        }
+
+        public Guid GetBoardId(int gameId)
+        {
+            var optionsBuilder = CreateOptionsBuilder();
+            using (var context = new TicTacToeContext(optionsBuilder.Options))
+            {
+                var query = context.Games
+                    .Where(game => game.ID == gameId)
+                    .Include(game => game.Board)
+                    .FirstOrDefault<GameDataTransferObject>();
+                return query.Board.Id;
             }
         }
 
@@ -85,6 +104,16 @@ namespace ASP.NETCoreTicTacToe.Models
                 
                 database.Turns.Add(turnDataTransferObject);
             }
+            database.SaveChanges();
+        }
+
+        public void UpdateBoard(Game game, int gameId)
+        {
+            var boardId = GetBoardId(gameId);
+            var board = game.Board;
+            var boardDataTransferObject = mapper.Map<BoardDataTransferObject>(board);
+            boardDataTransferObject.Id = boardId;
+            database.Boards.Update(boardDataTransferObject);
             database.SaveChanges();
         }
 
