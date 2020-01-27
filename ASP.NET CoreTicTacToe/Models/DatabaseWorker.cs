@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreTicTacToe.Infrastructure.DTO;
+﻿using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Infrastructure.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,8 @@ namespace ASP.NETCoreTicTacToe.Models
                 .FirstOrDefault(game => game.ID == id.Value));
             if (game != null)
             {
-                var turns = database.Turns.Where(turn => turn.HistoryId == game.History.ID).ToList();
+                var historyId = GetHistoryId(id.Value);
+                var turns = database.Turns.Where(turn => turn.HistoryId == historyId).ToList();
                 foreach (var turn in turns)
                 {
                     game.History.Turns.Add(mapper.Map<Turn>(turn));
