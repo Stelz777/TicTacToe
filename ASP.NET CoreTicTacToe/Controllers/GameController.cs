@@ -30,27 +30,31 @@ namespace ASP.NETCoreTicTacToe.Controllers
         public Turn NextTurn(int? id)
         {
             var gameAPI = new GameAPI(database, mapper);
-            var (_, game) = gameFarm.GetGame(id, gameAPI);
+            var (gameId, game) = gameFarm.GetGame(id, gameAPI);
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
-            var turn = bot.MakeAutoMove(gameAPI);
-            SaveContext();
+            var turn = bot.MakeAutoMove();
+            var gameWithAPI = new GameWithAPI(game, gameAPI);
+            SaveContext(gameWithAPI, gameId);
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
         }
 
-        public void SaveContext()
+        public void SaveContext(GameWithAPI gameWithAPI, int gameId)
         {
-            database.SaveChanges();
+            if (!gameWithAPI.Game.CanContinue())
+            {
+                gameWithAPI.GameAPI.AddTurns(gameWithAPI.Game, gameId);
+            }
+            
         }
 
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
             var gameAPI = new GameAPI(database, mapper);
-            (_, var game) = gameFarm.GetGame(id, gameAPI);
-            bool result = game.MakeMove(turn, gameAPI);
-            SaveContext();
+            var (gameId, game) = gameFarm.GetGame(id, gameAPI);
+            bool result = game.MakeMove(turn);
             return result;
         }
     }

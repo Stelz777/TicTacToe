@@ -56,6 +56,10 @@ namespace ASP.NETCoreTicTacToe.Models
             Game gameInDatabase = null;
             if (id.HasValue)
             {
+                if (games.ContainsKey(id.Value))
+                {
+                    return (id.Value, games[id.Value]);
+                }
                 if (gameAPI != null)
                 {
                     gameInDatabase = gameAPI.GetGame(id);

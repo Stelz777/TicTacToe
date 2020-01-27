@@ -31,9 +31,9 @@ namespace ASP.NET_CoreTicTacToe.Models
             return databaseWorker.AddGameToDatabase(game);
         }
 
-        public void AddTurn(Turn turn, History history)
+        public void AddTurns(Game game, int gameId)
         {
-            databaseWorker.AddTurnToDatabase(turn, history);
+            databaseWorker.AddTurnsToDatabase(game, gameId);
         }
     }
 }

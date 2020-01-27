@@ -18,5 +18,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             Database.EnsureCreated();
         }
+
+        
     }
 }

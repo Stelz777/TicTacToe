@@ -4,6 +4,6 @@ namespace ASP.NETCoreTicTacToe.Models
 {
     public interface IBot
     {
-        Turn MakeAutoMove(GameAPI gameAPI);
+        Turn MakeAutoMove();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,6 +43,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (newGame != null)
             {
+
                 var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
                 database.Games.Add(gameDataTransferObject);
                 gameDataTransferObject.History.Turns[0].HistoryId = gameDataTransferObject.History.Id;
@@ -50,12 +53,43 @@ namespace ASP.NETCoreTicTacToe.Models
             return -1;
         }
 
-        public void AddTurnToDatabase(Turn turn, History history)
+        public Guid GetHistoryId(int gameId)
         {
-            var turnDataTransferObject = mapper.Map<TurnDataTransferObject>(turn);
-            var historyDataTransferObject = mapper.Map<HistoryDataTransferObject>(history);
-            turnDataTransferObject.HistoryId = historyDataTransferObject.Id;
-            database.Turns.Add(turnDataTransferObject);
+            var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(connectionString);
+            using (var context = new TicTacToeContext(optionsBuilder.Options))
+            {
+                var query = context.Games
+                    .Where(game => game.ID == gameId)
+                    .Include(game => game.History)
+                    .FirstOrDefault<GameDataTransferObject>();
+                return query.History.Id;
+            }
+        }
+
+        public void AddTurnsToDatabase(Game game, int gameId)
+        {
+            //var historyDataTransferObject = mapper.Map<HistoryDataTransferObject>(game.History);
+            var historyId = GetHistoryId(gameId);
+            for (int i = 1; i < game.History.Turns.Count; i++)
+            {
+                var turn = game.History.Turns[i];
+                var turnDataTransferObject = mapper.Map<TurnDataTransferObject>(turn);
+                turnDataTransferObject.HistoryId = historyId;
+                
+                database.Turns.Add(turnDataTransferObject);
+            }
+            database.SaveChanges();
+
+
+            
+            
+            
         }
 
         public int GetNewId()

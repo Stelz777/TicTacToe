@@ -48,7 +48,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return false;
         }
 
-        public bool MakeMove(Turn turn, GameAPI gameAPI)
+        public bool MakeMove(Turn turn)
         {
             if (turn == null)
             {
@@ -72,10 +72,10 @@ namespace ASP.NETCoreTicTacToe.Models
                             newBoard.SetSquares(Board.Squares);
                             newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
                             History.Turns.Add(turn);
-                            if (gameAPI != null)
+                            /*if (gameAPI != null)
                             {
                                 gameAPI.AddTurn(turn, History);
-                            }
+                            }*/
                             Board = newBoard;
                             return true;
                         }

@@ -16,7 +16,7 @@ namespace ASP.NETCoreTicTacToe.Models
             Side = side;
         }
 
-        public Turn MakeAutoMove(GameAPI gameAPI)
+        public Turn MakeAutoMove()
         {
             var board = new Board();
             board.SetSquares(Game.Board.Squares);
@@ -33,7 +33,7 @@ namespace ASP.NETCoreTicTacToe.Models
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
                         WhichTurn = Side
                     };
-                    Game.MakeMove(validTurn, gameAPI);
+                    Game.MakeMove(validTurn);
                     return validTurn;
                 }
                 else
