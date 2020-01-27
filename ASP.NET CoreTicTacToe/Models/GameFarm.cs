@@ -1,4 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
-using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -40,15 +39,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return turn;
         }
 
-        public void SaveContext(GameWithAPI gameWithAPI, int gameId)
-        {
-            if (!gameWithAPI.Game.CanContinue())
-            {
-                gameWithAPI.GameAPI.UpdateGame(gameWithAPI.Game, gameId);
-            }
-            
-        }
-
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
@@ -56,6 +46,18 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (_, game) = gameFarm.GetGame(id, gameAPI);
             bool result = game.MakeMove(turn);
             return result;
+        }
+
+
+        public static void SaveContext(GameWithAPI gameWithAPI, int gameId)
+        {
+            if (gameWithAPI != null)
+            {
+                if (!gameWithAPI.Game.CanContinue())
+                {
+                    gameWithAPI.GameAPI.UpdateGame(gameWithAPI.Game, gameId);
+                }
+            }
         }
     }
 }

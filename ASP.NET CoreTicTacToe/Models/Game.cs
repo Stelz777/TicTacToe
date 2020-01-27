@@ -1,4 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.ComponentModel.DataAnnotations;

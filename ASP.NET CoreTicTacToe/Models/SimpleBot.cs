@@ -1,4 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using System;
 using System.Collections.Generic;
 

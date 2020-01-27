@@ -1,4 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 
 namespace ASP.NETCoreTicTacToe.Models
 {

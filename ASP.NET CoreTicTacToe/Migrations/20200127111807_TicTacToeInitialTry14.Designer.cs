@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASP.NET_CoreTicTacToe.Migrations
+namespace ASP.NETCoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
     [Migration("20200127111807_TicTacToeInitialTry14")]

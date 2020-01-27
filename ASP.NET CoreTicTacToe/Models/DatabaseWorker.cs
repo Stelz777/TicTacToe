@@ -1,4 +1,4 @@
-﻿using ASP.NET_CoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Infrastructure.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -60,19 +60,28 @@ namespace ASP.NETCoreTicTacToe.Models
             return -1;
         }
 
-        public DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
+        public void UpdateGameInDatabase(Game game, int gameId)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
-            return optionsBuilder;
+            var gameDTO = mapper.Map<GameDataTransferObject>(game);   
+            gameDTO.ID = gameId;
+            database.Games.Update(gameDTO);
+            database.SaveChanges();
         }
 
-        public Guid GetHistoryId(int gameId)
+        public int GetNewId()
+        {
+            if (database.Games.Any())
+            {
+                return database.Games.Max(entry => entry.ID) + 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+
+        public static Guid GetHistoryId(int gameId)
         {
             var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
@@ -85,39 +94,16 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public Guid GetBoardId(int gameId)
+        public static DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
         {
-            var optionsBuilder = CreateOptionsBuilder();
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                var query = context.Games
-                    .Where(game => game.ID == gameId)
-                    .Include(game => game.Board)
-                    .FirstOrDefault<GameDataTransferObject>();
-                return query.Board.Id;
-            }
-        }
-
-        public void UpdateGameInDatabase(Game game, int gameId)
-        {
-            var gameDTO = mapper.Map<GameDataTransferObject>(game);   
-            gameDTO.ID = gameId;
-            database.Games.Update(gameDTO);
-            database.SaveChanges();
-        }
-
-        
-
-        public int GetNewId()
-        {
-            if (database.Games.Any())
-            {
-                return database.Games.Max(entry => entry.ID) + 1;
-            }
-            else
-            {
-                return 0;
-            }
+            var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(connectionString);
+            return optionsBuilder;
         }
     }
 }
