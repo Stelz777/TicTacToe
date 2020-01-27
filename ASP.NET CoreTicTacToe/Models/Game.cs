@@ -72,10 +72,7 @@ namespace ASP.NETCoreTicTacToe.Models
                             newBoard.SetSquares(Board.Squares);
                             newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
                             History.Turns.Add(turn);
-                            /*if (gameAPI != null)
-                            {
-                                gameAPI.AddTurn(turn, History);
-                            }*/
+                            
                             Board = newBoard;
                             return true;
                         }

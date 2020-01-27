@@ -14,7 +14,6 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
         {
             CreateMap<Game, GameDataTransferObject>()
                 .ReverseMap();
-            
         }
     }
 }

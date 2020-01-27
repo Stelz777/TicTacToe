@@ -16,8 +16,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
                 return null;
             }
             var strings = source.Split(',').ToList();
-            return strings.Select(s => (Cell)Enum.Parse(typeof(Cell), s)).ToList();
-            
+            return strings.Select(s => (Cell)Enum.Parse(typeof(Cell), s)).ToList();  
         }
     }
 }

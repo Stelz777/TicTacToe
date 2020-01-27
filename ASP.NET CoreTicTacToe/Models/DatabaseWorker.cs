@@ -74,7 +74,6 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public void AddTurnsToDatabase(Game game, int gameId)
         {
-            //var historyDataTransferObject = mapper.Map<HistoryDataTransferObject>(game.History);
             var historyId = GetHistoryId(gameId);
             for (int i = 1; i < game.History.Turns.Count; i++)
             {
@@ -85,11 +84,6 @@ namespace ASP.NETCoreTicTacToe.Models
                 database.Turns.Add(turnDataTransferObject);
             }
             database.SaveChanges();
-
-
-            
-            
-            
         }
 
         public int GetNewId()

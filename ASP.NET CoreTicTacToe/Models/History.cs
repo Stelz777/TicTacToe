@@ -20,7 +20,6 @@ namespace ASP.NETCoreTicTacToe.Models
             turns.Add(GetInvalidTurn());
         }
 
-
         public Board RestoreBoardByTurnNumber(int turnNumber)
         {
             var board = new Board();

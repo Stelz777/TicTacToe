@@ -29,7 +29,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var history = game.History;
             List<Board> boards = history.GetBoardsForEachTurn();
             
-            database.SaveChanges();
             return Ok(new 
             {
                 id = gameId, 

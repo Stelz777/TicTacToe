@@ -14,9 +14,6 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
         {
             CreateMap<History, HistoryDataTransferObject>()
                 .ReverseMap();
-            
-        }
-
-        
+        }   
     }
 }
