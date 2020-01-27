@@ -11,8 +11,7 @@ namespace ASP.NETCoreTicTacToe.Models
         public History History { get; private set; }
         public Board Board { get; private set; }
 
-        [Key]
-        public int ID { get; set; }
+        
 
         private RealPlayer player;
 

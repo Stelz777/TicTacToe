@@ -7,8 +7,7 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         private List<Turn> turns = new List<Turn>();
 
-        [System.ComponentModel.DataAnnotations.Key]
-        public Guid ID { get; set; }
+        
 
         public List<Turn> Turns => turns;
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP.NET_CoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
-    [Migration("20200124094739_TicTacToeInitialTry11")]
-    partial class TicTacToeInitialTry11
+    [Migration("20200127092709_TicTacToeInitialTry12")]
+    partial class TicTacToeInitialTry12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

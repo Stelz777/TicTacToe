@@ -53,7 +53,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         public bool MakeTurn(int? id, Turn turn)
         {
             var gameAPI = new GameAPI(database, mapper);
-            var (gameId, game) = gameFarm.GetGame(id, gameAPI);
+            var (_, game) = gameFarm.GetGame(id, gameAPI);
             bool result = game.MakeMove(turn);
             return result;
         }
