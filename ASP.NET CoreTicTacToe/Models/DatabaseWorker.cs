@@ -34,14 +34,17 @@ namespace ASP.NETCoreTicTacToe.Models
             return game;
         }
 
-        public void AddGameToDatabase(Game newGame)
+        public int AddGameToDatabase(Game newGame)
         {
             if (newGame != null)
             {
                 var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
                 database.Games.Add(gameDataTransferObject);
                 gameDataTransferObject.History.Turns[0].HistoryId = gameDataTransferObject.History.Id;
+                database.SaveChanges();
+                return gameDataTransferObject.ID;
             }
+            return -1;
         }
 
         public void AddTurnToDatabase(Turn turn, History history)

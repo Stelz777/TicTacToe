@@ -79,7 +79,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 }
                 if (gameAPI != null)
                 {
-                    gameAPI.AddGame(newGame);
+                    newId = gameAPI.AddGame(newGame);
                 }
                 return (newId, newGame);
             }

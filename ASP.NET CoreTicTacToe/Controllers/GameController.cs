@@ -34,9 +34,14 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
             var turn = bot.MakeAutoMove(gameAPI);
-            database.SaveChanges();
+            SaveContext();
             _logger.LogInformation($"Bot turn: {turn.CellNumber}");
             return turn;
+        }
+
+        public void SaveContext()
+        {
+            database.SaveChanges();
         }
 
         [HttpPost]
@@ -45,7 +50,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var gameAPI = new GameAPI(database, mapper);
             (_, var game) = gameFarm.GetGame(id, gameAPI);
             bool result = game.MakeMove(turn, gameAPI);
-            database.SaveChanges();
+            SaveContext();
             return result;
         }
     }
