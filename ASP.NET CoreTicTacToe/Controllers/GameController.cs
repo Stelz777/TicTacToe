@@ -44,8 +44,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             if (!gameWithAPI.Game.CanContinue())
             {
-                gameWithAPI.GameAPI.AddTurns(gameWithAPI.Game, gameId);
-                gameWithAPI.GameAPI.UpdateBoard(gameWithAPI.Game, gameId);
+                gameWithAPI.GameAPI.UpdateGame(gameWithAPI.Game, gameId);
             }
             
         }

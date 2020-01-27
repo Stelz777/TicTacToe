@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP.NET_CoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
-    [Migration("20200127092709_TicTacToeInitialTry12")]
-    partial class TicTacToeInitialTry12
+    [Migration("20200127111807_TicTacToeInitialTry14")]
+    partial class TicTacToeInitialTry14
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,10 +77,7 @@ namespace ASP.NET_CoreTicTacToe.Migrations
                     b.Property<int>("CellNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("HistoryDataTransferObjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HistoryId")
+                    b.Property<Guid>("HistoryDataTransferObjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WhichTurn")
@@ -108,7 +105,9 @@ namespace ASP.NET_CoreTicTacToe.Migrations
                 {
                     b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", null)
                         .WithMany("Turns")
-                        .HasForeignKey("HistoryDataTransferObjectId");
+                        .HasForeignKey("HistoryDataTransferObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

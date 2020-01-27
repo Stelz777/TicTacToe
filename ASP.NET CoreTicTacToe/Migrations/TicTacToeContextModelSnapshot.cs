@@ -75,10 +75,7 @@ namespace ASP.NET_CoreTicTacToe.Migrations
                     b.Property<int>("CellNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("HistoryDataTransferObjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HistoryId")
+                    b.Property<Guid>("HistoryDataTransferObjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WhichTurn")
@@ -106,7 +103,9 @@ namespace ASP.NET_CoreTicTacToe.Migrations
                 {
                     b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.HistoryDataTransferObject", null)
                         .WithMany("Turns")
-                        .HasForeignKey("HistoryDataTransferObjectId");
+                        .HasForeignKey("HistoryDataTransferObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

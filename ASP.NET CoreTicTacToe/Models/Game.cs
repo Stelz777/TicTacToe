@@ -8,7 +8,7 @@ namespace ASP.NETCoreTicTacToe.Models
 {
     public class Game
     {
-        public History History { get; private set; }
+        public History History { get; set; }
         public Board Board { get; private set; }
 
         
