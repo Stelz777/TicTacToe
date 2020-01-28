@@ -78,6 +78,7 @@ namespace ASP.NETCoreTicTacToe.Models
         public void UpdateGame(Game game, int gameId)
         {
             databaseWorker.UpdateGameInDatabase(game, gameId);
+            gameFarm.ExcludeGame(gameId);
         }
     }
 }

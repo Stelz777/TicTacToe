@@ -70,5 +70,13 @@ namespace ASP.NETCoreTicTacToe.Models
                 games.Add(newId, newGame);
             }
         }
+
+        public void ExcludeGame(int id)
+        {
+            if (games.ContainsKey(id))
+            {
+                games.Remove(id);
+            }
+        }
     }
 }
