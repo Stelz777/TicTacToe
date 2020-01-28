@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASP.NETCoreTicTacToe.Migrations
+namespace ASP.NET_CoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
     partial class TicTacToeContextModelSnapshot : ModelSnapshot

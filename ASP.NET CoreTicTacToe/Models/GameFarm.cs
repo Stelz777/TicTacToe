@@ -8,12 +8,9 @@ namespace ASP.NETCoreTicTacToe.Models
 {
     public class GameFarm
     {
-      
         private Dictionary<int, Game> games = new Dictionary<int, Game>();
 
         public Dictionary<int, Game> Games => games;
-
-        private GameAPI gameAPI;
 
         public (int, Game) FindGameLocally(int? id)
         {
@@ -50,61 +47,27 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public (int, Game) GetGame(int? id, GameAPI gameAPI)
+        public (int, Game) GetGame(int? id)
         {
-            this.gameAPI = gameAPI;
-            Game gameInDatabase = null;
-            if (id.HasValue)
+            if (games.ContainsKey(id.Value))
             {
-                if (games.ContainsKey(id.Value))
-                {
-                    return (id.Value, games[id.Value]);
-                }
-                if (gameAPI != null)
-                {
-                    gameInDatabase = gameAPI.GetGame(id);
-                    if (gameInDatabase != null)
-                    {
-                        Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
-                        gameInDatabase.Board.SetSquares(restoredBoard.Squares);
-                    }
-                }
-            }
-            if (!id.HasValue || gameInDatabase == null)
-            {
-                var newGame = new Game();
-                newGame.InitHistory();
-                newGame.InitBoard();
-                int newId = GetNewId(id);
-                if (games.ContainsKey(newId))
-                {
-                    games[newId] = newGame;
-                }
-                else
-                {
-                    games.Add(newId, newGame);
-                }
-                if (gameAPI != null)
-                {
-                    newId = gameAPI.AddGame(newGame);
-                }
-                return (newId, newGame);
+                return (id.Value, games[id.Value]);
             }
             else
             {
-                return (id.Value, gameInDatabase);
+                return (id.Value, null);
             }
         }
-
-        int GetNewId(int? id)
+        
+        public void AddGame(int newId, Game newGame)
         {
-            if (id == null)
+            if (games.ContainsKey(newId))
             {
-                return gameAPI.GetNewId();
+                games[newId] = newGame;
             }
             else
             {
-                return id.Value;
+                games.Add(newId, newGame);
             }
         }
     }

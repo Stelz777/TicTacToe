@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASP.NETCoreTicTacToe.Migrations
+namespace ASP.NET_CoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
-    [Migration("20200127111807_TicTacToeInitialTry14")]
-    partial class TicTacToeInitialTry14
+    [Migration("20200127143155_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

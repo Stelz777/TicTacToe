@@ -1,5 +1,5 @@
-using ASP.NET_CoreTicTacToe.Controllers;
-using ASP.NET_CoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Controllers;
+using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,6 @@ using Xunit;
 
 namespace XUnitTestTicTacToe
 {
-    //TODO 2
     public class UnitTestBoard
     {
         [Fact]
@@ -33,6 +32,8 @@ namespace XUnitTestTicTacToe
         {
             var game = new Game();
             var turn = new Turn();
+            game.InitHistory();
+            game.InitBoard();
             bool result = game.MakeMove(turn);
             Assert.True(result);
         }
@@ -41,7 +42,7 @@ namespace XUnitTestTicTacToe
         public void GetInvalidTurnFact()
         {
             var game = new Game();
-            Turn result = game.History.GetInvalidTurn();
+            Turn result = History.GetInvalidTurn();
             var expectedResult = new Turn
             {
                 CellNumber = -1,
@@ -65,7 +66,7 @@ namespace XUnitTestTicTacToe
             var game = new Game();
             var result = BotFarm.CreateSimpleBot(game);
             var expectedResult = new SimpleBot(game, Side.Tac);
-            Assert.Equal(expectedResult.game, result.game);
+            Assert.Equal(expectedResult.Game, result.Game);
         }
 
         [Fact]
@@ -79,36 +80,6 @@ namespace XUnitTestTicTacToe
             expectedResult.Add(bot);
             Assert.Equal(expectedResult, botFarm.BotGroup);
         }
-    }
-
-    public class UnitTestFarmController : ControllerBase
-    {
-        [Fact]
-        public void GetGameFact()
-        {
-            var gameFarm = new GameFarm();
-            var options = new DbContextOptions<TicTacToeContext>();
-            var database = new TicTacToeContext(options);
-            
-            
-            
-            var farmController = new FarmController(gameFarm, database, AutomapperSingleton.Mapper);
-            int? id = 13;
-            var boards = new List<BoardForClient>();
-            var expectedResult = Ok(new
-            {
-                id = 13,
-                boards
-            });
-            var result = farmController.GetGame(id);
-        }
-
-
-    }
-
-    public class UnitTestGameController
-    {
-        
     }
 
     public class CustomUnitTests
@@ -143,8 +114,8 @@ namespace XUnitTestTicTacToe
         public void CheckIfTacBotAddsNoughts()
         {
             var game = new Game();
-            game.InitBoard();
             game.InitHistory();
+            game.InitBoard();
             var ticBot = new SimpleBot(game, Side.Tic);
             var tacBot = new SimpleBot(game, Side.Tac);
             ticBot.MakeAutoMove();

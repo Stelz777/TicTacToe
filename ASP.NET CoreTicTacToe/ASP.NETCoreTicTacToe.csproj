@@ -26,6 +26,8 @@
     <Compile Remove="Migrations\20200124093233_TicTacToeInitialTry9.Designer.cs" />
     <Compile Remove="Migrations\20200124094255_TicTacToeInitialTry10.cs" />
     <Compile Remove="Migrations\20200124094255_TicTacToeInitialTry10.Designer.cs" />
+    <Compile Remove="Migrations\20200127142646_CleansedStructure.cs" />
+    <Compile Remove="Migrations\20200127142646_CleansedStructure.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

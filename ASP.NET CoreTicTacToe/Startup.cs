@@ -28,7 +28,7 @@ namespace ASP.NETCoreTicTacToe
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TicTacToeContext>(options => options.UseSqlServer(connection));
             services.AddCors();
-            services.AddEntityFrameworkSqlServer();
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllersWithViews();
 
@@ -40,6 +40,7 @@ namespace ASP.NETCoreTicTacToe
 
             services.AddSingleton<Models.GameFarm>();
             services.AddSingleton<Models.BotFarm>();
+            services.AddTransient<GameAPI>();
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }

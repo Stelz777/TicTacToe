@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace XUnitTestTicTacToe
                 {
                     var mappingConfig = new MapperConfiguration(mapperConfiguration =>
                     {
-                        mapperConfiguration.AddProfile(new ASP.NET_CoreTicTacToe.Models.GameProfile());
+                        mapperConfiguration.AddProfile(new GameProfile());
                     });
                     IMapper newMapper = mappingConfig.CreateMapper();
                     mapper = newMapper;

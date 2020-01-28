@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ASP.NET CoreTicTacToe\ASP.NET CoreTicTacToe.csproj" />
+    <ProjectReference Include="..\ASP.NET CoreTicTacToe\ASP.NETCoreTicTacToe.csproj" />
   </ItemGroup>
 
 </Project>

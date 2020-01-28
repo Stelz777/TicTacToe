@@ -18,5 +18,10 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BoardDataTransferObject>().Property(x => x.SerializedSquares).IsRequired();
+        }
     }
 }

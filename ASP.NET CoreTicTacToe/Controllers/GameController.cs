@@ -13,23 +13,24 @@ namespace ASP.NETCoreTicTacToe.Controllers
         private readonly IMapper mapper;
         private readonly ILogger<GameController> _logger;
         private BotFarm botFarm;
-        private GameFarm gameFarm;
+        private GameAPI gameAPI;
+        
         TicTacToeContext database;
 
-        public GameController(BotFarm botFarm, GameFarm gameFarm, TicTacToeContext context, ILogger<GameController> logger, IMapper mapper)
+        public GameController(GameAPI gameAPI, BotFarm botFarm, TicTacToeContext context, ILogger<GameController> logger, IMapper mapper)
         {
             _logger = logger;
             this.botFarm = botFarm;
-            this.gameFarm = gameFarm;
+            
             database = context;
             this.mapper = mapper;
+            this.gameAPI = gameAPI;
         }
 
         [HttpPost]
         public Turn NextTurn(int? id)
         {
-            var gameAPI = new GameAPI(database, mapper);
-            var (gameId, game) = gameFarm.GetGame(id, gameAPI);
+            var (gameId, game) = gameAPI.GetGame(id);
             var bot = new SimpleBot(game, Side.Tac);
             botFarm.AddBotToPool(bot);
             var turn = bot.MakeAutoMove();
@@ -42,8 +43,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
-            var gameAPI = new GameAPI(database, mapper);
-            var (_, game) = gameFarm.GetGame(id, gameAPI);
+            var (_, game) = gameAPI.GetGame(id);
             bool result = game.MakeMove(turn);
             return result;
         }
