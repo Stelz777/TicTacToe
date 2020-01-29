@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\GameWithAPI.cs" />
     <Compile Remove="Migrations\20200120134245_Initial.cs" />
     <Compile Remove="Migrations\20200120134245_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200123111335_Migration2.cs" />

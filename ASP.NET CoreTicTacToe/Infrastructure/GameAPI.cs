@@ -8,31 +8,18 @@ namespace ASP.NETCoreTicTacToe.Models
 {
     public class GameAPI
     {
-        private DatabaseWorker databaseWorker;
+        private readonly GameDbRepository gameRepository;
         private readonly GameFarm gameFarm;
-
 
         public GameAPI(GameFarm gameFarm, TicTacToeContext database, IMapper mapper)
         {
-            databaseWorker = new DatabaseWorker(database, mapper);
+            gameRepository = new GameDbRepository(database, mapper);
             this.gameFarm = gameFarm;
-        }
-
-        public int GetNewId(int? id)
-        {    
-            if (id == null)
-            {
-                return databaseWorker.GetNewId();
-            }
-            else
-            {
-                return id.Value;
-            }
         }
 
         public Game GetGameFromDatabase(int? id)
         {
-            return databaseWorker.GetGameFromDatabase(id);
+            return gameRepository.GetGameFromDatabase(id);
         }
 
         public (int, Game) GetGame(int? id)
@@ -52,15 +39,12 @@ namespace ASP.NETCoreTicTacToe.Models
                     gameInDatabase.Board.SetSquares(restoredBoard.Squares);
                 }
             }
+
             if(!id.HasValue || gameInDatabase == null)
             {
-                var newGame = new Game();
-                newGame.InitHistory();
-                newGame.InitBoard();
-                int newId = GetNewId(id);
+                var newGame = new Game();                
+                var newId = AddGame(newGame);
                 gameFarm.AddGame(newId, newGame);
-                
-                newId = AddGame(newGame);
                 
                 return (newId, newGame);
             }
@@ -72,12 +56,16 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public int AddGame(Game game)
         {
-            return databaseWorker.AddGameToDatabase(game);
+            return gameRepository.AddGameToDatabase(game);
         }
 
         public void UpdateGame(Game game, int gameId)
         {
-            databaseWorker.UpdateGameInDatabase(game, gameId);
+            if (game.CanContinue())
+            {
+                return;
+            }
+            gameRepository.UpdateGameInDatabase(game, gameId);
             gameFarm.ExcludeGame(gameId);
         }
     }

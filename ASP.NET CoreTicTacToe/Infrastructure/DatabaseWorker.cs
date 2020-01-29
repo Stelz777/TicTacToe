@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
-    public class DatabaseWorker
+    public class GameDbRepository
     {
         private TicTacToeContext database;
         private IMapper mapper;
 
-        public DatabaseWorker(TicTacToeContext database, IMapper mapper)
+        public GameDbRepository(TicTacToeContext database, IMapper mapper)
         {
             this.database = database;
             this.mapper = mapper;
@@ -47,17 +47,18 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public int AddGameToDatabase(Game newGame)
         {
-            if (newGame != null)
+            if (newGame == null)
             {
-
-                var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
-                database.Games.Add(gameDataTransferObject);
-                gameDataTransferObject.History.Turns[0].HistoryDataTransferObjectId = gameDataTransferObject.History.Id;
-
-                database.SaveChanges();
-                return gameDataTransferObject.ID;
+                throw new ArgumentNullException(nameof(newGame));
             }
-            return -1;
+
+            var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
+            database.Games.Add(gameDataTransferObject);
+            gameDataTransferObject.History.Turns[0].HistoryDataTransferObjectId = gameDataTransferObject.History.Id;
+
+            database.SaveChanges();
+            return gameDataTransferObject.ID;
+           
         }
 
         public void UpdateGameInDatabase(Game game, int gameId)

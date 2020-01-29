@@ -18,6 +18,8 @@ namespace ASP.NETCoreTicTacToe.Models
         public Game()
         {
             player = new RealPlayer();
+            InitHistory();
+            InitBoard();
         }
 
         public void InitHistory()
