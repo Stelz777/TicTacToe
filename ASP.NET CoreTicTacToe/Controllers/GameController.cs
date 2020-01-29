@@ -50,6 +50,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return result;
         }
 
+        [HttpPost]
+        public void SetName(int? id, RealPlayer player)
+        {
+            var (_, game) = gameAPI.GetGame(id);
+            game.SetName(player.Name);
+        }
 
         private void UpdateGame(Game game, int gameId)
         {

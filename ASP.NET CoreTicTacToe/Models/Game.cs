@@ -10,17 +10,20 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         public History History { get; set; }
         public Board Board { get; private set; }
-
-        
-
-        private RealPlayer player;
+        public RealPlayer TicPlayer { get; set; }
+        public RealPlayer TacPlayer { get; set; }
 
         public Game()
         {
-            player = new RealPlayer();
+            TicPlayer = new RealPlayer();
+            TicPlayer.Side = Side.Tic;
+            TacPlayer = new RealPlayer();
+            TacPlayer.Side = Side.Tac;
             InitHistory();
             InitBoard();
         }
+
+   
 
         public void InitHistory()
         {
@@ -47,6 +50,18 @@ namespace ASP.NETCoreTicTacToe.Models
                 }
             }
             return false;
+        }
+
+        public void SetName(string name)
+        {
+            if (TicPlayer.Name == null)
+            {
+                TicPlayer.Name = name;
+            }
+            else if (TacPlayer.Name == null)
+            {
+                TacPlayer.Name = name;
+            }
         }
 
         public bool MakeMove(Turn turn)
