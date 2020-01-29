@@ -17,46 +17,28 @@ namespace ASP.NETCoreTicTacToe.Models
             this.gameFarm = gameFarm;
         }
 
-        public Game GetGameFromDatabase(int? id)
-        {
-            return gameRepository.GetGameFromDatabase(id);
-        }
-
         public (int, Game) GetGame(int? id)
         {
-            Game gameInDatabase = null;
             if (id.HasValue)
             {
-                var (gameId, game) = gameFarm.GetGame(id);
+                var game = gameFarm.GetGame(id.Value);
                 if (game != null)
                 {
-                    return (gameId, game);
+                    return (id.Value, game);
                 }
-                gameInDatabase = GetGameFromDatabase(id);
-                if (gameInDatabase != null)
+                game = GetGameFromDatabase(id);
+                if (game == null)
                 {
-                    Board restoredBoard = gameInDatabase.History.RestoreBoardByTurnNumber(gameInDatabase.History.Turns.Count - 1);
-                    gameInDatabase.Board.SetSquares(restoredBoard.Squares);
+                    throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
+                return (id.Value, game);
             }
 
-            if(!id.HasValue || gameInDatabase == null)
-            {
-                var newGame = new Game();                
-                var newId = AddGame(newGame);
-                gameFarm.AddGame(newId, newGame);
+            var newGame = new Game();                
+            var newId = AddGame(newGame);
+            gameFarm.AddGame(newId, newGame);
                 
-                return (newId, newGame);
-            }
-            else
-            {
-                return (id.Value, gameInDatabase);
-            }
-        }
-
-        public int AddGame(Game game)
-        {
-            return gameRepository.AddGameToDatabase(game);
+            return (newId, newGame);
         }
 
         public void UpdateGame(Game game, int gameId)
@@ -68,5 +50,16 @@ namespace ASP.NETCoreTicTacToe.Models
             gameRepository.UpdateGameInDatabase(game, gameId);
             gameFarm.ExcludeGame(gameId);
         }
+
+        private Game GetGameFromDatabase(int? id)
+        {
+            return gameRepository.GetGameFromDatabase(id);
+        }
+
+        private int AddGame(Game game)
+        {
+            return gameRepository.AddGameToDatabase(game);
+        }
+
     }
 }

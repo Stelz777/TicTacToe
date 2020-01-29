@@ -47,16 +47,14 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public (int, Game) GetGame(int? id)
+        public Game GetGame(int id)
         {
-            if (games.ContainsKey(id.Value))
+            if (games.TryGetValue(id, out var game))
             {
-                return (id.Value, games[id.Value]);
+                return game;
             }
-            else
-            {
-                return (id.Value, null);
-            }
+
+            return null;
         }
         
         public void AddGame(int newId, Game newGame)

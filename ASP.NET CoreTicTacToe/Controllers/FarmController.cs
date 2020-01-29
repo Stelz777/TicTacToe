@@ -25,7 +25,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (gameId, game) = gameAPI.GetGame(id);
             var history = game.History;
-            List<Board> boards = history.GetBoardsForEachTurn();
+            var boards = history.GetBoardsForEachTurn();
             
             return Ok(new 
             {
