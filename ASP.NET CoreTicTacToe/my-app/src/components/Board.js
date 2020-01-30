@@ -39,6 +39,8 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
+    
+
     createUrlParams()
     {
         return new URLSearchParams(window.location.search);
@@ -148,7 +150,6 @@ class Board extends React.Component
 
     renderTable()
     {
-        setInterval(this.getGame(), 1000);
         let rows = [];
         for (var i = 0; i < 3; i++)
         {
@@ -167,7 +168,7 @@ class Board extends React.Component
                 console.log("refreshboard messages: ", messages);
                 if (messages.cellNumber === squareIndex)
                 {
-                    setTimeout(this.refreshBoard(squareIndex), 5000);
+                    setTimeout((squareIndex) => this.refreshBoard(squareIndex), 5000);
                 }
                 else if (messages.cellNumber >= 0)
                 {
@@ -204,8 +205,12 @@ class Board extends React.Component
         this.sendTurn(i, this.props.side);
     }
 
+    
+
     render()
     {
+        console.log("render");
+        setTimeout(() => { this.getGame() }, 500);
         return (
             <div className="game-board"> { this.renderTable() } </div>
         );

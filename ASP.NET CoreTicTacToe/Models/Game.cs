@@ -74,14 +74,6 @@ namespace ASP.NETCoreTicTacToe.Models
             {
                 return false;
             }
-            /*if (turn.WhichTurn == Side.Tic && !TicPlayer.IsActive)
-            {
-                return false;
-            }
-            if (turn.WhichTurn == Side.Tac && !TacPlayer.IsActive)
-            {
-                return false;
-            }*/
            
             Turn lastTurn = History.LastTurn;
 
