@@ -9,7 +9,6 @@ class Game extends React.Component
     {
         return (
             <div className="game">  
-                <Name/>
                 <Board/>
                 <Info/>     
             </div> 

@@ -2,6 +2,7 @@ import React from 'react';
 import History from './History'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import { connect } from 'react-redux';
+import Name from './Name'
 
 const mapStateToProps = (state) =>
 {
@@ -63,6 +64,7 @@ class Info extends React.Component
 
         return (
             <div className="game-info">
+                <Name/>
                 <div> { status } </div>
                 <History/>
             </div>
