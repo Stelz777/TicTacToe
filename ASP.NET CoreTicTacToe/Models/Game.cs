@@ -57,6 +57,7 @@ namespace ASP.NETCoreTicTacToe.Models
             if (TicPlayer.Name == null)
             {
                 TicPlayer.Name = name;
+                TicPlayer.IsActive = true;
                 return TicPlayer.Side;
             }
             else if (TacPlayer.Name == null)
@@ -73,42 +74,64 @@ namespace ASP.NETCoreTicTacToe.Models
             {
                 return false;
             }
+            /*if (turn.WhichTurn == Side.Tic && !TicPlayer.IsActive)
+            {
+                return false;
+            }
+            if (turn.WhichTurn == Side.Tac && !TacPlayer.IsActive)
+            {
+                return false;
+            }*/
+           
+            Turn lastTurn = History.LastTurn;
+
+            if (lastTurn.WhichTurn == turn.WhichTurn)
+            { 
+                return false;
+            }
             else
             {
-                Turn lastTurn = History.LastTurn;
-
-                if (lastTurn.WhichTurn == turn.WhichTurn)
+                if (!Board.HasWinner)
                 {
-                    return false;
-                }
-                else
-                {
-                    if (!Board.HasWinner)
+                    if (Board.Squares[turn.CellNumber] == Cell.Empty)
                     {
-                        if (Board.Squares[turn.CellNumber] == Cell.Empty)
-                        {
-                            Board newBoard = new Board();
-                            newBoard.SetSquares(Board.Squares);
-                            newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
-                            History.Turns.Add(turn);
+                        Board newBoard = new Board();
+                        newBoard.SetSquares(Board.Squares);
+                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
+                        History.Turns.Add(turn);
                             
-                            Board = newBoard;
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        Board = newBoard;
+
+                        SetPlayersActivity(turn);
+
+                        return true;
                     }
                     else
                     {
                         return false;
                     }
                 }
+                else
+                {
+                    return false;
+                }
             }
         }
 
-        
+        public void SetPlayersActivity(Turn turn)
+        {
+            if (turn.WhichTurn == Side.Tic)
+            {
+                TacPlayer.IsActive = true;
+                TicPlayer.IsActive = false;
+            }
+            else
+            {
+                TacPlayer.IsActive = false;
+                TicPlayer.IsActive = true;
+            }
+
+        }
 
         
     }

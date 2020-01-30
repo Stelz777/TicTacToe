@@ -12,6 +12,13 @@ namespace ASP.NETCoreTicTacToe
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+            CheckDatabaseConnection(host);
+            
+            host.Run();
+        }
+
+        private static void CheckDatabaseConnection(IHost host)
+        {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -28,14 +35,16 @@ namespace ASP.NETCoreTicTacToe
 #pragma warning restore CA1303 // Не передавать литералы в качестве локализованных параметров
                 }
             }
-            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseKestrel()
+                        .UseUrls("http://0.0.0.0:44315", "https://0.0.0.0:44316")
+                        .UseStartup<Startup>();
                 });
     }
 }

@@ -51,6 +51,12 @@ class Board extends React.Component
 
     componentDidMount()
     {
+        this.getGame();
+        
+    }
+
+    getGame()
+    {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
@@ -62,7 +68,6 @@ class Board extends React.Component
                 this.props.historyRequested(data.boards);
                 window.history.replaceState(null, null, `?id=${data.id}`) 
             });
-        
     }
 
     fillSquares(data)
@@ -143,6 +148,7 @@ class Board extends React.Component
 
     renderTable()
     {
+        setInterval(this.getGame(), 1000);
         let rows = [];
         for (var i = 0; i < 3; i++)
         {
@@ -165,7 +171,7 @@ class Board extends React.Component
                 }
                 else if (messages.cellNumber >= 0)
                 {
-                    this.props.gameBoardClicked(messages.cellNumber)
+                    this.props.gameBoardClicked(messages.cellNumber);
                 }
             });
     }
