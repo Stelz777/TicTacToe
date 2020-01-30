@@ -28,6 +28,8 @@ namespace ASP.NETCoreTicTacToe.Models
                 .Include(gameDTO => gameDTO.History)
                 .ThenInclude(history => history.Turns)
                 .Include(gameDTO => gameDTO.Board)
+                .Include(gameDTO => gameDTO.TicPlayer)
+                .Include(gameDTO => gameDTO.TacPlayer)
                 .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
             if (game != null)
             {

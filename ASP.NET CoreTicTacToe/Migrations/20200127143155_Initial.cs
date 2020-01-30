@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ASP.NET_CoreTicTacToe.Migrations
+namespace ASP.NETCoreTicTacToe.Migrations
 {
     public partial class Initial : Migration
     {

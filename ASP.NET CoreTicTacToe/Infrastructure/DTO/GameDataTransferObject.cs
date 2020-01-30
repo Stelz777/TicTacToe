@@ -11,5 +11,9 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.DTO
         public int ID { get; set; }
         public HistoryDataTransferObject History { get; set; }
         public BoardDataTransferObject Board { get; set; }
+
+        public RealPlayerDataTransferObject TicPlayer { get; set; }
+
+        public RealPlayerDataTransferObject TacPlayer { get; set; }
     }
 }
