@@ -87,7 +87,7 @@ function rootReducer(state = initialState, action)
             {
                 return state;
             }
-            squares[action.squareIndex] = state.status.xIsNext ? 'X' : 'O';
+            squares[action.squareIndex] = state.side === 0 ? 'X' : 'O';
             
             return { 
                 ...state, 

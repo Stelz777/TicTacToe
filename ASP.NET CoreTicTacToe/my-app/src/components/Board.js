@@ -89,7 +89,14 @@ class Board extends React.Component
         }
         else
         {
+            if (history[this.props.stepNumber + 1] !== undefined)
+            {
+                return history[this.props.stepNumber + 1];
+            }
+            
             return history[this.props.stepNumber];
+            
+            
         }
     }
 
