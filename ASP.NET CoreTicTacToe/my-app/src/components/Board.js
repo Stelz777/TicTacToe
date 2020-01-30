@@ -149,7 +149,7 @@ class Board extends React.Component
         return rows;
     }
 
-    refreshBoard()
+    refreshBoard(squareIndex)
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
@@ -157,7 +157,11 @@ class Board extends React.Component
             .then((response) => response.json())
             .then((messages) => {
                 console.log("refreshboard messages: ", messages);
-                if (messages.cellNumber >= 0)
+                if (messages.cellNumber === squareIndex)
+                {
+                    this.refreshBoard(squareIndex);
+                }
+                else if (messages.cellNumber >= 0)
                 {
                     this.props.gameBoardClicked(messages.cellNumber)
                 }
@@ -181,7 +185,7 @@ class Board extends React.Component
             if (data)
             {
                 this.props.gameBoardClicked(squareIndex);
-                this.refreshBoard();
+                this.refreshBoard(squareIndex);
             }
         })
     }

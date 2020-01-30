@@ -52,16 +52,19 @@ namespace ASP.NETCoreTicTacToe.Models
             return false;
         }
 
-        public void SetName(string name)
+        public Side SetName(string name)
         {
             if (TicPlayer.Name == null)
             {
                 TicPlayer.Name = name;
+                return TicPlayer.Side;
             }
             else if (TacPlayer.Name == null)
             {
                 TacPlayer.Name = name;
+                return TacPlayer.Side;
             }
+            throw new Exception("Only 2 players are supported.");
         }
 
         public bool MakeMove(Turn turn)

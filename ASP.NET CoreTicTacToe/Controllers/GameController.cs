@@ -28,7 +28,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public Turn NextTurn(int? id)
+        public Turn BotTurn(int? id)
         {
             var (gameId, game) = gameAPI.GetGame(id);
 
@@ -43,6 +43,16 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
+        public Turn NextTurn(int? id)
+        {
+            var (gameId, game) = gameAPI.GetGame(id);
+            var turn = game.History.Turns[game.History.Turns.Count - 1];
+            UpdateGame(game, gameId);
+            _logger.LogInformation($"Enemy turn: {turn.CellNumber}");
+            return turn;
+        }
+
+        [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
             var (_, game) = gameAPI.GetGame(id);
@@ -51,10 +61,11 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public void SetName(int? id, RealPlayer player)
+        public Side SetName(int? id, RealPlayer player)
         {
             var (_, game) = gameAPI.GetGame(id);
-            game.SetName(player.Name);
+            var side = game.SetName(player.Name);
+            return side;
         }
 
         private void UpdateGame(Game game, int gameId)
