@@ -7,6 +7,15 @@ export const BOT_TURN_REQUESTED = 'BOT_TURN_REQUESTED';
 export const BOT_TURN_RESPONDED = 'BOT_TURN_RESPONDED';
 export const BOARD_REQUESTED = 'BOARD_REQUESTED';
 export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
+export const SIDE_RECEIVED = 'SIDE_RECEIVED';
+
+export function sideReceived(side)
+{
+    return {
+        type: SIDE_RECEIVED,
+        side
+    }
+}
 
 export function historyRequested(boards)
 {

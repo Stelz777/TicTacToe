@@ -14,6 +14,7 @@ const mapStateToProps = (state) =>
             xIsNext: true,
             stepNumber: 0,
             highlights: Array(9).fill(false),
+            side: 0
         }
     }
     else
@@ -24,6 +25,7 @@ const mapStateToProps = (state) =>
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
             highlights: state.highlights,
+            side: state.side
         };
     }
 }
@@ -159,7 +161,7 @@ class Board extends React.Component
                 console.log("refreshboard messages: ", messages);
                 if (messages.cellNumber === squareIndex)
                 {
-                    this.refreshBoard(squareIndex);
+                    setTimeout(this.refreshBoard(squareIndex), 5000);
                 }
                 else if (messages.cellNumber >= 0)
                 {
@@ -192,7 +194,8 @@ class Board extends React.Component
 
     handleClick(i)
     {
-        this.sendTurn(i, 0);
+        console.log("handleClick side: ", this.props.side);
+        this.sendTurn(i, this.props.side);
     }
 
     render()

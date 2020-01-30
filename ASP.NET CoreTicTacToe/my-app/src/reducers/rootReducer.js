@@ -2,6 +2,7 @@ import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
+import { SIDE_RECEIVED } from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
         stepNumber: 0
     },
     highlights: Array(9).fill(false), 
-    board: Array(9).fill(null)
+    board: Array(9).fill(null),
+    side: 0
 }
 
 function getHistorySlice(state)
@@ -43,11 +45,17 @@ function rootReducer(state = initialState, action)
 {
     switch (action.type)
     {
+        case SIDE_RECEIVED:
+            return ({
+                ...state,
+                side: action.side
+            });
+
         case HISTORY_REQUESTED:
             return ({
                 ...state,
                 history: action.boards
-            })
+            });
 
         case BOARD_REQUESTED:
             return ({

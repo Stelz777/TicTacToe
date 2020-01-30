@@ -1,9 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { sideReceived } from '../actions/actions'
+
+const mapStateToProps = (state) =>
+{
+
+}
+
+const mapDispatchToProps =
+{
+    sideReceived
+}
 
 class Name extends React.Component
 {
-    
-
     render()
     {
         return (
@@ -34,8 +44,9 @@ class Name extends React.Component
         .then(response => response.json())
         .then(data => {
             console.log("textchanged data: ", data);
+            this.props.sideReceived(data);
         })
     }
 }
 
-export default Name;
+export default connect(mapStateToProps, mapDispatchToProps)(Name);
