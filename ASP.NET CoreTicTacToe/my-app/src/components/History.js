@@ -76,9 +76,10 @@ class History extends React.Component
             else
             {
                 let reverseMove = history.length - move - 1;
-                if (reverseMove - 1 >= 0)
+                
+                if (move + 1 < history.length)
                 {
-                    i = this.findDifferencesBetweenTwoArrays(history[reverseMove - 1].squares, history[reverseMove].squares);
+                    i = this.findDifferencesBetweenTwoArrays(history[move + 1].squares, history[move].squares);
                 }
                 else
                 {
@@ -90,7 +91,7 @@ class History extends React.Component
             
             return (
                 <li key = { move } >
-                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move - 1, i) }> { desc } </button>
+                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(move, i) : () => this.jumpTo(move - 1, i) }> { desc } </button>
                 </li>
             );
         });
