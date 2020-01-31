@@ -28,55 +28,49 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public Turn BotTurn(int? id)
+        public IActionResult Updates(int? id, Player player)
         {
             var (gameId, game) = gameAPI.GetGame(id);
-
-            var bot = new SimpleBot(game, Side.Tac);
-            botFarm.AddBotToPool(bot);
-
-            var turn = bot.MakeAutoMove();
             UpdateGame(game, gameId);
-
-            _logger.LogInformation($"Bot turn: {turn.CellNumber}");
-            return turn;
-        }
-
-        [HttpPost]
-        public Turn NextTurn(int? id)
-        {
-            var (gameId, game) = gameAPI.GetGame(id);
-            var turn = game.History.Turns[game.History.Turns.Count - 1];
-            UpdateGame(game, gameId);
-            _logger.LogInformation($"Turn: {turn.CellNumber}");
-            return turn;
-        }
-
-        [HttpPost]
-        public IActionResult Updates(int? id, RealPlayer player)
-        {
-            var (gameId, game) = gameAPI.GetGame(id);
             var lastTurn = game.History.Turns[game.History.Turns.Count - 1];
             if (lastTurn.CellNumber == -1)
             {
                 return NotFound();
             }
             Side requesterSide;
+            Player opponent;
             if (game.TicPlayer.Name == player.Name)
             {
                 requesterSide = game.TicPlayer.Side;
+                opponent = game.TacPlayer;
             }
             else if (game.TacPlayer.Name == player.Name)
             {
                 requesterSide = game.TacPlayer.Side;
+                opponent = game.TicPlayer;
             }
             else
             {
                 return NotFound();
             }
+            if (opponent.IsBot)
+            {
+                try
+                {
+                    var bot = (IBot)opponent;
+                    lastTurn = bot.MakeAutoMove();
+                    return Ok(new
+                    {
+                        lastTurn
+                    });
+                }
+                catch (Exception exception)
+                {
+                    return NotFound();
+                }
+            }
             if (lastTurn.WhichTurn != requesterSide)
             {
-                UpdateGame(game, gameId);
                 return Ok(new
                 {
                     lastTurn
@@ -97,7 +91,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public Side SetName(int? id, RealPlayer player)
+        public Side SetName(int? id, Player player)
         {
             var (_, game) = gameAPI.GetGame(id);
             if (player != null)

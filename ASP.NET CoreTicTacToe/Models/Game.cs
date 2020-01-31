@@ -10,14 +10,14 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         public History History { get; set; }
         public Board Board { get; private set; }
-        public RealPlayer TicPlayer { get; set; }
-        public RealPlayer TacPlayer { get; set; }
+        public Player TicPlayer { get; set; }
+        public Player TacPlayer { get; set; }
 
         public Game()
         {
-            TicPlayer = new RealPlayer();
+            TicPlayer = new Player();
             TicPlayer.Side = Side.Tic;
-            TacPlayer = new RealPlayer();
+            TacPlayer = new SimpleBot(this);
             TacPlayer.Side = Side.Tac;
             InitHistory();
             InitBoard();

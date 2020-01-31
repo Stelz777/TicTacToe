@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP.NETCoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
-    [Migration("20200130081815_Initialv2")]
-    partial class Initialv2
+    [Migration("20200131144341_Initialv3")]
+    partial class Initialv3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,13 +79,19 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.ToTable("Histories");
                 });
 
-            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.RealPlayerDataTransferObject", b =>
+            modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.PlayerDataTransferObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Difficulty")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsBot")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -96,7 +102,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RealPlayers");
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("ASP.NETCoreTicTacToe.Infrastructure.DTO.TurnDataTransferObject", b =>
@@ -131,11 +137,11 @@ namespace ASP.NETCoreTicTacToe.Migrations
                         .WithMany()
                         .HasForeignKey("HistoryId");
 
-                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.RealPlayerDataTransferObject", "TacPlayer")
+                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.PlayerDataTransferObject", "TacPlayer")
                         .WithMany()
                         .HasForeignKey("TacPlayerId");
 
-                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.RealPlayerDataTransferObject", "TicPlayer")
+                    b.HasOne("ASP.NETCoreTicTacToe.Infrastructure.DTO.PlayerDataTransferObject", "TicPlayer")
                         .WithMany()
                         .HasForeignKey("TicPlayerId");
                 });

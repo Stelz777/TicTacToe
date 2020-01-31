@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASP.NETCoreTicTacToe.Migrations
 {
-    public partial class Initialv2 : Migration
+    public partial class Initialv3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,17 +26,19 @@ namespace ASP.NETCoreTicTacToe.Migrations
                 oldNullable: true);
 
             migrationBuilder.CreateTable(
-                name: "RealPlayers",
+                name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    Side = table.Column<int>(nullable: false)
+                    Side = table.Column<int>(nullable: false),
+                    IsBot = table.Column<bool>(nullable: false),
+                    Difficulty = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RealPlayers", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -50,18 +52,18 @@ namespace ASP.NETCoreTicTacToe.Migrations
                 column: "TicPlayerId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Games_RealPlayers_TacPlayerId",
+                name: "FK_Games_Players_TacPlayerId",
                 table: "Games",
                 column: "TacPlayerId",
-                principalTable: "RealPlayers",
+                principalTable: "Players",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Games_RealPlayers_TicPlayerId",
+                name: "FK_Games_Players_TicPlayerId",
                 table: "Games",
                 column: "TicPlayerId",
-                principalTable: "RealPlayers",
+                principalTable: "Players",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -69,15 +71,15 @@ namespace ASP.NETCoreTicTacToe.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Games_RealPlayers_TacPlayerId",
+                name: "FK_Games_Players_TacPlayerId",
                 table: "Games");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Games_RealPlayers_TicPlayerId",
+                name: "FK_Games_Players_TicPlayerId",
                 table: "Games");
 
             migrationBuilder.DropTable(
-                name: "RealPlayers");
+                name: "Players");
 
             migrationBuilder.DropIndex(
                 name: "IX_Games_TacPlayerId",

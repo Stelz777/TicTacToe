@@ -14,7 +14,7 @@ namespace ASP.NETCoreTicTacToe.Models
         public DbSet<BoardDataTransferObject> Boards { get; set; }
         public DbSet<TurnDataTransferObject> Turns { get; set; }
 
-        public DbSet<RealPlayerDataTransferObject> RealPlayers { get; set; }
+        public DbSet<PlayerDataTransferObject> Players { get; set; }
         
         public TicTacToeContext(DbContextOptions<TicTacToeContext> options) : base(options)
         {

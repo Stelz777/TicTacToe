@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
 {
-    public class RealPlayerProfile : Profile
+    public class PlayerProfile : Profile
     {
-        public RealPlayerProfile()
+        public PlayerProfile()
         {
-            CreateMap<RealPlayer, RealPlayerDataTransferObject>()
+            CreateMap<Player, PlayerDataTransferObject>()
                 .ReverseMap();
         }   
     }

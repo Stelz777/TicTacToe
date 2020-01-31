@@ -4,16 +4,25 @@ using System.Collections.Generic;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
-    public class SimpleBot : IBot
+    public class SimpleBot : Player, IBot
     {
-        public bool IsActive { get; set; }
-        public Side Side { get; set; }
         public Game Game { get; set; }
+
+        public SimpleBot(Game game)
+        {
+            Game = game;
+            IsBot = true;
+            Difficulty = "Simple";
+            Name = "S1mple";
+        }
 
         public SimpleBot(Game game, Side side)
         {
             Game = game;
             Side = side;
+            IsBot = true;
+            Difficulty = "Simple";
+            Name = "S1mple";
         }
 
         public Turn MakeAutoMove()
