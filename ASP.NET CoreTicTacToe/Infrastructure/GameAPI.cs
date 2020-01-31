@@ -43,12 +43,15 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public void UpdateGame(Game game, int gameId)
         {
-            if (game.CanContinue())
+            if (game != null)
             {
-                return;
+                if (game.CanContinue())
+                {
+                    return;
+                }
+                gameRepository.UpdateGameInDatabase(game, gameId);
+                gameFarm.ExcludeGame(gameId);
             }
-            gameRepository.UpdateGameInDatabase(game, gameId);
-            gameFarm.ExcludeGame(gameId);
         }
 
         private Game GetGameFromDatabase(int? id)

@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using System;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
@@ -64,8 +64,15 @@ namespace ASP.NETCoreTicTacToe.Controllers
         public Side SetName(int? id, RealPlayer player)
         {
             var (_, game) = gameAPI.GetGame(id);
-            var side = game.SetName(player.Name);
-            return side;
+            if (player != null)
+            {
+                var side = game.SetName(player.Name);
+                return side;
+            }
+            else
+            {
+                throw new ArgumentException("No player specified by client.");
+            }
         }
 
         private void UpdateGame(Game game, int gameId)

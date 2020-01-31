@@ -112,17 +112,19 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public void SetPlayersActivity(Turn turn)
         {
-            if (turn.WhichTurn == Side.Tic)
+            if (turn != null)
             {
-                TacPlayer.IsActive = true;
-                TicPlayer.IsActive = false;
+                if (turn.WhichTurn == Side.Tic)
+                {
+                    TacPlayer.IsActive = true;
+                    TicPlayer.IsActive = false;
+                }
+                else
+                {
+                    TacPlayer.IsActive = false;
+                    TicPlayer.IsActive = true;
+                }
             }
-            else
-            {
-                TacPlayer.IsActive = false;
-                TicPlayer.IsActive = true;
-            }
-
         }
 
         

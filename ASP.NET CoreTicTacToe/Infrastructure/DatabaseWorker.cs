@@ -73,7 +73,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
             catch(Exception exception)
             {
-               
+              
             }
             database.SaveChanges();
         }
