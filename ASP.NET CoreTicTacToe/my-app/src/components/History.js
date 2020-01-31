@@ -43,6 +43,11 @@ class History extends React.Component
 
     jumpTo(step, i)
     {  
+        console.log("jumpTo step: ", step);
+        if (step < 0)
+        {
+            step = 0;
+        }
         this.props.historyItemClicked(step, i);     
     }
 
@@ -54,26 +59,6 @@ class History extends React.Component
     getColumn(i)
     {
         return i % 3 + 1;
-    }
-
-    generateDescription(desc, condition, move, i)
-    {
-        desc = condition ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
-        return desc;
-    }
-
-    findDifferencesBetweenTwoArrays(step, previous)
-    {
-        if (step !== undefined)
-        {
-            for (let i = 0; i < step.length; i++)
-            {
-                if (step[i] !== previous[i])
-                {
-                    return i;
-                }
-            }
-        }
     }
 
     printMoveList(history, moves, previousStep)
@@ -103,11 +88,31 @@ class History extends React.Component
             previousStep = step.squares;
             return (
                 <li key = { move } >
-                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move, i) }> { desc } </button>
+                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move - 1, i) }> { desc } </button>
                 </li>
             );
         });
         return moves;
+    }
+
+    findDifferencesBetweenTwoArrays(step, previous)
+    {
+        if (step !== undefined)
+        {
+            for (let i = 0; i < step.length; i++)
+            {
+                if (step[i] !== previous[i])
+                {
+                    return i;
+                }
+            }
+        }
+    }
+
+    generateDescription(desc, condition, move, i)
+    {
+        desc = condition ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
+        return desc;
     }
 
     render()

@@ -70,7 +70,7 @@ function rootReducer(state = initialState, action)
                 ...state, 
                 highlights: highlights,
                 status: { 
-                    xIsNext: (action.stepInput % 2) === 0, 
+                    xIsNext: (action.stepInput % 2) !== 0, 
                     stepNumber: action.stepInput
                 }
             });
