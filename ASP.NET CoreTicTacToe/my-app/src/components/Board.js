@@ -39,8 +39,6 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
-    
-
     createUrlParams()
     {
         return new URLSearchParams(window.location.search);
@@ -85,7 +83,7 @@ class Board extends React.Component
         console.log("getCurrentHistoryItem history: ", history);
         if (this.props.reverseIsChecked)
         {
-            return history[history.length - this.props.stepNumber - 1];
+            return history[this.props.stepNumber];
         }
         else
         {

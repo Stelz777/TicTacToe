@@ -71,21 +71,23 @@ class History extends React.Component
             {
                 i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
                 desc = this.generateDescription(desc, move, move, i);
+                previousStep = step.squares;
             }
             else
             {
-                if (history[move + 1] !== undefined)
+                let reverseMove = history.length - move - 1;
+                if (reverseMove - 1 >= 0)
                 {
-                    i = this.findDifferencesBetweenTwoArrays(step.squares, history[move + 1].squares);
+                    i = this.findDifferencesBetweenTwoArrays(history[reverseMove - 1].squares, history[reverseMove].squares);
                 }
                 else
                 {
                     i = 0;
                 }
-                let reverseMove = history.length - move - 1;
-                desc = this.generateDescription(desc, ((reverseMove) !== 0), reverseMove, i);
+                
+                desc = this.generateDescription(desc, reverseMove, reverseMove, i);
             }
-            previousStep = step.squares;
+            
             return (
                 <li key = { move } >
                     <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move - 1, i) }> { desc } </button>

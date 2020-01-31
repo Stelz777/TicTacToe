@@ -32,7 +32,7 @@ class Info extends React.Component
     {
         if (this.props.reverseIsChecked)
         {
-            return history[history.length - this.props.stepNumber - 1];
+            return history[this.props.stepNumber];
         }
         else
         {
@@ -52,7 +52,15 @@ class Info extends React.Component
         }
         else
         {
-            return 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
+            if (this.props.reverseIsChecked)
+            {
+                return 'Следующий ход: ' + (this.props.xIsNext ? 'O' : 'X');
+            }
+            else
+            {
+                return 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
+            }
+            
         }
     }
 
