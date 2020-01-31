@@ -65,6 +65,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 TacPlayer.Name = name;
                 return TacPlayer.Side;
             }
+            
             throw new Exception("Only 2 players are supported.");
         }
 

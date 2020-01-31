@@ -48,7 +48,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (gameId, game) = gameAPI.GetGame(id);
             var turn = game.History.Turns[game.History.Turns.Count - 1];
             UpdateGame(game, gameId);
-            _logger.LogInformation($"Enemy turn: {turn.CellNumber}");
+            _logger.LogInformation($"Turn: {turn.CellNumber}");
             return turn;
         }
 

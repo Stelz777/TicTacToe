@@ -9,14 +9,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
     [ApiController]
     public class FarmController : ControllerBase
     {
-        private TicTacToeContext database;
-        private IMapper mapper;
         private GameAPI gameAPI;
 
-        public FarmController(GameAPI gameAPI, TicTacToeContext database, IMapper mapper)
+        public FarmController(GameAPI gameAPI)
         {
-            this.database = database;
-            this.mapper = mapper;
             this.gameAPI = gameAPI;
         }
 

@@ -173,7 +173,7 @@ class Board extends React.Component
                 console.log("refreshboard messages: ", messages);
                 if (messages.cellNumber === squareIndex)
                 {
-                    setTimeout((squareIndex) => this.refreshBoard(squareIndex), 5000);
+                    setTimeout((squareIndex) => this.refreshBoard(squareIndex), 500);
                 }
                 else if (messages.cellNumber >= 0)
                 {
@@ -209,8 +209,6 @@ class Board extends React.Component
         console.log("handleClick side: ", this.props.side);
         this.sendTurn(i, this.props.side);
     }
-
-    
 
     render()
     {

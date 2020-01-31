@@ -17,7 +17,7 @@ class Name extends React.Component
     render()
     {
         return (
-            <input 
+            <input
                 type = "text"
                 onBlur = { (event) => 
                     {
