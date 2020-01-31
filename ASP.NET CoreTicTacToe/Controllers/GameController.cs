@@ -53,6 +53,42 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
+        public IActionResult Updates(int? id, RealPlayer player)
+        {
+            var (gameId, game) = gameAPI.GetGame(id);
+            var lastTurn = game.History.Turns[game.History.Turns.Count - 1];
+            if (lastTurn.CellNumber == -1)
+            {
+                return NotFound();
+            }
+            Side requesterSide;
+            if (game.TicPlayer.Name == player.Name)
+            {
+                requesterSide = game.TicPlayer.Side;
+            }
+            else if (game.TacPlayer.Name == player.Name)
+            {
+                requesterSide = game.TacPlayer.Side;
+            }
+            else
+            {
+                return NotFound();
+            }
+            if (lastTurn.WhichTurn != requesterSide)
+            {
+                UpdateGame(game, gameId);
+                return Ok(new
+                {
+                    lastTurn
+                });
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
             var (_, game) = gameAPI.GetGame(id);

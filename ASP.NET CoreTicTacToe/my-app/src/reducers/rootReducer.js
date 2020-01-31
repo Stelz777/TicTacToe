@@ -14,7 +14,8 @@ const initialState = {
     },
     highlights: Array(9).fill(false), 
     board: Array(9).fill(null),
-    side: 0
+    side: 0,
+    playerName: ''
 }
 
 function getHistorySlice(state)
@@ -48,7 +49,8 @@ function rootReducer(state = initialState, action)
         case SIDE_RECEIVED:
             return ({
                 ...state,
-                side: action.side
+                side: action.side,
+                playerName: action.playerName
             });
 
         case HISTORY_REQUESTED:
@@ -87,7 +89,7 @@ function rootReducer(state = initialState, action)
             {
                 return state;
             }
-            squares[action.squareIndex] = state.side === 0 ? 'X' : 'O';
+            squares[action.squareIndex] = action.side === 0 ? 'X' : 'O';
             
             return { 
                 ...state, 

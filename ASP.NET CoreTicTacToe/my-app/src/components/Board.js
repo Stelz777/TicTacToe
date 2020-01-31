@@ -14,7 +14,8 @@ const mapStateToProps = (state) =>
             xIsNext: true,
             stepNumber: 0,
             highlights: Array(9).fill(false),
-            side: 0
+            side: 0,
+            playerName: ''
         }
     }
     else
@@ -25,7 +26,8 @@ const mapStateToProps = (state) =>
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
             highlights: state.highlights,
-            side: state.side
+            side: state.side,
+            playerName: state.playerName
         };
     }
 }
@@ -62,11 +64,11 @@ class Board extends React.Component
         fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-                console.log("componentdidmount data: ", data);
 
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
-                window.history.replaceState(null, null, `?id=${data.id}`) 
+                window.history.replaceState(null, null, `?id=${data.id}`);
+                this.refreshBoard(-1); 
             });
     }
 
@@ -80,7 +82,6 @@ class Board extends React.Component
 
     getCurrentHistoryItem(history)
     {
-        console.log("getCurrentHistoryItem history: ", history);
         if (this.props.reverseIsChecked)
         {
             return history[this.props.stepNumber];
@@ -167,19 +168,28 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/game/nextturn/${id}`, { method: 'POST' })
-            .then((response) => response.json())
-            .then((messages) => {
-                console.log("refreshboard messages: ", messages);
-                if (messages.cellNumber === squareIndex)
+        fetch(`/api/game/updates/${id}`, { 
+            method: 'POST',
+            body: JSON.stringify({ Name: this.props.playerName }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((messages) => {
+            console.log("refreshboard messages: ", messages); 
+            if (messages.lastTurn !== undefined)
+            {
+                let receivedCell = messages.lastTurn.cellNumber;
+                if (receivedCell >= 0 && receivedCell !== squareIndex)
                 {
-                    setTimeout((squareIndex) => this.refreshBoard(squareIndex), 500);
+                    this.props.gameBoardClicked(receivedCell, messages.lastTurn.whichTurn);
+                    squareIndex = receivedCell;
                 }
-                else if (messages.cellNumber >= 0)
-                {
-                    this.props.gameBoardClicked(messages.cellNumber);
-                }
-            });
+            }
+            setTimeout(() => { this.refreshBoard(squareIndex) }, 10000);
+        });
     }
 
     sendTurn(squareIndex, whichTurn)
@@ -198,7 +208,7 @@ class Board extends React.Component
         .then(data => {
             if (data)
             {
-                this.props.gameBoardClicked(squareIndex);
+                this.props.gameBoardClicked(squareIndex, this.props.side);
                 this.refreshBoard(squareIndex);
             }
         })
@@ -212,8 +222,6 @@ class Board extends React.Component
 
     render()
     {
-        console.log("render");
-        setTimeout(() => { this.getGame() }, 500);
         return (
             <div className="game-board"> { this.renderTable() } </div>
         );

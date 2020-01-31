@@ -5,5 +5,7 @@
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public Side Side { get; set; }
+
+        
     }
 }

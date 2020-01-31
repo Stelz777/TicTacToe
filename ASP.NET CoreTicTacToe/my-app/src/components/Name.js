@@ -44,7 +44,7 @@ class Name extends React.Component
         .then(response => response.json())
         .then(data => {
             console.log("textchanged data: ", data);
-            this.props.sideReceived(data);
+            this.props.sideReceived(data, name);
         })
     }
 }

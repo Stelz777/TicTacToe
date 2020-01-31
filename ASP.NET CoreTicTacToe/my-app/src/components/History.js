@@ -123,7 +123,6 @@ class History extends React.Component
         let previousStep;
         previousStep = Array(9).fill(null);
         let moves;
-        console.log("history.render.history: ", history);
         moves = this.printMoveList(history, moves, previousStep)
 
         return (
