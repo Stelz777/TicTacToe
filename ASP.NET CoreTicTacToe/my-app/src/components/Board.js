@@ -73,11 +73,14 @@ class Board extends React.Component
         fetch(`/api/farm/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-
+                console.log("getGame data: ", data);
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
                 window.history.replaceState(null, null, `?id=${data.id}`);
-                this.refreshBoard(-1); 
+                if (bot !== "XO")
+                {
+                    this.refreshBoard(-1); 
+                }
             });
     }
 

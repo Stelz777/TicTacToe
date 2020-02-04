@@ -24,7 +24,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 var game = gameFarm.GetGame(id.Value);
                 if (game != null)
                 {
-                    InitBot(game, bot);
+                    InitBot(game, id.Value, bot);
                     return (id.Value, game);
                 }
                 game = GetGameFromDatabase(id);
@@ -32,14 +32,14 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
-                InitBot(game, bot);
+                InitBot(game, id.Value, bot);
                 return (id.Value, game);
             }
 
             var newGame = new Game();                
             var newId = AddGame(newGame);
             gameFarm.AddGame(newId, newGame);
-            InitBot(newGame, bot);
+            InitBot(newGame, newId, bot);
             return (newId, newGame);
         }
 
@@ -68,9 +68,9 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.AddGameToDatabase(game);
         }
 
-        public static void InitBot(Game game, string bot)
+        public void InitBot(Game game, int gameId, string bot)
         {
-            if (bot != null)
+            if (game != null && bot != null)
             {
                 if (bot.Equals("X"))
                 {
@@ -89,12 +89,15 @@ namespace ASP.NETCoreTicTacToe.Models
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
                     game.TicPlayer.Name = "S1mpleX";
                     game.TacPlayer.Name = "S1mpleO";
-                    for (var i = 0; i < 4; i++)
+                    while (game.CanContinue())
                     {
                         game.TicPlayer.Bot.MakeAutoMove();
-                        game.TacPlayer.Bot.MakeAutoMove();
+                        if (game.CanContinue())
+                        {
+                            game.TacPlayer.Bot.MakeAutoMove();
+                        }
                     }
-                    game.TicPlayer.Bot.MakeAutoMove();
+                    UpdateGame(game, gameId);
                 }
             }
         }
