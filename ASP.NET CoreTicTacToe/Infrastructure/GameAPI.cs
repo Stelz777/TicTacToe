@@ -76,6 +76,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
                     game.TicPlayer.Name = "S1mpleX";
+                    game.TicPlayer.Bot.MakeAutoMove();
                 }
                 else if (bot.Equals("O"))
                 {

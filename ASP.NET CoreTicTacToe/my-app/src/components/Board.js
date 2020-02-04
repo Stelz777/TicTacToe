@@ -2,7 +2,7 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested } from '../actions/actions'
+import { gameBoardClicked, boardRequested, historyRequested, sideReceived } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
@@ -36,7 +36,8 @@ const mapDispatchToProps =
 {
     gameBoardClicked,
     boardRequested,
-    historyRequested
+    historyRequested,
+    sideReceived
 }
 
 class Board extends React.Component
@@ -68,7 +69,10 @@ class Board extends React.Component
         const id = this.getIdFromUrlParams(urlParams);
         const bot = this.getBotFromUrlParams(urlParams);
         console.log(bot);
-        
+        /*if (bot === 'X')
+        {
+            this.props.sideReceived(1, "Player 2");
+        }*/
         fetch(`/api/farm/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   

@@ -144,7 +144,7 @@ namespace ASP.NETCoreTicTacToe.Models
                     return TacPlayer.Side;
                 }
             }
-            throw new ArgumentException("There is no player with specified name.");
+            return Side.Tac;
         }
 
         public Player GetOpponent(string name)
