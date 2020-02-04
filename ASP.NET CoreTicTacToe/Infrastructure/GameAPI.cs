@@ -83,6 +83,19 @@ namespace ASP.NETCoreTicTacToe.Models
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
                     game.TacPlayer.Name = "S1mpleO";
                 }
+                else if (bot.Equals("XO"))
+                {
+                    game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
+                    game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
+                    game.TicPlayer.Name = "S1mpleX";
+                    game.TacPlayer.Name = "S1mpleO";
+                    for (var i = 0; i < 4; i++)
+                    {
+                        game.TicPlayer.Bot.MakeAutoMove();
+                        game.TacPlayer.Bot.MakeAutoMove();
+                    }
+                    game.TicPlayer.Bot.MakeAutoMove();
+                }
             }
         }
     }
