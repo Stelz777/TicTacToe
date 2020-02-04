@@ -15,7 +15,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.DTO
 
         public int CellNumber { get; set; }
 
-        public Cell WhichTurn { get; set; }
+        public Cell Side { get; set; }
 
     }
 }

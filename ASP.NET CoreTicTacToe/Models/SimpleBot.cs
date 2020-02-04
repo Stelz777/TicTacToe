@@ -11,18 +11,13 @@ namespace ASP.NETCoreTicTacToe.Models
         public SimpleBot(Game game)
         {
             Game = game;
-            IsBot = true;
-            Difficulty = "Simple";
             Name = "S1mple";
         }
 
         public SimpleBot(Game game, Side side)
+            :this(game)
         {
-            Game = game;
             Side = side;
-            IsBot = true;
-            Difficulty = "Simple";
-            Name = "S1mple";
         }
 
         public Turn MakeAutoMove()
@@ -40,7 +35,7 @@ namespace ASP.NETCoreTicTacToe.Models
                     var validTurn = new Turn
                     {
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
-                        WhichTurn = Side
+                        Side = Side
                     };
                     Game.MakeMove(validTurn);
                     return validTurn;

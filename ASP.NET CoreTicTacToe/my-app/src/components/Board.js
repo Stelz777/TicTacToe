@@ -51,6 +51,11 @@ class Board extends React.Component
         return urlParams.get('id');
     }
 
+    getBotFromUrlParams(urlParams)
+    {
+        return urlParams.get('bot');
+    }
+
     componentDidMount()
     {
         this.getGame();
@@ -61,7 +66,10 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/farm/getgame/${id === null ? '' : id}`, { method: 'GET' })
+        const bot = this.getBotFromUrlParams(urlParams);
+        console.log(bot);
+        
+        fetch(`/api/farm/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
 
@@ -168,23 +176,40 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/game/updates/${id}`, { 
+        this.updateGame(id);
+        this.makeBotMove(id);
+        this.updates(id, squareIndex);
+    }
+
+    updateGame(id)
+    {
+        fetch(`/api/game/updategame/${id}`, {
+            method: 'POST'
+        });
+    }
+
+    makeBotMove(id)
+    {
+        console.log("makeBotMove this.props.playerName", this.props.playerName);
+        fetch(`api/game/makebotmove/${id}?player=${this.props.playerName}`, {
             method: 'POST',
-            body: JSON.stringify({ Name: this.props.playerName }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+        });
+    }
+
+    updates(id, squareIndex)
+    {
+        fetch(`/api/game/updates/${id}?playerName=${this.props.playerName}`, { 
+            method: 'GET'
         })
         .then((response) => response.json())
         .then((messages) => {
             console.log("refreshboard messages: ", messages); 
-            if (messages.lastTurn !== undefined)
+            if (messages.lastTurn)
             {
                 let receivedCell = messages.lastTurn.cellNumber;
                 if (receivedCell >= 0 && receivedCell !== squareIndex)
                 {
-                    this.props.gameBoardClicked(receivedCell, messages.lastTurn.whichTurn);
+                    this.props.gameBoardClicked(receivedCell, messages.lastTurn.side);
                     squareIndex = receivedCell;
                 }
             }
@@ -192,13 +217,13 @@ class Board extends React.Component
         });
     }
 
-    sendTurn(squareIndex, whichTurn)
+    sendTurn(squareIndex, side)
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/game/maketurn/${id}`, {
             method: 'POST',
-            body: JSON.stringify({ CellNumber: squareIndex, WhichTurn: whichTurn }),
+            body: JSON.stringify({ CellNumber: squareIndex, Side: side }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

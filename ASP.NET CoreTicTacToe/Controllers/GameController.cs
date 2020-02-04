@@ -9,67 +9,47 @@ namespace ASP.NETCoreTicTacToe.Controllers
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
     public class GameController : ControllerBase
-    {
-        private readonly IMapper mapper;
-        private readonly ILogger<GameController> _logger;
-        private BotFarm botFarm;
+    { 
         private GameAPI gameAPI;
         
-        TicTacToeContext database;
-
-        public GameController(GameAPI gameAPI, BotFarm botFarm, TicTacToeContext context, ILogger<GameController> logger, IMapper mapper)
+        public GameController(GameAPI gameAPI)
         {
-            _logger = logger;
-            this.botFarm = botFarm;
-            
-            database = context;
-            this.mapper = mapper;
             this.gameAPI = gameAPI;
         }
 
         [HttpPost]
-        public IActionResult Updates(int? id, Player player)
+        public void UpdateGame(int? id)
         {
-            var (gameId, game) = gameAPI.GetGame(id);
-            UpdateGame(game, gameId);
-            var lastTurn = game.History.Turns[game.History.Turns.Count - 1];
+            var (gameId, game) = gameAPI.GetGame(id, null);
+            gameAPI.UpdateGame(game, gameId);
+        }
+
+        [HttpPost]
+        public void MakeBotMove(int? id, string player)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            var opponent = game.GetOpponent(player);
+            if (opponent != null)
+            {
+                if (opponent.Bot != null)
+                {
+                    var bot = opponent.Bot;
+                    bot.MakeAutoMove();
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Updates(int? id, string playerName)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            var lastTurn = game.History.LastTurn;
             if (lastTurn.CellNumber == -1)
             {
                 return NotFound();
             }
-            Side requesterSide;
-            Player opponent;
-            if (game.TicPlayer.Name == player.Name)
-            {
-                requesterSide = game.TicPlayer.Side;
-                opponent = game.TacPlayer;
-            }
-            else if (game.TacPlayer.Name == player.Name)
-            {
-                requesterSide = game.TacPlayer.Side;
-                opponent = game.TicPlayer;
-            }
-            else
-            {
-                return NotFound();
-            }
-            if (opponent.IsBot)
-            {
-                try
-                {
-                    var bot = (IBot)opponent;
-                    lastTurn = bot.MakeAutoMove();
-                    return Ok(new
-                    {
-                        lastTurn
-                    });
-                }
-                catch (Exception exception)
-                {
-                    return NotFound();
-                }
-            }
-            if (lastTurn.WhichTurn != requesterSide)
+            var requesterSide = game.GetSideByName(playerName);
+            if (lastTurn.Side != requesterSide)
             {
                 return Ok(new
                 {
@@ -85,7 +65,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, Turn turn)
         {
-            var (_, game) = gameAPI.GetGame(id);
+            var (_, game) = gameAPI.GetGame(id, null);
             bool result = game.MakeMove(turn);
             return result;
         }
@@ -93,7 +73,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public Side SetName(int? id, Player player)
         {
-            var (_, game) = gameAPI.GetGame(id);
+            var (_, game) = gameAPI.GetGame(id, null);
             if (player != null)
             {
                 var side = game.SetName(player.Name);
@@ -105,9 +85,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             }
         }
 
-        private void UpdateGame(Game game, int gameId)
-        {
-             gameAPI.UpdateGame(game, gameId);
-        }
+        
     }
 }

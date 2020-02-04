@@ -17,7 +17,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             TicPlayer = new Player();
             TicPlayer.Side = Side.Tic;
-            TacPlayer = new SimpleBot(this);
+            TacPlayer = new Player();
             TacPlayer.Side = Side.Tac;
             InitHistory();
             InitBoard();
@@ -78,7 +78,7 @@ namespace ASP.NETCoreTicTacToe.Models
            
             Turn lastTurn = History.LastTurn;
 
-            if (lastTurn.WhichTurn == turn.WhichTurn)
+            if (lastTurn.Side == turn.Side)
             { 
                 return false;
             }
@@ -90,7 +90,7 @@ namespace ASP.NETCoreTicTacToe.Models
                     {
                         Board newBoard = new Board();
                         newBoard.SetSquares(Board.Squares);
-                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.WhichTurn));
+                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.Side));
                         History.Turns.Add(turn);
                             
                         Board = newBoard;
@@ -115,7 +115,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (turn != null)
             {
-                if (turn.WhichTurn == Side.Tic)
+                if (turn.Side == Side.Tic)
                 {
                     TacPlayer.IsActive = true;
                     TicPlayer.IsActive = false;
@@ -128,6 +128,42 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        
+        public Side GetSideByName(string name)
+        {
+            if (TicPlayer.Name != null)
+            {
+                if (TicPlayer.Name.Equals(name))
+                {
+                    return TicPlayer.Side;
+                }
+            }
+            if (TacPlayer.Name != null)
+            {
+                if (TacPlayer.Name.Equals(name))
+                {
+                    return TacPlayer.Side;
+                }
+            }
+            throw new ArgumentException("There is no player with specified name.");
+        }
+
+        public Player GetOpponent(string name)
+        {
+            if (TicPlayer.Name != null)
+            {
+                if (TicPlayer.Name.Equals(name))
+                {
+                    return TacPlayer;
+                }
+            }
+            if (TacPlayer.Name != null)
+            {
+                if (TacPlayer.Name.Equals(name))
+                {
+                    return TicPlayer;
+                }
+            }
+            return null;
+        }
     }
 }

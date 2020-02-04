@@ -26,7 +26,7 @@ namespace ASP.NETCoreTicTacToe.Models
             {
                 if (turns[i].CellNumber >= 0)
                 {
-                    board.SetSquare(turns[i].CellNumber, Board.GetCellBySide(turns[i].WhichTurn));
+                    board.SetSquare(turns[i].CellNumber, Board.GetCellBySide(turns[i].Side));
                 }
             }
             return board;
@@ -50,7 +50,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return new Turn
             {
                 CellNumber = -1,
-                WhichTurn = Side.Tac
+                Side = Side.Tac
             };
         }
     }

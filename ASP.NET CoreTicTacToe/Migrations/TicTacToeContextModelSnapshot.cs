@@ -86,9 +86,6 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.Property<string>("Difficulty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsBot")
                         .HasColumnType("bit");
 
@@ -115,7 +112,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.Property<Guid>("HistoryDataTransferObjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("WhichTurn")
+                    b.Property<int>("Side")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

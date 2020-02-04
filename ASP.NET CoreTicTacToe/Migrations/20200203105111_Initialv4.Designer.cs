@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP.NETCoreTicTacToe.Migrations
 {
     [DbContext(typeof(TicTacToeContext))]
-    [Migration("20200131144341_Initialv3")]
-    partial class Initialv3
+    [Migration("20200203105111_Initialv4")]
+    partial class Initialv4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,9 +88,6 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.Property<string>("Difficulty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsBot")
                         .HasColumnType("bit");
 
@@ -117,7 +114,7 @@ namespace ASP.NETCoreTicTacToe.Migrations
                     b.Property<Guid>("HistoryDataTransferObjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("WhichTurn")
+                    b.Property<int>("Side")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

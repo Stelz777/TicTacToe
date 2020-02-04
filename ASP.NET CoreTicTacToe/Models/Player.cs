@@ -5,9 +5,6 @@
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public Side Side { get; set; }
-
-        public bool IsBot { get; set; }
-
-        public string Difficulty { get; set; }
+        public IBot Bot { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
-    [Route("api/[controller]/[action]/{id?}")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class FarmController : ControllerBase
     {
@@ -16,10 +16,11 @@ namespace ASP.NETCoreTicTacToe.Controllers
             this.gameAPI = gameAPI;
         }
 
-        [HttpGet]
-        public IActionResult GetGame(int? id)
+        [HttpGet("{id?}")]
+        public IActionResult GetGame(int? id, string bot)
         {
-            var (gameId, game) = gameAPI.GetGame(id);
+            
+            var (gameId, game) = gameAPI.GetGame(id, bot);
             var history = game.History;
             var boards = history.GetBoardsForEachTurn();
             

@@ -17,13 +17,14 @@ namespace ASP.NETCoreTicTacToe.Models
             this.gameFarm = gameFarm;
         }
 
-        public (int, Game) GetGame(int? id)
+        public (int, Game) GetGame(int? id, string bot)
         {
             if (id.HasValue)
             {
                 var game = gameFarm.GetGame(id.Value);
                 if (game != null)
                 {
+                    InitBot(game, bot);
                     return (id.Value, game);
                 }
                 game = GetGameFromDatabase(id);
@@ -31,15 +32,18 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
+                InitBot(game, bot);
                 return (id.Value, game);
             }
 
             var newGame = new Game();                
             var newId = AddGame(newGame);
             gameFarm.AddGame(newId, newGame);
-                
+            InitBot(newGame, bot);
             return (newId, newGame);
         }
+
+        
 
         public void UpdateGame(Game game, int gameId)
         {
@@ -64,5 +68,21 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.AddGameToDatabase(game);
         }
 
+        public static void InitBot(Game game, string bot)
+        {
+            if (bot != null)
+            {
+                if (bot.Equals("X"))
+                {
+                    game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
+                    game.TicPlayer.Name = "S1mpleX";
+                }
+                else if (bot.Equals("O"))
+                {
+                    game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
+                    game.TacPlayer.Name = "S1mpleO";
+                }
+            }
+        }
     }
 }

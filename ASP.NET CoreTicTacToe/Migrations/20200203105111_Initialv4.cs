@@ -3,10 +3,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASP.NETCoreTicTacToe.Migrations
 {
-    public partial class Initialv3 : Migration
+    public partial class Initialv4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "WhichTurn",
+                table: "Turns");
+
+            migrationBuilder.AddColumn<int>(
+                name: "Side",
+                table: "Turns",
+                nullable: false,
+                defaultValue: 0);
+
             migrationBuilder.AddColumn<Guid>(
                 name: "TacPlayerId",
                 table: "Games",
@@ -31,7 +41,6 @@ namespace ASP.NETCoreTicTacToe.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
                     Side = table.Column<int>(nullable: false),
                     IsBot = table.Column<bool>(nullable: false),
                     Difficulty = table.Column<string>(nullable: true)
@@ -90,12 +99,23 @@ namespace ASP.NETCoreTicTacToe.Migrations
                 table: "Games");
 
             migrationBuilder.DropColumn(
+                name: "Side",
+                table: "Turns");
+
+            migrationBuilder.DropColumn(
                 name: "TacPlayerId",
                 table: "Games");
 
             migrationBuilder.DropColumn(
                 name: "TicPlayerId",
                 table: "Games");
+
+            migrationBuilder.AddColumn<int>(
+                name: "WhichTurn",
+                table: "Turns",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AlterColumn<string>(
                 name: "SerializedSquares",

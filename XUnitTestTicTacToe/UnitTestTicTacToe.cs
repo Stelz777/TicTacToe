@@ -46,10 +46,10 @@ namespace XUnitTestTicTacToe
             var expectedResult = new Turn
             {
                 CellNumber = -1,
-                WhichTurn = Side.Tac
+                Side = Side.Tac
             };
             Assert.Equal(expectedResult.CellNumber, result.CellNumber);
-            Assert.Equal(expectedResult.WhichTurn, result.WhichTurn);
+            Assert.Equal(expectedResult.Side, result.Side);
         }
     }
 
@@ -107,7 +107,7 @@ namespace XUnitTestTicTacToe
             game.InitBoard();
             var ticBot = new SimpleBot(game, Side.Tic);
             ticBot.MakeAutoMove();
-            Assert.Equal(Side.Tic, game.History.LastTurn.WhichTurn);
+            Assert.Equal(Side.Tic, game.History.LastTurn.Side);
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace XUnitTestTicTacToe
             var tacBot = new SimpleBot(game, Side.Tac);
             ticBot.MakeAutoMove();
             tacBot.MakeAutoMove();
-            Assert.Equal(Side.Tac, game.History.LastTurn.WhichTurn);
+            Assert.Equal(Side.Tac, game.History.LastTurn.Side);
         }
 
         public bool BoardIsFull(Board board)
