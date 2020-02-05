@@ -17,14 +17,14 @@ namespace ASP.NETCoreTicTacToe.Controllers
             this.gameAPI = gameAPI;
         }
 
-        [HttpPost]
+        
         public void UpdateGame(int? id)
         {
             var (gameId, game) = gameAPI.GetGame(id, null);
             gameAPI.UpdateGame(game, gameId);
         }
 
-        [HttpPost]
+        
         public void MakeBotMove(int? id, string player)
         {
             var (_, game) = gameAPI.GetGame(id, null);
@@ -59,6 +59,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             else
             {
                 return NotFound();
+                //return Ok(new { });
             }
         }
 
@@ -67,6 +68,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (_, game) = gameAPI.GetGame(id, null);
             bool result = game.MakeMove(turn);
+            UpdateGame(id);
+            MakeBotMove(id, game.TicPlayer.Side == turn.Side 
+                ? game.TicPlayer.Name 
+                : game.TacPlayer.Side == turn.Side
+                ? game.TacPlayer.Name
+                : null);
             return result;
         }
 

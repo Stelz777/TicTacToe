@@ -180,25 +180,10 @@ class Board extends React.Component
     {
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        this.updateGame(id);
-        this.makeBotMove(id);
         this.updates(id, squareIndex);
     }
 
-    updateGame(id)
-    {
-        fetch(`/api/game/updategame/${id}`, {
-            method: 'POST'
-        });
-    }
-
-    makeBotMove(id)
-    {
-        console.log("makeBotMove this.props.playerName", this.props.playerName);
-        fetch(`api/game/makebotmove/${id}?player=${this.props.playerName}`, {
-            method: 'POST',
-        });
-    }
+    
 
     updates(id, squareIndex)
     {
@@ -211,7 +196,7 @@ class Board extends React.Component
             if (messages.lastTurn)
             {
                 let receivedCell = messages.lastTurn.cellNumber;
-                if (receivedCell >= 0 && receivedCell !== squareIndex)
+                if (receivedCell >= 0)
                 {
                     this.props.gameBoardClicked(receivedCell, messages.lastTurn.side);
                     squareIndex = receivedCell;
@@ -239,7 +224,6 @@ class Board extends React.Component
             if (data)
             {
                 this.props.gameBoardClicked(squareIndex, this.props.side);
-                this.refreshBoard(squareIndex);
             }
         })
     }
