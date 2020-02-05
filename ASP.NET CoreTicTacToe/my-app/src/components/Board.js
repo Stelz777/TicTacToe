@@ -246,7 +246,10 @@ class Board extends React.Component
     handleClick(i)
     {
         console.log("handleClick side: ", this.props.side);
-        this.sendTurn(i, this.props.side);
+        if (this.props.playerName !== '')
+        {
+            this.sendTurn(i, this.props.side);
+        }
     }
 
     render()
