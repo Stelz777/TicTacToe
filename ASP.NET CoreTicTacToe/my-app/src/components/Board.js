@@ -217,6 +217,7 @@ class Board extends React.Component
                     squareIndex = receivedCell;
                 }
             }
+            
             setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         });
     }

@@ -49,7 +49,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 return NotFound();
             }
             var requesterSide = game.GetSideByName(playerName);
-            if (lastTurn.Side != requesterSide)
+            if (lastTurn.Side != requesterSide || playerName == null)
             {
                 return Ok(new
                 {
