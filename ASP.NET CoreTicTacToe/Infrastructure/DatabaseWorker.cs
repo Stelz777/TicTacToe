@@ -15,6 +15,7 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         private TicTacToeContext database;
         private IMapper mapper;
+        
 
         public GameDbRepository(TicTacToeContext database, IMapper mapper)
         {
@@ -65,18 +66,22 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public void UpdateGameInDatabase(Game game, int gameId)
         {
-            var gameDTO = mapper.Map<GameDataTransferObject>(game);   
+            
+            
+            var gameDTO = mapper.Map<GameDataTransferObject>(game);
             gameDTO.ID = gameId;
-            try
+            
+            var optionsBuilder = CreateOptionsBuilder();
+            using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
-                database.Games.Update(gameDTO);
+                context.Games.Update(gameDTO);
+                context.SaveChanges();
             }
-            catch(Exception exception)
-            {
-              
-            }
-            database.SaveChanges();
+               
+            
         }
+
+        
 
         public int GetNewId()
         {

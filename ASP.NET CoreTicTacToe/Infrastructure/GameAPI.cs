@@ -10,6 +10,7 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         private readonly GameDbRepository gameRepository;
         private readonly GameFarm gameFarm;
+        
 
         public GameAPI(GameFarm gameFarm, TicTacToeContext database, IMapper mapper)
         {
@@ -53,8 +54,12 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     return;
                 }
-                gameRepository.UpdateGameInDatabase(game, gameId);
-                gameFarm.ExcludeGame(gameId);
+                if (gameFarm.Games.ContainsKey(gameId))
+                {
+                    gameRepository.UpdateGameInDatabase(game, gameId);
+                    gameFarm.ExcludeGame(gameId);
+                }
+                
             }
         }
 

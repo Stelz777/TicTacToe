@@ -41,6 +41,7 @@ namespace ASP.NETCoreTicTacToe
             services.AddSingleton<Models.GameFarm>();
             services.AddSingleton<Models.BotFarm>();
             services.AddTransient<GameAPI>();
+            
 
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
