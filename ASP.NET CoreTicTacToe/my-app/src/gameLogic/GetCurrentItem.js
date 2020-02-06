@@ -4,7 +4,7 @@ function GetCurrentItem(history, reverseIsChecked, stepNumber)
         {
             return null;
         }
-        console.log("getCurrentHistoryItem this.props.stepNumber: ", stepNumber);
+        
         if (reverseIsChecked)
         {
             return history[stepNumber - 1];

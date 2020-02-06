@@ -127,12 +127,12 @@ class Board extends React.Component
     renderSquare(index, isHighlighted)
     {
         const history = this.props.history;
-        console.log("renderSquare history: ", history);
+        
         let current = ValidateArray(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber) : this.props.board;
-        console.log("renderSquare current: ", current);
+        
         let square;
         let squares = ValidateArray(history) ? current.squares : current;
-        console.log("renderSquare squares: ", squares);
+        
         if (isHighlighted)
         {
             square = this.renderHighlightedSquare(squares, index);

@@ -74,7 +74,7 @@ class History extends React.Component
             if (!this.props.reverseIsChecked)
             {
                 i = this.findDifferencesBetweenTwoArrays(step.squares, previousStep);
-                desc = this.generateDescription(desc, move, move, i);
+                desc = this.generateDescription(desc, move, i);
                 previousStep = step.squares;
             }
             else
@@ -90,12 +90,12 @@ class History extends React.Component
                     i = 0;
                 }
                 
-                desc = this.generateDescription(desc, reverseMove, reverseMove, i);
+                desc = this.generateDescription(desc, reverseMove, i);
             }
             
             return (
                 <li key = { move } >
-                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(move, i) : () => this.jumpTo(move - 1, i) }> { desc } </button>
+                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(move + 1, i) : () => this.jumpTo(move, i) }> { desc } </button>
                 </li>
             );
         });
@@ -116,9 +116,9 @@ class History extends React.Component
         }
     }
 
-    generateDescription(desc, condition, move, i)
+    generateDescription(desc, move, i)
     {
-        desc = condition ? 'Перейти к ходу #' + move + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')' : 'К началу игры';
+        desc = 'Перейти к ходу #' + (move + 1) + '(' + this.getColumn(i) + ' , ' + this.getRow(i) + ')';
         return desc;
     }
 
