@@ -8,6 +8,23 @@ export const BOT_TURN_RESPONDED = 'BOT_TURN_RESPONDED';
 export const BOARD_REQUESTED = 'BOARD_REQUESTED';
 export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
 export const SIDE_RECEIVED = 'SIDE_RECEIVED';
+export const BOT_SET = 'BOT_SET';
+export const BOT_IS_X = 'BOT_IS_X';
+
+export function botIsX()
+{
+    return {
+        type: BOT_IS_X
+    }
+}
+
+export function botSet(bot)
+{
+    return {
+        type: BOT_SET,
+        bot
+    }
+}
 
 export function sideReceived(side, playerName)
 {

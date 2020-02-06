@@ -2,7 +2,7 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested, sideReceived } from '../actions/actions'
+import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
@@ -15,7 +15,8 @@ const mapStateToProps = (state) =>
             stepNumber: 0,
             highlights: Array(9).fill(false),
             side: 0,
-            playerName: ''
+            playerName: '',
+            bot: ''
         }
     }
     else
@@ -27,7 +28,8 @@ const mapStateToProps = (state) =>
             xIsNext: state.status.xIsNext,
             highlights: state.highlights,
             side: state.side,
-            playerName: state.playerName
+            playerName: state.playerName,
+            bot: state.bot
         };
     }
 }
@@ -37,7 +39,9 @@ const mapDispatchToProps =
     gameBoardClicked,
     boardRequested,
     historyRequested,
-    sideReceived
+    sideReceived,
+    botSet,
+    botIsX
 }
 
 class Board extends React.Component
@@ -69,7 +73,7 @@ class Board extends React.Component
         const id = this.getIdFromUrlParams(urlParams);
         const bot = this.getBotFromUrlParams(urlParams);
         console.log(bot);
-
+        this.props.botSet(bot);
         fetch(`/api/farm/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
@@ -77,6 +81,10 @@ class Board extends React.Component
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
                 window.history.replaceState(null, null, `?id=${data.id}`);
+                if (bot === "X")
+                {
+                    this.props.botIsX();
+                }
                 if (bot !== "XO")
                 {
                     this.refreshBoard(-1); 
@@ -178,6 +186,7 @@ class Board extends React.Component
 
     refreshBoard(squareIndex)
     {
+        console.log("refreshBoard this.props.history: ", this.props.history);
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         this.updates(id, squareIndex);
@@ -187,28 +196,32 @@ class Board extends React.Component
 
     updates(id, squareIndex)
     {
-        fetch(`/api/game/updates/${id}?playerName=${this.props.playerName}`, { 
+        console.log("updates this.props.history: ", this.props.history);
+        let currentTurn = this.props.history.length;
+        
+        fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, { 
             method: 'GET'
         })
         .then((response) => response.json())
         .then((messages) => {
             console.log("refreshboard messages: ", messages); 
-            if (messages.lastTurn)
+            for (var i = 0; i < messages.length; i++)
             {
-                let receivedCell = messages.lastTurn.cellNumber;
+                let receivedCell = messages[i].cellNumber;
                 if (receivedCell >= 0)
                 {
-                    this.props.gameBoardClicked(receivedCell, messages.lastTurn.side);
+                    this.props.gameBoardClicked(receivedCell, messages[i].side);
                     squareIndex = receivedCell;
                 }
             }
             
-            setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
+            setTimeout(() => { this.refreshBoard(squareIndex) }, 10000);
         });
     }
 
     sendTurn(squareIndex, side)
     {
+        
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         fetch(`/api/game/maketurn/${id}`, {
@@ -221,9 +234,12 @@ class Board extends React.Component
         })
         .then(response => response.json())
         .then(data => {
+            console.log("sendTurn data: ", data);
             if (data)
             {
+                console.log("sendTurn before this.props.history: ", this.props.history);
                 this.props.gameBoardClicked(squareIndex, this.props.side);
+                console.log("sendTurn after this.props.history: ", this.props.history);
             }
         })
     }

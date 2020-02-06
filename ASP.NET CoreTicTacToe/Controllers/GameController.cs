@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
@@ -40,27 +41,15 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpGet]
-        public IActionResult Updates(int? id, string playerName)
+        public IActionResult Updates(int? id, int currentTurn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
-            var lastTurn = game.History.LastTurn;
-            if (lastTurn.CellNumber == -1)
+            var resultTurns = new List<Turn>();
+            for (int i = currentTurn; i < game.History.Turns.Count; i++)
             {
-                return NotFound();
+                resultTurns.Add(game.History.Turns[i]);
             }
-            var requesterSide = game.GetSideByName(playerName);
-            if (lastTurn.Side != requesterSide || playerName == null)
-            {
-                return Ok(new
-                {
-                    lastTurn
-                });
-            }
-            else
-            {
-                return NotFound();
-                //return Ok(new { });
-            }
+            return Ok(resultTurns);
         }
 
         [HttpPost]

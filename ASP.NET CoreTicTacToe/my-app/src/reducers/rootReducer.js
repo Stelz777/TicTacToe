@@ -3,6 +3,7 @@ import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
 import { SIDE_RECEIVED } from '../actions/actions';
+import { BOT_SET , BOT_IS_X} from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
     highlights: Array(9).fill(false), 
     board: Array(9).fill(null),
     side: 0,
-    playerName: ''
+    playerName: '',
+    bot: ''
 }
 
 function getHistorySlice(state)
@@ -26,6 +28,7 @@ function getHistorySlice(state)
     }
     else
     {
+        
         return state.history.slice(0, state.status.stepNumber + 1);
     }
 }
@@ -42,10 +45,26 @@ function getLastHistoryItem(state, history)
     }
 }
 
+
+
 function rootReducer(state = initialState, action)
 {
+    
     switch (action.type)
     {
+        case BOT_IS_X:
+            return ({
+                ...state,
+                status: { 
+                    stepNumber: state.status.stepNumber + 1
+                }
+            });
+        case BOT_SET:
+            return ({
+                ...state,
+                bot: action.bot
+            });
+
         case SIDE_RECEIVED:
             return ({
                 ...state,
@@ -80,7 +99,7 @@ function rootReducer(state = initialState, action)
 
         case GAME_BOARD_CLICKED:
             let history = getHistorySlice(state);
-        
+            console.log("rootReducer history: ", history);
             let current = getLastHistoryItem(state, history);
             
             const squares = current.squares.slice();
@@ -90,7 +109,7 @@ function rootReducer(state = initialState, action)
                 return state;
             }
             squares[action.squareIndex] = action.side === 0 ? 'X' : 'O';
-            
+            console.log("rootReducer state.history: ", state.history);
             return { 
                 ...state, 
                 history: state.reverseIsChecked 
