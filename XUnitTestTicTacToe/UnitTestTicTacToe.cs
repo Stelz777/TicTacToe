@@ -37,20 +37,6 @@ namespace XUnitTestTicTacToe
             bool result = game.MakeMove(turn);
             Assert.True(result);
         }
-
-        [Fact]
-        public void GetInvalidTurnFact()
-        {
-            var game = new Game();
-            Turn result = History.GetInvalidTurn();
-            var expectedResult = new Turn
-            {
-                CellNumber = -1,
-                Side = Side.Tac
-            };
-            Assert.Equal(expectedResult.CellNumber, result.CellNumber);
-            Assert.Equal(expectedResult.Side, result.Side);
-        }
     }
 
     public class UnitTestTicTacToeRulesHelper

@@ -213,7 +213,7 @@ class Board extends React.Component
         
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
-        fetch(`/api/game/maketurn/${id}`, {
+        fetch(`/api/game/maketurn/${id}?name=${this.props.playerName}`, {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, Side: side }),
             headers: {

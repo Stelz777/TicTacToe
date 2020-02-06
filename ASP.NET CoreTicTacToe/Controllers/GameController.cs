@@ -30,21 +30,17 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public bool MakeTurn(int? id, Turn turn)
+        public bool MakeTurn(int? id, string name, Turn turn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
             bool result = game.MakeMove(turn);
             UpdateGame(id);
-            MakeBotMove(id, game.TicPlayer.Side == turn.Side 
-                ? game.TicPlayer.Name 
-                : game.TacPlayer.Side == turn.Side
-                ? game.TacPlayer.Name
-                : null);
+            MakeBotMove(id, name);
             return result;
         }
 
         [HttpPost]
-        public Side SetName(int? id, Player player)
+        public Side? SetName(int? id, Player player)
         {
             var (_, game) = gameAPI.GetGame(id, null);
             if (player != null)
@@ -54,7 +50,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             }
             else
             {
-                throw new ArgumentException("No player specified by client.");
+                return null;
             }
         }
 

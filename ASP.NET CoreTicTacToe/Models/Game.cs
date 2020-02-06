@@ -51,7 +51,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return false;
         }
 
-        public Side SetName(string name)
+        public Side? SetName(string name)
         {
             if (TicPlayer.Name == null)
             {
@@ -65,7 +65,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 return TacPlayer.Side;
             }
             
-            throw new Exception("Only 2 players are supported.");
+            return null;
         }
 
 
