@@ -77,18 +77,18 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (game != null && bot != null)
             {
-                if (bot.Equals("X"))
+                if (bot == "X")
                 {
                     game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
                     game.TicPlayer.Name = "S1mpleX";
                     game.TicPlayer.Bot.MakeAutoMove();
                 }
-                else if (bot.Equals("O"))
+                else if (bot == "O")
                 {
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
                     game.TacPlayer.Name = "S1mpleO";
                 }
-                else if (bot.Equals("XO"))
+                else if (bot == "XO")
                 {
                     game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);

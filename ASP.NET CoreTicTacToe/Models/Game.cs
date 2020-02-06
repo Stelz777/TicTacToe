@@ -94,6 +94,10 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public bool MakeMoveIfNoWinner(Turn turn)
         {
+            if (turn == null)
+            {
+                return false;
+            }
             if (!Board.HasWinner)
             {
                 if (Board.Squares[turn.CellNumber] == Cell.Empty)
@@ -139,28 +143,30 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public Side? GetSideByName(string name)
         {
-            if (TicPlayer.Name != null)
+            if (name == null)
             {
-                if (TicPlayer.Name.Equals(name))
-                {
-                    return TicPlayer.Side;
-                }
+                return null;
             }
-            if (TacPlayer.Name != null)
+            
+            if (TicPlayer.Name == name)
             {
-                if (TacPlayer.Name.Equals(name))
-                {
-                    return TacPlayer.Side;
-                }
+                return TicPlayer.Side;
             }
+            
+            if (TacPlayer.Name == name)
+            {
+                return TacPlayer.Side;
+            }
+            
             return null;
         }
 
         public Player GetOpponent(string name)
         {
             if (name == null)
+            {
                 return null;
-
+            }
             if (TicPlayer.Name == name)
             {
                 return TacPlayer;
