@@ -3,7 +3,8 @@ import History from './History'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import ValidateArray from '../validation/validator';
 import { connect } from 'react-redux';
-import Name from './Name'
+import Name from './Name';
+import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
 {
@@ -29,27 +30,6 @@ const mapStateToProps = (state) =>
 
 class Info extends React.Component
 {
-    getCurrentHistoryItem(history)
-    {
-        console.log("Info.getCurrentHistoryItem history: ", history);
-        if (history === null)
-        {
-            return null;
-        }
-        if (this.props.reverseIsChecked)
-        {
-            return history[this.props.stepNumber];
-        }
-        else
-        {
-            if (history[this.props.stepNumber + 1] !== undefined)
-            {
-                return history[this.props.stepNumber + 1];
-            }
-            return history[this.props.stepNumber];
-        }
-    }
-
     calculateStatus(winner)
     {
         if (winner)
@@ -73,7 +53,7 @@ class Info extends React.Component
     render() 
     {
         const history = this.props.history;
-        let current = this.getCurrentHistoryItem(history);
+        let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
         
         let winner = ValidateArray(history) ? CalculateWinner(current.squares) : null; 
         let status = this.calculateStatus(winner);

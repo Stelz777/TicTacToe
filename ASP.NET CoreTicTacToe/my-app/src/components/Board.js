@@ -4,6 +4,7 @@ import Square from './Square.js';
 import { connect } from 'react-redux';
 import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions';
 import ValidateArray from '../validation/validator';
+import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
 {
@@ -103,27 +104,6 @@ class Board extends React.Component
         }
     }
 
-    getCurrentHistoryItem(history)
-    {
-        if (history === null)
-        {
-            return null;
-        }
-        if (this.props.reverseIsChecked)
-        {
-            return history[this.props.stepNumber];
-        }
-        else
-        {
-            if (history[this.props.stepNumber + 1] !== undefined)
-            {
-                return history[this.props.stepNumber + 1];
-            }
-            
-            return history[this.props.stepNumber];
-        }
-    }
-
     renderHighlightedSquare(squares, index)
     {
         return (
@@ -148,7 +128,7 @@ class Board extends React.Component
     {
         const history = this.props.history;
         console.log("renderSquare history: ", history);
-        let current = ValidateArray(history) ? this.getCurrentHistoryItem(history) : this.props.board;
+        let current = ValidateArray(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber) : this.props.board;
         console.log("renderSquare current: ", current);
         let square;
         let squares = ValidateArray(history) ? current.squares : current;
