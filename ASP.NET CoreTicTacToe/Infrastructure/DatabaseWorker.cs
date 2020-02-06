@@ -57,7 +57,6 @@ namespace ASP.NETCoreTicTacToe.Models
 
             var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
             database.Games.Add(gameDataTransferObject);
-            gameDataTransferObject.History.Turns[0].HistoryDataTransferObjectId = gameDataTransferObject.History.Id;
 
             database.SaveChanges();
             return gameDataTransferObject.ID;

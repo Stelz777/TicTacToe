@@ -31,7 +31,7 @@ class Name extends React.Component
 
     textChanged(name)
     {
-        console.log("textchanged name: ", name);
+        
         let id = new URLSearchParams(window.location.search).get('id');
         fetch(`/api/game/setname/${id}`, {
             method: 'POST',
@@ -43,7 +43,7 @@ class Name extends React.Component
         })
         .then(response => response.json())
         .then(data => {
-            console.log("textchanged data: ", data);
+            
             this.props.sideReceived(data, name);
         })
     }

@@ -28,12 +28,11 @@ namespace ASP.NETCoreTicTacToe.Models
         public void InitHistory()
         {
             History = new History();
-            History.AddInvalidTurn();
         }
 
         public void InitBoard()
         {
-            Board = History.RestoreBoardByTurnNumber(0);
+            Board = new Board();
         }
 
         public bool CanContinue()
@@ -69,45 +68,55 @@ namespace ASP.NETCoreTicTacToe.Models
             throw new Exception("Only 2 players are supported.");
         }
 
+
+
         public bool MakeMove(Turn turn)
         {
             if (turn == null)
             {
                 return false;
             }
-           
+            
             Turn lastTurn = History.LastTurn;
-
+            if (lastTurn == null)
+            {
+                return MakeMoveIfNoWinner(turn);
+            }
             if (lastTurn.Side == turn.Side)
             { 
                 return false;
             }
             else
             {
-                if (!Board.HasWinner)
+                return MakeMoveIfNoWinner(turn);
+            }
+        }
+
+        public bool MakeMoveIfNoWinner(Turn turn)
+        {
+            if (!Board.HasWinner)
+            {
+                if (Board.Squares[turn.CellNumber] == Cell.Empty)
                 {
-                    if (Board.Squares[turn.CellNumber] == Cell.Empty)
-                    {
-                        Board newBoard = new Board();
-                        newBoard.SetSquares(Board.Squares);
-                        newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.Side));
-                        History.Turns.Add(turn);
-                            
-                        Board = newBoard;
+                    Board newBoard = new Board();
+                    newBoard.SetSquares(Board.Squares);
+                    newBoard.SetSquare(turn.CellNumber, Board.GetCellBySide(turn.Side));
+                    History.Turns.Add(turn);
 
-                        SetPlayersActivity(turn);
+                    Board = newBoard;
 
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    SetPlayersActivity(turn);
+
+                    return true;
                 }
                 else
                 {
                     return false;
                 }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -128,7 +137,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public Side GetSideByName(string name)
+        public Side? GetSideByName(string name)
         {
             if (TicPlayer.Name != null)
             {
@@ -144,24 +153,21 @@ namespace ASP.NETCoreTicTacToe.Models
                     return TacPlayer.Side;
                 }
             }
-            return Side.Tac;
+            return null;
         }
 
         public Player GetOpponent(string name)
         {
-            if (TicPlayer.Name != null)
+            if (name == null)
+                return null;
+
+            if (TicPlayer.Name == name)
             {
-                if (TicPlayer.Name.Equals(name))
-                {
-                    return TacPlayer;
-                }
+                return TacPlayer;
             }
-            if (TacPlayer.Name != null)
+            if (TacPlayer.Name == name)
             {
-                if (TacPlayer.Name.Equals(name))
-                {
-                    return TicPlayer;
-                }
+                return TicPlayer;
             }
             return null;
         }

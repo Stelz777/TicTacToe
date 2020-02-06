@@ -14,13 +14,12 @@ namespace ASP.NETCoreTicTacToe.Models
         public Turn LastTurn =>
              turns.Count > 0 ? turns[turns.Count - 1] : null;
 
-        public void AddInvalidTurn()
-        {
-            turns.Add(GetInvalidTurn());
-        }
-
         public Board RestoreBoardByTurnNumber(int turnNumber)
         {
+            if (turns.Count == 0)
+            {
+                return null;
+            }
             var board = new Board();
             for (int i = 0; i <= turnNumber; i++)
             {
@@ -43,15 +42,6 @@ namespace ASP.NETCoreTicTacToe.Models
                 }
             }
             return boards;
-        }
-
-        public static Turn GetInvalidTurn()
-        {
-            return new Turn
-            {
-                CellNumber = -1,
-                Side = Side.Tac
-            };
         }
     }
 }

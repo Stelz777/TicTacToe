@@ -8,7 +8,7 @@ const mapStateToProps = (state) =>
     if (state === undefined)
     {
         return {
-            history: [{ squares: Array(9).fill(null), }],
+            history: null,
             reverseIsChecked: false,
         }
     }
@@ -43,7 +43,7 @@ class History extends React.Component
 
     jumpTo(step, i)
     {  
-        console.log("jumpTo step: ", step);
+        
         if (step < 0)
         {
             step = 0;
@@ -63,6 +63,10 @@ class History extends React.Component
 
     printMoveList(history, moves, previousStep)
     {
+        if (history === null)
+        {
+            return null;
+        }
         moves = history.map((step, move) => 
         {
             let i;

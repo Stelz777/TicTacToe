@@ -5,9 +5,10 @@ import { BOARD_REQUESTED } from '../actions/actions';
 import { SIDE_RECEIVED } from '../actions/actions';
 import { BOT_SET , BOT_IS_X} from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
+import ValidateArray from '../validation/validator';
 
 const initialState = {
-    history: [{ squares: Array(9).fill(null), }],
+    history: null,
     reverseIsChecked: false,
     status: {
         xIsNext: true,
@@ -98,18 +99,17 @@ function rootReducer(state = initialState, action)
 
 
         case GAME_BOARD_CLICKED:
-            let history = getHistorySlice(state);
-            console.log("rootReducer history: ", history);
-            let current = getLastHistoryItem(state, history);
             
-            const squares = current.squares.slice();
+            let history = getHistorySlice(state);
+            let current = ValidateArray(history) ? getLastHistoryItem(state, history) : state.board;
+            let squares = ValidateArray(history) ? current.squares.slice() : current.slice();
                
             if (CalculateWinner(squares) || squares[action.squareIndex])
             {
                 return state;
             }
             squares[action.squareIndex] = action.side === 0 ? 'X' : 'O';
-            console.log("rootReducer state.history: ", state.history);
+            
             return { 
                 ...state, 
                 history: state.reverseIsChecked 

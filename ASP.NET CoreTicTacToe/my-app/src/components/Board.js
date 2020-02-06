@@ -2,21 +2,23 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions'
+import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions';
+import ValidateArray from '../validation/validator';
 
 const mapStateToProps = (state) =>
 {
     if (state === undefined)
     {
         return {
-            history: [{ squares: Array(9).fill(null), }],
+            history: null,
             reverseIsChecked: false,
             xIsNext: true,
             stepNumber: 0,
             highlights: Array(9).fill(false),
             side: 0,
             playerName: '',
-            bot: ''
+            bot: '',
+            board: Array(9).fill(null)
         }
     }
     else
@@ -29,7 +31,8 @@ const mapStateToProps = (state) =>
             highlights: state.highlights,
             side: state.side,
             playerName: state.playerName,
-            bot: state.bot
+            bot: state.bot,
+            board: state.board
         };
     }
 }
@@ -72,12 +75,12 @@ class Board extends React.Component
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         const bot = this.getBotFromUrlParams(urlParams);
-        console.log(bot);
+        
         this.props.botSet(bot);
         fetch(`/api/farm/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-                console.log("getGame data: ", data);
+                
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
                 window.history.replaceState(null, null, `?id=${data.id}`);
@@ -87,7 +90,7 @@ class Board extends React.Component
                 }
                 if (bot !== "XO")
                 {
-                    this.refreshBoard(-1); 
+                    this.refreshBoard(null); 
                 }
             });
     }
@@ -102,6 +105,10 @@ class Board extends React.Component
 
     getCurrentHistoryItem(history)
     {
+        if (history === null)
+        {
+            return null;
+        }
         if (this.props.reverseIsChecked)
         {
             return history[this.props.stepNumber];
@@ -114,26 +121,24 @@ class Board extends React.Component
             }
             
             return history[this.props.stepNumber];
-            
-            
         }
     }
 
-    renderHighlightedSquare(current, index)
+    renderHighlightedSquare(squares, index)
     {
         return (
             <HighlightedSquare 
-                value= { current.squares[index] }
+                value= { squares[index] }
                 onClick= { () => this.handleClick(index) }
             />
         );
     }
 
-    renderSimpleSquare(current, index)
+    renderSimpleSquare(squares, index)
     {
         return (
             <Square
-                value= { current.squares[index] }
+                value= { squares[index] }
                 onClick= { () => this.handleClick(index) }
             />
         );
@@ -142,15 +147,19 @@ class Board extends React.Component
     renderSquare(index, isHighlighted)
     {
         const history = this.props.history;
-        let current = this.getCurrentHistoryItem(history);
+        console.log("renderSquare history: ", history);
+        let current = ValidateArray(history) ? this.getCurrentHistoryItem(history) : this.props.board;
+        console.log("renderSquare current: ", current);
         let square;
+        let squares = ValidateArray(history) ? current.squares : current;
+        console.log("renderSquare squares: ", squares);
         if (isHighlighted)
         {
-            square = this.renderHighlightedSquare(current, index);
+            square = this.renderHighlightedSquare(squares, index);
         }
         else
         {
-            square = this.renderSimpleSquare(current, index);
+            square = this.renderSimpleSquare(squares, index);
         }
         return square;
     }
@@ -186,7 +195,7 @@ class Board extends React.Component
 
     refreshBoard(squareIndex)
     {
-        console.log("refreshBoard this.props.history: ", this.props.history);
+        
         const urlParams = this.createUrlParams();
         const id = this.getIdFromUrlParams(urlParams);
         this.updates(id, squareIndex);
@@ -196,7 +205,7 @@ class Board extends React.Component
 
     updates(id, squareIndex)
     {
-        console.log("updates this.props.history: ", this.props.history);
+        
         let currentTurn = this.props.history.length;
         
         fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, { 
@@ -204,7 +213,7 @@ class Board extends React.Component
         })
         .then((response) => response.json())
         .then((messages) => {
-            console.log("refreshboard messages: ", messages); 
+            
             for (var i = 0; i < messages.length; i++)
             {
                 let receivedCell = messages[i].cellNumber;
@@ -234,19 +243,19 @@ class Board extends React.Component
         })
         .then(response => response.json())
         .then(data => {
-            console.log("sendTurn data: ", data);
+            
             if (data)
             {
-                console.log("sendTurn before this.props.history: ", this.props.history);
+                
                 this.props.gameBoardClicked(squareIndex, this.props.side);
-                console.log("sendTurn after this.props.history: ", this.props.history);
+                
             }
         })
     }
 
     handleClick(i)
     {
-        console.log("handleClick side: ", this.props.side);
+        
         if (this.props.playerName !== '')
         {
             this.sendTurn(i, this.props.side);

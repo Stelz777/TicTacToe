@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
@@ -19,36 +20,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         
-        public void UpdateGame(int? id)
-        {
-            var (gameId, game) = gameAPI.GetGame(id, null);
-            gameAPI.UpdateGame(game, gameId);
-        }
-
-        
-        public void MakeBotMove(int? id, string player)
-        {
-            var (_, game) = gameAPI.GetGame(id, null);
-            var opponent = game.GetOpponent(player);
-            if (opponent != null)
-            {
-                if (opponent.Bot != null)
-                {
-                    var bot = opponent.Bot;
-                    bot.MakeAutoMove();
-                }
-            }
-        }
 
         [HttpGet]
         public IActionResult Updates(int? id, int currentTurn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
-            var resultTurns = new List<Turn>();
-            for (int i = currentTurn; i < game.History.Turns.Count; i++)
-            {
-                resultTurns.Add(game.History.Turns[i]);
-            }
+            var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
             return Ok(resultTurns);
         }
 
@@ -81,6 +58,24 @@ namespace ASP.NETCoreTicTacToe.Controllers
             }
         }
 
-        
+        private void MakeBotMove(int? id, string player)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            var opponent = game.GetOpponent(player);
+            if (opponent != null)
+            {
+                if (opponent.Bot != null)
+                {
+                    var bot = opponent.Bot;
+                    bot.MakeAutoMove();
+                }
+            }
+        }
+
+        private void UpdateGame(int? id)
+        {
+            var (gameId, game) = gameAPI.GetGame(id, null);
+            gameAPI.UpdateGame(game, gameId);
+        }
     }
 }

@@ -42,12 +42,12 @@ namespace ASP.NETCoreTicTacToe.Models
                 }
                 else
                 {
-                    return History.GetInvalidTurn();
+                    return null;
                 }
             }
             else
             {
-                return History.GetInvalidTurn();
+                return null;
             }
         }
     }
