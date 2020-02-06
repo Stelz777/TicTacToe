@@ -5,7 +5,7 @@ import { BOARD_REQUESTED } from '../actions/actions';
 import { SIDE_RECEIVED } from '../actions/actions';
 import { BOT_SET , BOT_IS_X} from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
-import ValidateArray from '../validation/validator';
+import ArrayNotNullOrEmpty from '../utility/utils';
 
 const initialState = {
     history: null,
@@ -101,8 +101,8 @@ function rootReducer(state = initialState, action)
         case GAME_BOARD_CLICKED:
             
             let history = getHistorySlice(state);
-            let current = ValidateArray(history) ? getLastHistoryItem(state, history) : state.board;
-            let squares = ValidateArray(history) ? current.squares.slice() : current.slice();
+            let current = ArrayNotNullOrEmpty(history) ? getLastHistoryItem(state, history) : state.board;
+            let squares = ArrayNotNullOrEmpty(history) ? current.squares.slice() : current.slice();
                
             if (CalculateWinner(squares) || squares[action.squareIndex])
             {

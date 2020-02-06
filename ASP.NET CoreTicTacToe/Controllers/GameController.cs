@@ -57,15 +57,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         private void MakeBotMove(int? id, string player)
         {
             var (_, game) = gameAPI.GetGame(id, null);
-            var opponent = game.GetOpponent(player);
-            if (opponent != null)
-            {
-                if (opponent.Bot != null)
-                {
-                    var bot = opponent.Bot;
-                    bot.MakeAutoMove();
-                }
-            }
+            game.MakeBotMove(player);
         }
 
         private void UpdateGame(int? id)

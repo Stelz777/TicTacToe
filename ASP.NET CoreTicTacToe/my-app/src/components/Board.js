@@ -3,7 +3,7 @@ import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
 import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions';
-import ValidateArray from '../validation/validator';
+import ArrayNotNullOrEmpty from '../utility/utils';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
@@ -128,10 +128,10 @@ class Board extends React.Component
     {
         const history = this.props.history;
         
-        let current = ValidateArray(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber) : this.props.board;
+        let current = ArrayNotNullOrEmpty(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber) : this.props.board;
         
         let square;
-        let squares = ValidateArray(history) ? current.squares : current;
+        let squares = ArrayNotNullOrEmpty(history) ? current.squares : current;
         
         if (isHighlighted)
         {
@@ -204,7 +204,7 @@ class Board extends React.Component
                 }
             }
             
-            setTimeout(() => { this.refreshBoard(squareIndex) }, 10000);
+            setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         });
     }
 

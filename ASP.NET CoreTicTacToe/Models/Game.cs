@@ -124,6 +124,19 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
+        public void MakeBotMove(string player)
+        { 
+            var opponent = GetOpponent(player);
+            if (opponent != null)
+            {
+                if (opponent.Bot != null)
+                {
+                    var bot = opponent.Bot;
+                    bot.MakeAutoMove();
+                }
+            }
+        }       
+
         public void SetPlayersActivity(Turn turn)
         {
             if (turn != null)

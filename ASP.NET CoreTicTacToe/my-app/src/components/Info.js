@@ -1,7 +1,7 @@
 import React from 'react';
 import History from './History'
 import CalculateWinner from '../gameLogic/CalculateWinner';
-import ValidateArray from '../validation/validator';
+import ArrayNotNullOrEmpty from '../utility/utils';
 import { connect } from 'react-redux';
 import Name from './Name';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
@@ -55,7 +55,7 @@ class Info extends React.Component
         const history = this.props.history;
         let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
         
-        let winner = ValidateArray(history) ? CalculateWinner(current.squares) : null; 
+        let winner = ArrayNotNullOrEmpty(history) ? CalculateWinner(current.squares) : null; 
         let status = this.calculateStatus(winner);
         
 
