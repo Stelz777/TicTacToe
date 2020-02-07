@@ -19,18 +19,38 @@ class Name extends React.Component
         return (
             <input
                 type = "text"
-                onBlur = { (event) => 
+                onBlur = { 
+                    (event) =>
                     {
-                        let name = event.target.value;
-                        if (name !== '')
-                        {
-                            this.textChanged(name);
-                            event.target.disabled = true;
-                        }
-                    } 
+                        this.nameTextBoxEventBody(event)
+                    }
+                }
+                onKeyDown = {
+                    this.checkEventEnterKey()
                 }
             />
         );
+    }
+
+    checkEventEnterKey()
+    {
+        return (event) =>
+        {
+            if (event.key === 'Enter')
+            {
+                this.nameTextBoxEventBody(event);
+            }
+        }
+    }
+
+    nameTextBoxEventBody(event)
+    {
+        let name = event.target.value;
+        if (name !== '')
+        {
+            this.textChanged(name);
+            event.target.disabled = true;
+        }
     }
 
     textChanged(name)
