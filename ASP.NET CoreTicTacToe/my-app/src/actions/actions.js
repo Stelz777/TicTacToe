@@ -11,6 +11,9 @@ export const SIDE_RECEIVED = 'SIDE_RECEIVED';
 export const BOT_SET = 'BOT_SET';
 export const BOT_IS_X = 'BOT_IS_X';
 
+
+
+
 export function botIsX()
 {
     return {

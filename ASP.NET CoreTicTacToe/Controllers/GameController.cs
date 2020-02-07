@@ -40,17 +40,24 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public Side? SetName(int? id, Player player)
+        public IActionResult SetName(int? id, Player player)
         {
             var (_, game) = gameAPI.GetGame(id, null);
             if (player != null)
             {
                 var side = game.SetName(player.Name);
-                return side;
+                if (side != null)
+                {
+                    return Ok(side);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return null;
+                return NotFound();
             }
         }
 

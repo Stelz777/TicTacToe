@@ -4,16 +4,17 @@ import { sideReceived } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
-
+    
 }
 
 const mapDispatchToProps =
 {
-    sideReceived
+    sideReceived,
 }
 
 class Name extends React.Component
 {
+    
     render()
     {
         return (
@@ -22,7 +23,9 @@ class Name extends React.Component
                 onBlur = { 
                     (event) =>
                     {
+                        
                         this.nameTextBoxEventBody(event)
+                        
                     }
                 }
                 onKeyDown = {
@@ -36,21 +39,26 @@ class Name extends React.Component
     {
         return (event) =>
         {
+            
             if (event.key === 'Enter')
             {
                 this.nameTextBoxEventBody(event);
             }
+            
         }
     }
 
     nameTextBoxEventBody(event)
     {
+        
+            
         let name = event.target.value;
         if (name !== '')
         {
             this.textChanged(name);
             event.target.disabled = true;
         }
+        
     }
 
     textChanged(name)
@@ -67,7 +75,7 @@ class Name extends React.Component
         })
         .then(response => response.json())
         .then(data => {
-            
+            console.log(data);
             this.props.sideReceived(data, name);
         })
     }

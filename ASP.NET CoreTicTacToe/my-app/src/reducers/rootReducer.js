@@ -18,7 +18,7 @@ const initialState = {
     board: Array(9).fill(null),
     side: 0,
     playerName: '',
-    bot: ''
+    bot: '',
 }
 
 function getHistorySlice(state)
