@@ -11,6 +11,14 @@ export const SIDE_RECEIVED = 'SIDE_RECEIVED';
 export const BOT_SET = 'BOT_SET';
 export const BOT_IS_X = 'BOT_IS_X';
 export const PLAYER_NAMES_RECEIVED = 'PLAYER_NAMES_RECEIVED';
+export const SPECTATOR_RESOLVED = 'SPECTATOR_RESOLVED';
+
+export function spectatorResolved()
+{
+    return {
+        type: SPECTATOR_RESOLVED
+    }
+}
 
 export function playerNamesReceived(ticName, tacName)
 {

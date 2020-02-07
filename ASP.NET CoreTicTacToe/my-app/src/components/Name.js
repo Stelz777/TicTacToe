@@ -1,15 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sideReceived } from '../actions/actions'
+import { sideReceived, spectatorResolved } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
-    
+    if (state === undefined)
+    {
+        return {
+            playerName: '',
+            ticPlayerName: '',
+            tacPlayerName: ''
+        }
+    }
+    else
+    {
+        return {
+            playerName: state.playerName,
+            ticPlayerName: state.ticPlayerName,
+            tacPlayerName: state.tacPlayerName
+        };
+    }
 }
 
 const mapDispatchToProps =
 {
     sideReceived,
+    spectatorResolved
 }
 
 class Name extends React.Component
@@ -17,6 +33,16 @@ class Name extends React.Component
     
     render()
     {
+        if (this.props.ticPlayerName !== null 
+            && this.props.ticPlayerName !== '' 
+            && this.props.tacPlayerName !== null 
+            && this.props.tacPlayerName !== '' 
+            && this.props.playerName === '')
+        {
+            console.log("spectator resolved!");
+            this.props.spectatorResolved();
+            return (null);
+        }
         return (
             <input
                 type = "text"

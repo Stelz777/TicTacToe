@@ -1,11 +1,11 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
 import { SIDE_RECEIVED } from '../actions/actions';
 import { BOT_SET , BOT_IS_X} from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
-import ArrayNotNullOrEmpty from '../utility/utils';
+import utils from '../utility/utils';
 
 const initialState = {
     history: null,
@@ -20,7 +20,8 @@ const initialState = {
     playerName: '',
     bot: '',
     ticPlayerName: '',
-    tacPlayerName: ''
+    tacPlayerName: '',
+    isSpectator: false
 }
 
 function getHistorySlice(state)
@@ -47,6 +48,11 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
+        case SPECTATOR_RESOLVED:
+            return ({
+                ...state,
+                isSpectator: true
+            });
         case PLAYER_NAMES_RECEIVED:
             return ({
                 ...state,
@@ -104,8 +110,8 @@ function rootReducer(state = initialState, action)
         case GAME_BOARD_CLICKED:
             
             let history = getHistorySlice(state);
-            let current = ArrayNotNullOrEmpty(history) ? getLastHistoryItem(state, history) : state.board;
-            let squares = ArrayNotNullOrEmpty(history) ? current.squares.slice() : current.slice();
+            let current = utils.ArrayNotNullOrEmpty(history) ? getLastHistoryItem(state, history) : state.board;
+            let squares = utils.ArrayNotNullOrEmpty(history) ? current.squares.slice() : current.slice();
                
             if (CalculateWinner(squares) || squares[action.squareIndex])
             {
