@@ -7,7 +7,7 @@ function GetCurrentItem(history, reverseIsChecked, stepNumber)
     
     if (reverseIsChecked)
     {
-        return history[stepNumber - 1];
+        return history[stepNumber];
     }
     else
     {

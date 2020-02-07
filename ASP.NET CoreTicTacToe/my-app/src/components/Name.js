@@ -21,8 +21,12 @@ class Name extends React.Component
                 type = "text"
                 onBlur = { (event) => 
                     {
-                        this.textChanged(event.target.value);
-                        event.target.disabled = true;
+                        let name = event.target.value;
+                        if (name !== '')
+                        {
+                            this.textChanged(name);
+                            event.target.disabled = true;
+                        }
                     } 
                 }
             />

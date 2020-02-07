@@ -95,7 +95,7 @@ class History extends React.Component
             
             return (
                 <li key = { move } >
-                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(move + 1, i) : () => this.jumpTo(move, i) }> { desc } </button>
+                    <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move, i) }> { desc } </button>
                 </li>
             );
         });

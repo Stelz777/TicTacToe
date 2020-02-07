@@ -22,16 +22,8 @@ const initialState = {
 }
 
 function getHistorySlice(state)
-{
-    if (state.reverseIsChecked)
-    {
-        return state.history.slice(state.history.length - state.status.stepNumber - 1, state.history.length);
-    }
-    else
-    {
-        
-        return state.history.slice(0, state.status.stepNumber + 1);
-    }
+{       
+    return state.history.slice(0, state.status.stepNumber + 1);
 }
 
 function getLastHistoryItem(state, history)
@@ -88,12 +80,14 @@ function rootReducer(state = initialState, action)
         case HISTORY_ITEM_CLICKED:
             let highlights = Array(9).fill(false);
             highlights[action.squareIndex] = true; 
+            console.log("HISTORY_ITEM_CLICKED action.stepInput: ", action.stepInput);
+            let historyItemClickedStepNumber = state.reverseIsChecked ? state.history.length - action.stepInput - 1 : action.stepInput;
             return ({ 
                 ...state, 
                 highlights: highlights,
                 status: { 
                     xIsNext: (action.stepInput % 2) !== 0, 
-                    stepNumber: action.stepInput
+                    stepNumber: historyItemClickedStepNumber
                 }
             });
 
@@ -122,10 +116,17 @@ function rootReducer(state = initialState, action)
                 board: squares,
             };
         case HISTORY_BUTTON_SWITCHED:
+            let currentStepNumber = state.status.stepNumber;
+            
+            let currentHistory = state.history.slice().reverse();
+
             return ({ 
                 ...state, 
-                history: state.history.slice().reverse(), 
-                reverseIsChecked: !state.reverseIsChecked 
+                history: currentHistory, 
+                reverseIsChecked: !state.reverseIsChecked,
+                status: {
+                    stepNumber: currentStepNumber 
+                }
             });    
         default: 
             return state;
