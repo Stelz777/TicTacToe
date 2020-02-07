@@ -116,7 +116,7 @@ function rootReducer(state = initialState, action)
                 board: squares,
             };
         case HISTORY_BUTTON_SWITCHED:
-            let currentStepNumber = state.status.stepNumber;
+            let currentStepNumber = state.history.length - state.status.stepNumber - 1;
             
             let currentHistory = state.history.slice().reverse();
 
