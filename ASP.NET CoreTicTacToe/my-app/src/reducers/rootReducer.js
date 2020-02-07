@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -19,6 +19,8 @@ const initialState = {
     side: 0,
     playerName: '',
     bot: '',
+    ticPlayerName: '',
+    tacPlayerName: ''
 }
 
 function getHistorySlice(state)
@@ -45,6 +47,13 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
+        case PLAYER_NAMES_RECEIVED:
+            return ({
+                ...state,
+                ticPlayerName: action.ticName,
+                tacPlayerName: action.tacName
+            });
+
         case BOT_IS_X:
             return ({
                 ...state,

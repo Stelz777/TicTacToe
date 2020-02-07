@@ -2,7 +2,7 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX } from '../actions/actions';
+import { gameBoardClicked, boardRequested, historyRequested, sideReceived, botSet, botIsX, playerNamesReceived } from '../actions/actions';
 import ArrayNotNullOrEmpty from '../utility/utils';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
@@ -45,7 +45,8 @@ const mapDispatchToProps =
     historyRequested,
     sideReceived,
     botSet,
-    botIsX
+    botIsX,
+    playerNamesReceived
 }
 
 class Board extends React.Component
@@ -193,17 +194,18 @@ class Board extends React.Component
         })
         .then((response) => response.json())
         .then((messages) => {
-            
-            for (var i = 0; i < messages.length; i++)
+            console.log("updates messages: ", messages);
+            let turns = messages[0];
+            for (var i = 0; i < turns.length; i++)
             {
-                let receivedCell = messages[i].cellNumber;
+                let receivedCell = turns[i].cellNumber;
                 if (receivedCell >= 0)
                 {
-                    this.props.gameBoardClicked(receivedCell, messages[i].side);
+                    this.props.gameBoardClicked(receivedCell, turns[i].side);
                     squareIndex = receivedCell;
                 }
             }
-            
+            this.props.playerNamesReceived(messages[1], messages[2]);
             setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         });
     }

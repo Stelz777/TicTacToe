@@ -10,9 +10,17 @@ export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
 export const SIDE_RECEIVED = 'SIDE_RECEIVED';
 export const BOT_SET = 'BOT_SET';
 export const BOT_IS_X = 'BOT_IS_X';
+export const PLAYER_NAMES_RECEIVED = 'PLAYER_NAMES_RECEIVED';
 
-
-
+export function playerNamesReceived(ticName, tacName)
+{
+    console.log("playerNamesReceived ticName: ", ticName);
+    return {
+        type: PLAYER_NAMES_RECEIVED,
+        ticName,
+        tacName
+    }
+}
 
 export function botIsX()
 {

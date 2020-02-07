@@ -154,6 +154,19 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
+        public string GetNameBySide(Side side)
+        {
+            if (side == Side.Tic)
+            {
+                return TicPlayer.Name;
+            }
+            if (side == Side.Tac)
+            {
+                return TacPlayer.Name;
+            }
+            return null;
+        }
+
         public Side? GetSideByName(string name)
         {
             if (name == null)

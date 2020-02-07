@@ -26,7 +26,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (_, game) = gameAPI.GetGame(id, null);
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
-            return Ok(resultTurns);
+            var ticPlayerName = game.TicPlayer.Name;
+            var tacPlayerName = game.TacPlayer.Name;
+            var results = new object[] { resultTurns, ticPlayerName, tacPlayerName };
+            return Ok(results.ToList());
         }
 
         [HttpPost]

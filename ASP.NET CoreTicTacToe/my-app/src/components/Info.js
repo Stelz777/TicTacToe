@@ -14,7 +14,9 @@ const mapStateToProps = (state) =>
             history: null,
             reverseIsChecked: false,
             xIsNext: true,
-            stepNumber: 0
+            stepNumber: 0,
+            ticPlayerName: '',
+            tacPlayerName: ''
         }
     }
     else
@@ -23,7 +25,9 @@ const mapStateToProps = (state) =>
             history: state.history,
             stepNumber: state.status.stepNumber,
             xIsNext: state.status.xIsNext,
-            reverseIsChecked: state.reverseIsChecked
+            reverseIsChecked: state.reverseIsChecked,
+            ticPlayerName: state.ticPlayerName,
+            tacPlayerName: state.tacPlayerName
         };
     }
 }
@@ -38,15 +42,36 @@ class Info extends React.Component
         }
         else
         {
-            if (this.props.reverseIsChecked)
-            {
-                return 'Следующий ход: ' + (this.props.xIsNext ? 'O' : 'X');
-            }
-            else
-            {
-                return 'Следующий ход: ' + (this.props.xIsNext ? 'X' : 'O');
-            }
-            
+            return this.generateNextTurn();
+        }
+    }
+
+    generateNextTurn()
+    {
+        console.log("generateNextTurn this.props.ticPlayerName: ", this.props.ticPlayerName);
+        let turnMark = this.props.reverseIsChecked
+            ? this.props.xIsNext ? 'O' : 'X'
+            : this.props.xIsNext ? 'X' : 'O';
+        if (turnMark === 'X')
+        {
+            return this.generateFullNextTurnString(turnMark, this.props.ticPlayerName);
+        }
+        if (turnMark === 'O')
+        {
+            return this.generateFullNextTurnString(turnMark, this.props.tacPlayerName);
+        }
+    }
+
+    generateFullNextTurnString(turnMark, playerName)
+    {
+        const nextTurnString = 'Следующий ход: ';
+        if (playerName != null)
+        {
+            return nextTurnString + playerName + ' (' + turnMark + ')'; 
+        }
+        else
+        {
+            return nextTurnString + turnMark;
         }
     }
 
