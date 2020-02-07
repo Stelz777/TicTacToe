@@ -80,7 +80,7 @@ function rootReducer(state = initialState, action)
         case HISTORY_ITEM_CLICKED:
             let highlights = Array(9).fill(false);
             highlights[action.squareIndex] = true; 
-            console.log("HISTORY_ITEM_CLICKED action.stepInput: ", action.stepInput);
+        
             let historyItemClickedStepNumber = state.reverseIsChecked ? state.history.length - action.stepInput - 1 : action.stepInput;
             return ({ 
                 ...state, 

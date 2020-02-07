@@ -63,7 +63,6 @@ class Name extends React.Component
 
     textChanged(name)
     {
-        
         let id = new URLSearchParams(window.location.search).get('id');
         fetch(`/api/game/setname/${id}`, {
             method: 'POST',
@@ -73,10 +72,18 @@ class Name extends React.Component
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            
+            return (response.ok) ? response.json() : Promise.reject(response.status);
+            
+        })
+        .catch((error) => {
+            console.warn(error);
+        })
         .then(data => {
-            console.log(data);
+            
             this.props.sideReceived(data, name);
+            
         })
     }
 }

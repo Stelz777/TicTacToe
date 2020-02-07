@@ -59,7 +59,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 TicPlayer.IsActive = true;
                 return TicPlayer.Side;
             }
-            else if (TacPlayer.Name == null && TacPlayer.Name != name)
+            else if (TacPlayer.Name == null && TicPlayer.Name != name)
             {
                 TacPlayer.Name = name;
                 return TacPlayer.Side;
