@@ -7,11 +7,11 @@ namespace ASP.NETCoreTicTacToe.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class FarmController : ControllerBase
+    public class LobbyController : ControllerBase
     {
         private GameAPI gameAPI;
 
-        public FarmController(GameAPI gameAPI)
+        public LobbyController(GameAPI gameAPI)
         {
             this.gameAPI = gameAPI;
         }
