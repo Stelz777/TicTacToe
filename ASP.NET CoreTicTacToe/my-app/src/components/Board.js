@@ -186,10 +186,26 @@ class Board extends React.Component
 
     updates(id, squareIndex)
     {
-        
         let currentTurn = this.props.history.length;
-        
-        fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, { 
+        this.callUpdatesAPI(id, squareIndex, currentTurn);
+    }
+
+    async callUpdatesAPI(id, squareIndex, currentTurn)
+    {
+        try
+        {
+            await this.updatesAPI(id, squareIndex, currentTurn);
+        }
+        catch (exception)
+        {
+            console.log("callUpdatesAPI exception: ", exception);
+            setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
+        }
+    }
+
+    async updatesAPI(id, squareIndex, currentTurn)
+    {
+        return fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, { 
             method: 'GET'
         })
         .then((response) => response.json())
@@ -206,6 +222,7 @@ class Board extends React.Component
                 }
             }
             this.props.playerNamesReceived(messages[1], messages[2]);
+                
             setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         });
     }
