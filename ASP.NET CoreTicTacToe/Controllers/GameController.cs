@@ -1,6 +1,7 @@
 ﻿using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,13 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
             var ticPlayerName = game.TicPlayer.Name;
             var tacPlayerName = game.TacPlayer.Name;
-            var results = new object[] { resultTurns, ticPlayerName, tacPlayerName };
-            return Ok(results.ToList());
+
+            return Ok(new
+            {
+                Turns = resultTurns,
+                ticPlayerName,
+                tacPlayerName
+            });
         }
 
         [HttpPost]
@@ -43,25 +49,24 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetName(int? id, Player player)
+        public IActionResult SetName(int? id, string name)
         {
             var (_, game) = gameAPI.GetGame(id, null);
-            if (player != null)
+            if (!ModelState.IsValid)
             {
-                var side = game.SetName(player.Name);
-                if (side != null)
-                {
-                    return Ok(side);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return BadRequest(ModelState);
+            }
+
+            var side = game.SetName(name);
+            if (side != null)
+            {
+                return Ok(side);
             }
             else
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
+            
         }
 
         private void MakeBotMove(int? id, string player)

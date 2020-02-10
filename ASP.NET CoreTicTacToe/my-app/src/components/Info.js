@@ -8,7 +8,7 @@ import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
 {
-    if (state === undefined)
+    if (!state)
     {
         return {
             history: null,
@@ -20,18 +20,17 @@ const mapStateToProps = (state) =>
             isSpectator: false
         }
     }
-    else
-    {
-        return {
-            history: state.history,
-            stepNumber: state.status.stepNumber,
-            xIsNext: state.status.xIsNext,
-            reverseIsChecked: state.reverseIsChecked,
-            ticPlayerName: state.ticPlayerName,
-            tacPlayerName: state.tacPlayerName,
-            isSpectator: state.isSpectator
-        };
-    }
+   
+    return {
+        history: state.history,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext,
+        reverseIsChecked: state.reverseIsChecked,
+        ticPlayerName: state.ticPlayerName,
+        tacPlayerName: state.tacPlayerName,
+        isSpectator: state.isSpectator
+    };
+    
 }
 
 class Info extends React.Component
@@ -81,17 +80,11 @@ class Info extends React.Component
     {
         if (this.props.isSpectator)
         {
-            return utils.FixLineSeparationForReact(this.generatePhraseForSpectator(this.props.ticPlayerName, 'X') + '\n' + this.generatePhraseForSpectator(this.props.tacPlayerName, 'O'));
+            return utils.SplitLineToParagraphs(`${this.generatePhraseForSpectator(this.props.ticPlayerName, 'X')}\n${this.generatePhraseForSpectator(this.props.tacPlayerName, 'O')}`);
         }
-        else
-        {
-            return (null);
-        }
+        return null;
+        
     }
-
-    
-
-    
 
     generatePhraseForSpectator(playerName, mark)
     {

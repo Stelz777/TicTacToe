@@ -5,7 +5,7 @@ export function ArrayNotNullOrEmpty(history)
     return history && Array.isArray(history) && history.length;
 }
 
-export function FixLineSeparationForReact(text)
+export function SplitLineToParagraphs(text)
 {
     let newText = text.split('\n').map((item, i) => 
     {
@@ -14,5 +14,5 @@ export function FixLineSeparationForReact(text)
     return newText;
 }
 
-export default { ArrayNotNullOrEmpty, FixLineSeparationForReact };
+export default { ArrayNotNullOrEmpty, SplitLineToParagraphs };
 

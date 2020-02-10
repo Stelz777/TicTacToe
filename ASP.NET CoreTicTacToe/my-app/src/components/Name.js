@@ -4,7 +4,7 @@ import { sideReceived, spectatorResolved } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
-    if (state === undefined)
+    if (!state)
     {
         return {
             playerName: '',
@@ -12,14 +12,13 @@ const mapStateToProps = (state) =>
             tacPlayerName: ''
         }
     }
-    else
-    {
-        return {
-            playerName: state.playerName,
-            ticPlayerName: state.ticPlayerName,
-            tacPlayerName: state.tacPlayerName
-        };
-    }
+    
+    return {
+        playerName: state.playerName,
+        ticPlayerName: state.ticPlayerName,
+        tacPlayerName: state.tacPlayerName
+    };
+    
 }
 
 const mapDispatchToProps =
@@ -90,13 +89,8 @@ class Name extends React.Component
     textChanged(name)
     {
         let id = new URLSearchParams(window.location.search).get('id');
-        fetch(`/api/game/setname/${id}`, {
-            method: 'POST',
-            body: JSON.stringify({ Name: name }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+        fetch(`/api/game/setname/${id}?name=${name}`, {
+            method: 'POST'
         })
         .then(response => {
             

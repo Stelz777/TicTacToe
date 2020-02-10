@@ -8,7 +8,7 @@ import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
 {
-    if (state === undefined)
+    if (!state)
     {
         return {
             history: null,
@@ -22,20 +22,19 @@ const mapStateToProps = (state) =>
             board: Array(9).fill(null)
         }
     }
-    else
-    {
-        return {
-            history: state.history,
-            reverseIsChecked: state.reverseIsChecked,
-            stepNumber: state.status.stepNumber,
-            xIsNext: state.status.xIsNext,
-            highlights: state.highlights,
-            side: state.side,
-            playerName: state.playerName,
-            bot: state.bot,
-            board: state.board
-        };
-    }
+
+    return {
+        history: state.history,
+        reverseIsChecked: state.reverseIsChecked,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext,
+        highlights: state.highlights,
+        side: state.side,
+        playerName: state.playerName,
+        bot: state.bot,
+        board: state.board
+    };
+    
 }
 
 const mapDispatchToProps =
@@ -129,25 +128,18 @@ class Board extends React.Component
     {
         const history = this.props.history;
         
-        let current = utils.ArrayNotNullOrEmpty(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber) : this.props.board;
-        
-        let square;
-        let squares = utils.ArrayNotNullOrEmpty(history) ? current.squares : current;
+        let squares = utils.ArrayNotNullOrEmpty(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber).squares : this.props.board;
         
         if (isHighlighted)
         {
-            square = this.renderHighlightedSquare(squares, index);
+           return this.renderHighlightedSquare(squares, index);
         }
-        else
-        {
-            square = this.renderSimpleSquare(squares, index);
-        }
-        return square;
+        return this.renderSimpleSquare(squares, index);
     }
 
     addSquareToRow(squares, rowIndex, columnIndex)
     {
-        if (this.props.highlights !== undefined)
+        if (this.props.highlights)
         {
             squares.push(this.renderSquare(rowIndex * 3 + columnIndex, this.props.highlights[rowIndex * 3 + columnIndex]));
         }
@@ -211,7 +203,7 @@ class Board extends React.Component
         .then((response) => response.json())
         .then((messages) => {
             console.log("updates messages: ", messages);
-            let turns = messages[0];
+            let turns = messages.turns;
             for (var i = 0; i < turns.length; i++)
             {
                 let receivedCell = turns[i].cellNumber;
@@ -221,7 +213,7 @@ class Board extends React.Component
                     squareIndex = receivedCell;
                 }
             }
-            this.props.playerNamesReceived(messages[1], messages[2]);
+            this.props.playerNamesReceived(messages.ticPlayerName, messages.tacPlayerName);
                 
             setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         });
