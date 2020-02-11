@@ -27,12 +27,13 @@ namespace ASP.NETCoreTicTacToe.Models
         public Dictionary<int, Game> GetAllGamesFromDatabase()
         {
             var result = new Dictionary<int, Game>();
-            foreach (var gameDTO in QueryGames())
+            var games = QueryGames();
+            games.ForEach(gameDTO =>
             {
                 var game = mapper.Map<Game>(gameDTO);
                 game = AddGameDependencies(gameDTO.ID, game);
                 result.Add(gameDTO.ID, game);
-            }
+            });
             
             return result;
         }
