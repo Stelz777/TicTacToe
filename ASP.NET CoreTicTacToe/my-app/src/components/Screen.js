@@ -10,12 +10,14 @@ const mapStateToProps = (state) =>
     if (!state)
     {
         return {
+            isInLobby: true,
             isInGame: false
         }
     }
 
     return {
-        isInGame: state.isInGame
+        isInGame: state.isInGame,
+        isInLobby: state.isInLobby
     };
     
 }
@@ -36,7 +38,7 @@ class Screen extends React.Component
             this.props.gameRendered();
         }
 
-        if (!this.props.isInGame)
+        if (this.props.isInLobby)
         {
             return (
                 <div>
@@ -44,11 +46,18 @@ class Screen extends React.Component
                 </div>
             )
         }
-        return (
-            <div>  
-                <Game />     
-            </div> 
-        );
+        if (this.props.isInGame)
+        {
+            return (
+                <div>  
+                    <Game />     
+                </div> 
+            );
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 

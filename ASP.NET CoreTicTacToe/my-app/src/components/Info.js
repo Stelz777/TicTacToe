@@ -5,6 +5,7 @@ import utils from '../utility/utils';
 import { connect } from 'react-redux';
 import Name from './Name';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
+import { lobbyRendered } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
@@ -31,6 +32,11 @@ const mapStateToProps = (state) =>
         isSpectator: state.isSpectator
     };
     
+}
+
+const mapDispatchToProps =
+{
+    lobbyRendered
 }
 
 class Info extends React.Component
@@ -93,7 +99,8 @@ class Info extends React.Component
 
     returnToLobby()
     {
-        
+        this.props.lobbyRendered();
+        window.history.replaceState(null, null, '../');
     }
 
     render() 
@@ -117,4 +124,4 @@ class Info extends React.Component
     }
 }
 
-export default connect(mapStateToProps)(Info);
+export default connect(mapStateToProps, mapDispatchToProps)(Info);

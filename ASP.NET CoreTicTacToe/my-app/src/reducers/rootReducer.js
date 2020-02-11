@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_RENDERED, ALL_GAMES_RECEIVED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_RENDERED, ALL_GAMES_RECEIVED, LOBBY_RENDERED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -26,7 +26,8 @@ const initialState = {
     isInGame: false,
     gameIds: null,
     ticPlayers: null,
-    tacPlayers: null
+    tacPlayers: null,
+    isInLobby: true
 }
 
 function getHistorySlice(state)
@@ -53,6 +54,12 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
+        case LOBBY_RENDERED:
+            return ({
+                ...state,
+                isInGame: false,
+                isInLobby: true
+            });
         case ALL_GAMES_RECEIVED:
             return ({
                 ...state,
@@ -63,7 +70,8 @@ function rootReducer(state = initialState, action)
         case GAME_RENDERED:
             return ({
                 ...state,
-                isInGame: true
+                isInGame: true,
+                isInLobby: false
             });
         case SPECTATOR_RESOLVED:
             return ({
