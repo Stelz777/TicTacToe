@@ -39,9 +39,9 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var ids = games.Keys.ToList();
             var ticPlayers = games.Values.Select(item => item.TicPlayer);
             var tacPlayers = games.Values.Select(item => item.TacPlayer);
-            var result = games.Select(x =>
+            var result = games.Select(item =>
             {
-                var (gameId, game) = x;
+                var (gameId, game) = item;
                 return new
                 {
                     id = gameId,
@@ -56,7 +56,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
 
         }
 
-        private object ConstructPlayerData(Player player)
+        private static object ConstructPlayerData(Player player)
         {
             return new
             {

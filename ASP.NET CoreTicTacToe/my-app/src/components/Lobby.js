@@ -4,11 +4,9 @@ import { allGamesReceived, gameInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-   
     return {
         games: state.games
     };
-    
 }
 
 const mapDispatchToProps =

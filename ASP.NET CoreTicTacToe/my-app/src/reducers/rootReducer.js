@@ -65,21 +65,7 @@ function rootReducer(state = initialState, action)
             });
         case GAME_INIT:
             return ({
-                ...state,
-                history: null,
-                reverseIsChecked: false,
-                status: {
-                    xIsNext: true,
-                    stepNumber: 0
-                },
-                highlights: Array(9).fill(false), 
-                board: Array(9).fill(null),
-                side: 0,
-                playerName: '',
-                bot: '',
-                ticPlayerName: '',
-                tacPlayerName: '',
-                isSpectator: false,
+                ...initialState,
                 isInGame: true,
                 isInLobby: false
             });

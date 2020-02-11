@@ -4,21 +4,11 @@ import { sideReceived, spectatorResolved } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            playerName: '',
-            ticPlayerName: '',
-            tacPlayerName: ''
-        }
-    }
-    
     return {
         playerName: state.playerName,
         ticPlayerName: state.ticPlayerName,
         tacPlayerName: state.tacPlayerName
     };
-    
 }
 
 const mapDispatchToProps =

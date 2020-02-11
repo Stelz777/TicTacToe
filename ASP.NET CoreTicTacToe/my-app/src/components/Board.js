@@ -8,21 +8,6 @@ import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            history: null,
-            reverseIsChecked: false,
-            xIsNext: true,
-            stepNumber: 0,
-            highlights: Array(9).fill(false),
-            side: 0,
-            playerName: '',
-            bot: '',
-            board: Array(9).fill(null)
-        }
-    }
-
     return {
         history: state.history,
         reverseIsChecked: state.reverseIsChecked,
@@ -34,7 +19,6 @@ const mapStateToProps = (state) =>
         bot: state.bot,
         board: state.board
     };
-    
 }
 
 const mapDispatchToProps =

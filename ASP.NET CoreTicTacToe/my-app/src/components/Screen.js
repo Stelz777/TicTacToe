@@ -7,19 +7,10 @@ import { gameInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            isInLobby: true,
-            isInGame: false
-        }
-    }
-
     return {
         isInGame: state.isInGame,
         isInLobby: state.isInLobby
     };
-    
 }
 
 const mapDispatchToProps =

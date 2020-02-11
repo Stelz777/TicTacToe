@@ -9,19 +9,6 @@ import { lobbyInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            history: null,
-            reverseIsChecked: false,
-            xIsNext: true,
-            stepNumber: 0,
-            ticPlayerName: '',
-            tacPlayerName: '',
-            isSpectator: false
-        }
-    }
-   
     return {
         history: state.history,
         stepNumber: state.status.stepNumber,
@@ -31,7 +18,6 @@ const mapStateToProps = (state) =>
         tacPlayerName: state.tacPlayerName,
         isSpectator: state.isSpectator
     };
-    
 }
 
 const mapDispatchToProps =

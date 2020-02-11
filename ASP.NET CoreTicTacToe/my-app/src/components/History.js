@@ -5,19 +5,10 @@ import { historyButtonSwitched, historyItemClicked } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            history: null,
-            reverseIsChecked: false,
-        }
-    }
-    
     return {
         history: state.history,
         reverseIsChecked: state.reverseIsChecked
-    };
-    
+    };   
 }
 
 const mapDispatchToProps = 
