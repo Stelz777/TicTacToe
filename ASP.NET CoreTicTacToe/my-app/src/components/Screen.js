@@ -3,7 +3,7 @@ import Game from '../components/Game';
 import Lobby from '../components/Lobby';
 import { connect } from 'react-redux';
 import utils from '../utility/utils';
-import { gameRendered } from '../actions/actions';
+import { gameInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
@@ -24,7 +24,7 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps =
 {
-    gameRendered
+    gameInit
 }
 
 class Screen extends React.Component
@@ -35,7 +35,7 @@ class Screen extends React.Component
         const id = utils.GetIdFromUrlParams(urlParams);
         if (id)
         {
-            this.props.gameRendered();
+            this.props.gameInit();
         }
 
         if (this.props.isInLobby)

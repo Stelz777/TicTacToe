@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
@@ -26,30 +27,36 @@ namespace ASP.NETCoreTicTacToe.Models
         public Dictionary<int, Game> GetAllGamesFromDatabase()
         {
             var result = new Dictionary<int, Game>();
-            var ids = new List<int>();
-            foreach (var gameDTO in database.Games)
+            foreach (var gameDTO in QueryGames())
             {
-                var id = gameDTO.ID;
-                ids.Add(id);
+                var game = mapper.Map<Game>(gameDTO);
+                game = AddGameDependencies(gameDTO.ID, game);
+                result.Add(gameDTO.ID, game);
             }
-            foreach (var id in ids)
-            {
-                var nullableId = (int?)id;
-                var game = GetGameFromDatabase(nullableId);
-                result.Add(id, game);
-            }
+            
             return result;
         }
 
         public Game GetGameFromDatabase(int? id)
         {
-            var game = mapper.Map<Game>(database.Games
+            var game = mapper.Map<Game>(QueryGames()
+                .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
+            game = AddGameDependencies(id, game);
+            return game;
+        }
+
+        private List<GameDataTransferObject> QueryGames()
+        {
+            return database.Games
                 .Include(gameDTO => gameDTO.History)
                 .ThenInclude(history => history.Turns)
                 .Include(gameDTO => gameDTO.Board)
                 .Include(gameDTO => gameDTO.TicPlayer)
-                .Include(gameDTO => gameDTO.TacPlayer)
-                .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
+                .Include(gameDTO => gameDTO.TacPlayer).ToList();
+        }
+
+        private Game AddGameDependencies(int? id, Game game)
+        {
             if (game != null)
             {
                 var historyId = GetHistoryId(id.Value);
@@ -98,8 +105,6 @@ namespace ASP.NETCoreTicTacToe.Models
             
         }
 
-        
-
         public int GetNewId()
         {
             if (database.Games.Any())
@@ -111,7 +116,6 @@ namespace ASP.NETCoreTicTacToe.Models
                 return 0;
             }
         }
-
 
         public static Guid GetHistoryId(int gameId)
         {

@@ -12,31 +12,29 @@ export const BOT_SET = 'BOT_SET';
 export const BOT_IS_X = 'BOT_IS_X';
 export const PLAYER_NAMES_RECEIVED = 'PLAYER_NAMES_RECEIVED';
 export const SPECTATOR_RESOLVED = 'SPECTATOR_RESOLVED';
-export const GAME_RENDERED = 'GAME_RENDERED';
+export const GAME_INIT = 'GAMEINIT';
 export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED'
-export const LOBBY_RENDERED = 'LOBBY_RENDERED';
+export const LOBBY_INIT = 'LOBBY_INIT';
 
-export function lobbyRendered()
+export function lobbyInit()
 {
     return {
-        type: LOBBY_RENDERED
+        type: LOBBY_INIT
     }
 }
 
-export function allGamesReceived(ids, ticPlayers, tacPlayers)
+export function allGamesReceived(games)
 {
     return {
         type: ALL_GAMES_RECEIVED,
-        ids,
-        ticPlayers,
-        tacPlayers
+        games
     }
 }
 
-export function gameRendered()
+export function gameInit()
 {
     return {
-        type: GAME_RENDERED
+        type: GAME_INIT
     }
 }
 

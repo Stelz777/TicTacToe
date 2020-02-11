@@ -1,22 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { allGamesReceived, gameRendered } from '../actions/actions';
+import { allGamesReceived, gameInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
-    if (!state)
-    {
-        return {
-            gameIds: null,
-            ticPlayers: null,
-            tacPlayers: null
-        }
-    }
-
+   
     return {
-        gameIds: state.gameIds,
-        ticPlayers: state.ticPlayers,
-        tacPlayers: state.tacPlayers
+        games: state.games
     };
     
 }
@@ -24,41 +14,38 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps =
 {
     allGamesReceived,
-    gameRendered
+    gameInit
 }
 
 class Lobby extends React.Component
 {
+    componentDidMount()
+    {
+        this.getGames();
+    }
+
     printGamesList()
     {
-        setTimeout(() => { this.getGames() }, 500);
-        const ids = this.props.gameIds;
-        const ticPlayers = this.props.ticPlayers;
-        const tacPlayers = this.props.tacPlayers;
-        console.log(ids);
-        console.log(ticPlayers);
-        console.log(tacPlayers);
-        if (ids && ticPlayers && tacPlayers)
+        const games = this.props.games;
+        console.log("printgamelist games: ", games);
+        if (!games)
         {
-            let games = Array(ids.length);
-            
-            for (let i = 0; i < ids.length; i++)
-            {
-                
-                let description = this.generateDescription(ids[i], ticPlayers[i], tacPlayers[i]);
-                games[i] = (
-                    <li key = { ids[i] } >
-                        <button onClick = { () => this.showGame(ids[i]) }> { description} </button>
-                    </li>
-                );
-            }
-            return games;
+            return [];
         }
-        return null;
+        
+        return games.map((game, iterator) => {
+            const description = this.generateDescription(game.id, game.ticPlayer, game.tacPlayer);
+            return (
+                <li key={game.id} >
+                    <button onClick={() => this.showGame(game.id)}>{description}</button>
+                </li>
+            );
+        })
     }
 
     generateDescription(id, ticPlayer, tacPlayer)
     {
+        console.log("generateDescription ticPlayer: ", ticPlayer);
         return `"id: ${id} X: ${this.generatePlayerDescription(ticPlayer)}
                            O: ${this.generatePlayerDescription(tacPlayer)}`;
     }
@@ -70,31 +57,18 @@ class Lobby extends React.Component
 
     getPlayerName(player)
     {
-        if (player.name)
-        {
-            return player.name;
-        }
-        else
-        {
-            return "свободно";
-        }
+        console.log("getPlayerName player: ", player);
+        return player.name || "свободно";
     }
 
     getPlayerBot(player)
     {
-        if (player.bot)
-        {
-            return "(бот)";
-        }
-        else
-        {
-            return "";
-        }
+        return player.isBot ? "(бот)" : "";
     }
 
     showGame(gameIndex)
     {
-        this.props.gameRendered();
+        this.props.gameInit();
         window.history.replaceState(null, null, `?id=${gameIndex}`);
     }
 
@@ -102,16 +76,18 @@ class Lobby extends React.Component
 
     getGames()
     {
-        fetch(`/api/lobby/getallgames/`, { method: 'GET' })
+        console.log("inside getGames()");
+        fetch(`/api/lobby/allgames/`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-                this.props.allGamesReceived(data.ids, data.ticPlayers, data.tacPlayers);
+                console.log("getGames data: ", data);
+                this.props.allGamesReceived(data);
             });
     }
 
     createNewGame()
     {
-        this.props.gameRendered();
+        this.props.gameInit();
     }
 
     render()

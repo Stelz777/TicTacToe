@@ -6,5 +6,6 @@
         public bool IsActive { get; set; }
         public Side Side { get; set; }
         public IBot Bot { get; set; }
+        public bool IsBot => Bot != null;
     }
 }

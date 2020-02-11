@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_RENDERED, ALL_GAMES_RECEIVED, LOBBY_RENDERED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_INIT, ALL_GAMES_RECEIVED, LOBBY_INIT } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -24,9 +24,7 @@ const initialState = {
     tacPlayerName: '',
     isSpectator: false,
     isInGame: false,
-    gameIds: null,
-    ticPlayers: null,
-    tacPlayers: null,
+    games: null,
     isInLobby: true
 }
 
@@ -54,7 +52,7 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
-        case LOBBY_RENDERED:
+        case LOBBY_INIT:
             return ({
                 ...state,
                 isInGame: false,
@@ -63,11 +61,9 @@ function rootReducer(state = initialState, action)
         case ALL_GAMES_RECEIVED:
             return ({
                 ...state,
-                gameIds: action.ids,
-                ticPlayers: action.ticPlayers,
-                tacPlayers: action.tacPlayers
+                games: action.games
             });
-        case GAME_RENDERED:
+        case GAME_INIT:
             return ({
                 ...state,
                 history: null,

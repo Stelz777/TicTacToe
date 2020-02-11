@@ -5,7 +5,7 @@ import utils from '../utility/utils';
 import { connect } from 'react-redux';
 import Name from './Name';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
-import { lobbyRendered } from '../actions/actions';
+import { lobbyInit } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
@@ -36,7 +36,7 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps =
 {
-    lobbyRendered
+    lobbyInit
 }
 
 class Info extends React.Component
@@ -99,7 +99,7 @@ class Info extends React.Component
 
     returnToLobby()
     {
-        this.props.lobbyRendered();
+        this.props.lobbyInit();
         window.history.replaceState(null, null, '../');
     }
 

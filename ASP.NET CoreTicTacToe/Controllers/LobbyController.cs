@@ -33,20 +33,36 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllGames()
+        public IActionResult AllGames()
         {
             var games = gameAPI.GetAllGames();
             var ids = games.Keys.ToList();
             var ticPlayers = games.Values.Select(item => item.TicPlayer);
             var tacPlayers = games.Values.Select(item => item.TacPlayer);
-            
-            return Ok(new
+            var result = games.Select(x =>
             {
-                ids,
-                ticPlayers,
-                tacPlayers
+                var (gameId, game) = x;
+                return new
+                {
+                    id = gameId,
+                    ticPlayer = ConstructPlayerData(game.TicPlayer),
+                    tacPlayer = ConstructPlayerData(game.TacPlayer)
+                };
             });
 
+            return Ok(
+                result
+            );
+
+        }
+
+        private object ConstructPlayerData(Player player)
+        {
+            return new
+            {
+                name = player.Name,
+                isBot = player.IsBot
+            };
         }
     }
 }
