@@ -1,5 +1,5 @@
 import React from 'react';
-import Game from '../components/Game';
+import Screen from '../components/Screen';
 import '../styles/app.css';
 
 class App extends React.Component
@@ -7,7 +7,7 @@ class App extends React.Component
     render() {
         return (
             <div>
-                <Game />
+                <Screen />
             </div>
         )
     }

@@ -91,6 +91,11 @@ class Info extends React.Component
         return 'Игрок ' + playerName + ' на стороне ' + mark;
     }
 
+    returnToLobby()
+    {
+        
+    }
+
     render() 
     {
         const history = this.props.history;
@@ -106,6 +111,7 @@ class Info extends React.Component
                 <div> { this.renderSpectatorInfo() } </div>
                 <div> { status } </div>
                 <History/>
+                <button onClick = { () => this.returnToLobby() }>Вернуться в лобби</button>
             </div>
         );
     }

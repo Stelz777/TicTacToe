@@ -23,6 +23,24 @@ namespace ASP.NETCoreTicTacToe.Models
             this.mapper = mapper;
         }
 
+        public Dictionary<int, Game> GetAllGamesFromDatabase()
+        {
+            var result = new Dictionary<int, Game>();
+            var ids = new List<int>();
+            foreach (var gameDTO in database.Games)
+            {
+                var id = gameDTO.ID;
+                ids.Add(id);
+            }
+            foreach (var id in ids)
+            {
+                var nullableId = (int?)id;
+                var game = GetGameFromDatabase(nullableId);
+                result.Add(id, game);
+            }
+            return result;
+        }
+
         public Game GetGameFromDatabase(int? id)
         {
             var game = mapper.Map<Game>(database.Games

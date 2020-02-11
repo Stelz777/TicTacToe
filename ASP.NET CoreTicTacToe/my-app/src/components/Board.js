@@ -50,21 +50,6 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
-    createUrlParams()
-    {
-        return new URLSearchParams(window.location.search);
-    }
-
-    getIdFromUrlParams(urlParams)
-    {
-        return urlParams.get('id');
-    }
-
-    getBotFromUrlParams(urlParams)
-    {
-        return urlParams.get('bot');
-    }
-
     componentDidMount()
     {
         this.getGame();
@@ -73,9 +58,9 @@ class Board extends React.Component
 
     getGame()
     {
-        const urlParams = this.createUrlParams();
-        const id = this.getIdFromUrlParams(urlParams);
-        const bot = this.getBotFromUrlParams(urlParams);
+        const urlParams = utils.CreateUrlParams();
+        const id = utils.GetIdFromUrlParams(urlParams);
+        const bot = utils.GetBotFromUrlParams(urlParams);
         
         this.props.botSet(bot);
         fetch(`/api/lobby/getgame/${id === null ? '' : id}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
@@ -169,8 +154,8 @@ class Board extends React.Component
     refreshBoard(squareIndex)
     {
         
-        const urlParams = this.createUrlParams();
-        const id = this.getIdFromUrlParams(urlParams);
+        const urlParams = utils.CreateUrlParams();
+        const id = utils.GetIdFromUrlParams(urlParams);
         this.updates(id, squareIndex);
     }
 
@@ -222,8 +207,8 @@ class Board extends React.Component
     sendTurn(squareIndex, side)
     {
         
-        const urlParams = this.createUrlParams();
-        const id = this.getIdFromUrlParams(urlParams);
+        const urlParams = utils.CreateUrlParams();
+        const id = utils.GetIdFromUrlParams(urlParams);
         
         fetch(`/api/game/maketurn/${id}?name=${this.props.playerName}`, {
             method: 'POST',

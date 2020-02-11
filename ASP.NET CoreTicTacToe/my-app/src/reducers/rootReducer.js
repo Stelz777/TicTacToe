@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_RENDERED, ALL_GAMES_RECEIVED } from '../actions/actions';
 import { GAME_BOARD_CLICKED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -6,6 +6,7 @@ import { SIDE_RECEIVED } from '../actions/actions';
 import { BOT_SET , BOT_IS_X} from '../actions/actions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import utils from '../utility/utils';
+import { bindActionCreators } from 'redux';
 
 const initialState = {
     history: null,
@@ -21,7 +22,11 @@ const initialState = {
     bot: '',
     ticPlayerName: '',
     tacPlayerName: '',
-    isSpectator: false
+    isSpectator: false,
+    isInGame: false,
+    gameIds: null,
+    ticPlayers: null,
+    tacPlayers: null
 }
 
 function getHistorySlice(state)
@@ -48,6 +53,18 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
+        case ALL_GAMES_RECEIVED:
+            return ({
+                ...state,
+                gameIds: action.ids,
+                ticPlayers: action.ticPlayers,
+                tacPlayers: action.tacPlayers
+            });
+        case GAME_RENDERED:
+            return ({
+                ...state,
+                isInGame: true
+            });
         case SPECTATOR_RESOLVED:
             return ({
                 ...state,

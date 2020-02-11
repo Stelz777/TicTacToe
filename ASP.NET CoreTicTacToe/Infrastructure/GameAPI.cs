@@ -18,6 +18,11 @@ namespace ASP.NETCoreTicTacToe.Models
             this.gameFarm = gameFarm;
         }
 
+        public Dictionary<int, Game> GetAllGames()
+        {
+            return gameRepository.GetAllGamesFromDatabase();
+        }
+
         public (int, Game) GetGame(int? id, string bot)
         {
             if (id.HasValue)

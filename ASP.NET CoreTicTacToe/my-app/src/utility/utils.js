@@ -14,5 +14,20 @@ export function SplitLineToParagraphs(text)
     return newText;
 }
 
-export default { ArrayNotNullOrEmpty, SplitLineToParagraphs };
+export function CreateUrlParams()
+    {
+        return new URLSearchParams(window.location.search);
+    }
+
+export function GetIdFromUrlParams(urlParams)
+    {
+        return urlParams.get('id');
+    }
+
+export function GetBotFromUrlParams(urlParams)
+    {
+        return urlParams.get('bot');
+    }
+
+export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, CreateUrlParams, GetIdFromUrlParams, GetBotFromUrlParams };
 
