@@ -66,10 +66,7 @@ namespace ASP.NETCoreTicTacToe.Models
                     .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
                 game.History = history;
                 var turns = database.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
-                foreach (var turn in turns)
-                {
-                    game.History.Turns.Add(mapper.Map<Turn>(turn));
-                }
+                turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
             }
             return game;
         }
