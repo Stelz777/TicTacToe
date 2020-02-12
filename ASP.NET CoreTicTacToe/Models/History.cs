@@ -14,7 +14,7 @@ namespace ASP.NETCoreTicTacToe.Models
         public Turn LastTurn =>
              turns.Count > 0 ? turns[turns.Count - 1] : null;
 
-        public Board RestoreBoardByTurnNumber(int turnNumber)
+        private Board RestoreBoardByTurnNumber(int turnNumber)
         {
             if (turns.Count == 0)
             {

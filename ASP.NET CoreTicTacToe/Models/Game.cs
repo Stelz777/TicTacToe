@@ -92,7 +92,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public bool MakeMoveIfNoWinner(Turn turn)
+        private bool MakeMoveIfNoWinner(Turn turn)
         {
             if (turn == null)
             {
@@ -137,7 +137,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }       
 
-        public void SetPlayersActivity(Turn turn)
+        private void SetPlayersActivity(Turn turn)
         {
             if (turn != null)
             {
@@ -187,7 +187,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return null;
         }
 
-        public Player GetOpponent(string name)
+        private Player GetOpponent(string name)
         {
             if (name == null)
             {

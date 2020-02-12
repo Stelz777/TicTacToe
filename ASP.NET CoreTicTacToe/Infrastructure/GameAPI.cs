@@ -78,7 +78,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.AddGameToDatabase(game);
         }
 
-        public void InitBot(Game game, int gameId, string bot)
+        private void InitBot(Game game, int gameId, string bot)
         {
             if (game != null && bot != null)
             {

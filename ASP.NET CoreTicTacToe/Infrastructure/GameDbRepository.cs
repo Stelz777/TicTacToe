@@ -103,19 +103,7 @@ namespace ASP.NETCoreTicTacToe.Models
             
         }
 
-        public int GetNewId()
-        {
-            if (database.Games.Any())
-            {
-                return database.Games.Max(entry => entry.ID) + 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static Guid GetHistoryId(int gameId)
+        private static Guid GetHistoryId(int gameId)
         {
             var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
@@ -128,7 +116,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public static DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
+        private static DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
         {
             var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
             var configuration = new ConfigurationBuilder()
