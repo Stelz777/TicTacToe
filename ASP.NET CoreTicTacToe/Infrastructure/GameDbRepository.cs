@@ -28,13 +28,12 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             var result = new Dictionary<int, Game>();
             var games = QueryGames();
-            games.ForEach(gameDTO =>
+            foreach (var gameDTO in games)
             {
                 var game = mapper.Map<Game>(gameDTO);
                 game = AddGameDependencies(gameDTO.ID, game);
                 result.Add(gameDTO.ID, game);
-            });
-            
+            }
             return result;
         }
 
@@ -46,27 +45,31 @@ namespace ASP.NETCoreTicTacToe.Models
             return game;
         }
 
-        private List<GameDataTransferObject> QueryGames()
+        private IQueryable<GameDataTransferObject> QueryGames()
         {
             return database.Games
                 .Include(gameDTO => gameDTO.History)
                 .ThenInclude(history => history.Turns)
                 .Include(gameDTO => gameDTO.Board)
                 .Include(gameDTO => gameDTO.TicPlayer)
-                .Include(gameDTO => gameDTO.TacPlayer).ToList();
+                .Include(gameDTO => gameDTO.TacPlayer);
         }
 
         private Game AddGameDependencies(int? id, Game game)
         {
-            if (game != null)
+            var optionsBuilder = CreateOptionsBuilder();
+            using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
-                var historyId = GetHistoryId(id.Value);
-                var history = mapper.Map<History>(database.Histories
-                    .Include(historyDTO => historyDTO.Turns)
-                    .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
-                game.History = history;
-                var turns = database.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
-                turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
+                if (game != null)
+                {
+                    var historyId = GetHistoryId(id.Value);
+                    var history = mapper.Map<History>(context.Histories
+                        .Include(historyDTO => historyDTO.Turns)
+                        .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
+                    game.History = history;
+                    var turns = context.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
+                    turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
+                }
             }
             return game;
         }
