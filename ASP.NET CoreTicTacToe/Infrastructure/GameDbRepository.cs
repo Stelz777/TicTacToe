@@ -1,14 +1,10 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Infrastructure.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
@@ -16,12 +12,13 @@ namespace ASP.NETCoreTicTacToe.Models
     {
         private TicTacToeContext database;
         private IMapper mapper;
-        
+        private DbContextOptionsBuilder<TicTacToeContext> optionsBuilder;
 
         public GameDbRepository(TicTacToeContext database, IMapper mapper)
         {
             this.database = database;
             this.mapper = mapper;
+            this.optionsBuilder = DBOptionsBuilder.Create();
         }
 
         public Dictionary<int, Game> GetAllGamesFromDatabase()
@@ -57,7 +54,6 @@ namespace ASP.NETCoreTicTacToe.Models
 
         private Game AddGameDependencies(int? id, Game game)
         {
-            var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
                 if (game != null)
@@ -96,7 +92,6 @@ namespace ASP.NETCoreTicTacToe.Models
             var gameDTO = mapper.Map<GameDataTransferObject>(game);
             gameDTO.ID = gameId;
             
-            var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
                 context.Games.Update(gameDTO);
@@ -106,9 +101,8 @@ namespace ASP.NETCoreTicTacToe.Models
             
         }
 
-        private static Guid GetHistoryId(int gameId)
+        private Guid GetHistoryId(int gameId)
         {
-            var optionsBuilder = CreateOptionsBuilder();
             using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
                 var query = context.Games
@@ -119,16 +113,6 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        private static DbContextOptionsBuilder<TicTacToeContext> CreateOptionsBuilder()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<TicTacToeContext>();
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
-            return optionsBuilder;
-        }
+        
     }
 }
