@@ -12,9 +12,9 @@ namespace ASP.NETCoreTicTacToe.Models
         private readonly GameFarm gameFarm;
         
 
-        public GameAPI(GameFarm gameFarm, TicTacToeContext database, IMapper mapper)
+        public GameAPI(GameFarm gameFarm, IMapper mapper)
         {
-            gameRepository = new GameDbRepository(database, mapper);
+            gameRepository = new GameDbRepository(mapper);
             this.gameFarm = gameFarm;
         }
 
