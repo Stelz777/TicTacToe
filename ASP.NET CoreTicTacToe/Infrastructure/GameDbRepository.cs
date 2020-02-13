@@ -11,37 +11,35 @@ namespace ASP.NETCoreTicTacToe.Models
     public class GameDbRepository
     {
         private IMapper mapper;
-        private DbContextOptionsBuilder<TicTacToeContext> optionsBuilder;
+        private TicTacToeContext context;
 
-        public GameDbRepository(IMapper mapper)
+        public GameDbRepository(TicTacToeContext context, IMapper mapper)
         {
             this.mapper = mapper;
-            this.optionsBuilder = DBOptionsBuilder.Create();
+            this.context = context;
         }
 
         public Dictionary<int, Game> GetAllGamesFromDatabase()
         {
             var result = new Dictionary<int, Game>();
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                var games = QueryGames(context);
-                result = games.Select(item => new { GameDto = item, Game = mapper.Map<Game>(item) }).ToDictionary(x => x.GameDto.ID, x => x.Game);
-            }
+            
+            var games = QueryGames(context);
+            result = games.Select(item => new { GameDto = item, Game = mapper.Map<Game>(item) }).ToDictionary(x => x.GameDto.ID, x => x.Game);
+            
             return result;
         }
 
         public Game GetGameFromDatabase(int? id)
         {
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                var game = mapper.Map<Game>(QueryGames(context)
-                    .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
-                game = AddGameDependencies(id, game);
-                return game;
-            }
+            
+            var game = mapper.Map<Game>(QueryGames(context)
+                .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
+            game = AddGameDependencies(id, game);
+            return game;
+            
         }
 
-        private IQueryable<GameDataTransferObject> QueryGames(TicTacToeContext context)
+        private static IQueryable<GameDataTransferObject> QueryGames(TicTacToeContext context)
         {
             return context.Games
                 .Include(gameDTO => gameDTO.History)
@@ -53,19 +51,18 @@ namespace ASP.NETCoreTicTacToe.Models
 
         private Game AddGameDependencies(int? id, Game game)
         {
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
+            
+            if (game != null)
             {
-                if (game != null)
-                {
-                    var historyId = GetHistoryId(id.Value);
-                    var history = mapper.Map<History>(context.Histories
-                        .Include(historyDTO => historyDTO.Turns)
-                        .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
-                    game.History = history;
-                    var turns = context.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
-                    turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
-                }
+                var historyId = GetHistoryId(id.Value);
+                var history = mapper.Map<History>(context.Histories
+                    .Include(historyDTO => historyDTO.Turns)
+                    .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
+                game.History = history;
+                var turns = context.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
+                turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
             }
+            
             return game;
         }
 
@@ -77,12 +74,11 @@ namespace ASP.NETCoreTicTacToe.Models
             }
 
             var gameDataTransferObject = mapper.Map<GameDataTransferObject>(newGame);
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                context.Games.Add(gameDataTransferObject);
+            
+            context.Games.Add(gameDataTransferObject);
 
-                context.SaveChanges();
-            }
+            context.SaveChanges();
+            
             return gameDataTransferObject.ID;
            
         }
@@ -94,25 +90,23 @@ namespace ASP.NETCoreTicTacToe.Models
             var gameDTO = mapper.Map<GameDataTransferObject>(game);
             gameDTO.ID = gameId;
             
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                context.Games.Update(gameDTO);
-                context.SaveChanges();
-            }
+            
+            context.Games.Update(gameDTO);
+            context.SaveChanges();
+            
                
             
         }
 
         private Guid GetHistoryId(int gameId)
         {
-            using (var context = new TicTacToeContext(optionsBuilder.Options))
-            {
-                var query = context.Games
-                    .Where(game => game.ID == gameId)
-                    .Include(game => game.History)
-                    .FirstOrDefault<GameDataTransferObject>();
-                return query.History.Id;
-            }
+            
+            var query = context.Games
+                .Where(game => game.ID == gameId)
+                .Include(game => game.History)
+                .FirstOrDefault<GameDataTransferObject>();
+            return query.History.Id;
+            
         }
 
         
