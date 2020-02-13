@@ -1,3 +1,4 @@
+using ASP.NET_CoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace ASP.NETCoreTicTacToe
@@ -21,12 +23,30 @@ namespace ASP.NETCoreTicTacToe
         }
 
 
+
+        private readonly ILoggerFactory LoggerFactory = 
+            Microsoft.Extensions.Logging.LoggerFactory.Create(builder => 
+                builder
+                    .AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
+                    .AddConsole()
+                    .AddDebug());
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TicTacToeContext>(options => options.UseSqlServer(connection));
+
+            services.AddDbContext<TicTacToeContext>(options =>
+            {
+                options.UseSqlServer(connection);
+                if (Configuration.GetValue<bool>("LogQueries"))
+                {
+                    options.UseLoggerFactory(LoggerFactory);
+                }
+            });
+            
+
             services.AddCors();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -46,6 +66,8 @@ namespace ASP.NETCoreTicTacToe
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
