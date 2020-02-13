@@ -31,11 +31,9 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public Game GetGameFromDatabase(int? id)
         {
-            
             var game = mapper.Map<Game>(QueryGames(context)
                 .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
             return game;
-            
         }
 
         private static IQueryable<GameDataTransferObject> QueryGames(TicTacToeContext context)
@@ -72,14 +70,5 @@ namespace ASP.NETCoreTicTacToe.Models
             context.Games.Update(gameDTO);
             context.SaveChanges();
         }
-
-        private Guid GetHistoryId(int gameId)
-        {
-            var query = context.Games
-                .Where(game => game.ID == gameId)
-                .Include(game => game.History)
-                .FirstOrDefault<GameDataTransferObject>();
-            return query.History.Id;
-        }  
     }
 }
