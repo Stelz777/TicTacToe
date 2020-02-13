@@ -25,12 +25,7 @@ namespace ASP.NETCoreTicTacToe.Models
             using (var context = new TicTacToeContext(optionsBuilder.Options))
             {
                 var games = QueryGames(context);
-                foreach (var gameDTO in games)
-                {
-                    var game = mapper.Map<Game>(gameDTO);
-                    game = AddGameDependencies(gameDTO.ID, game);
-                    result.Add(gameDTO.ID, game);
-                }
+                result = games.Select(item => new { GameDto = item, Game = mapper.Map<Game>(item) }).ToDictionary(x => x.GameDto.ID, x => x.Game);
             }
             return result;
         }
