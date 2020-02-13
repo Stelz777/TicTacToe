@@ -64,7 +64,6 @@ namespace ASP.NETCoreTicTacToe.Models
                     gameRepository.UpdateGameInDatabase(game, gameId);
                     gameFarm.ExcludeGame(gameId);
                 }
-                
             }
         }
 

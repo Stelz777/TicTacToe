@@ -66,7 +66,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
         }
 
         private void MakeBotMove(int? id, string player)

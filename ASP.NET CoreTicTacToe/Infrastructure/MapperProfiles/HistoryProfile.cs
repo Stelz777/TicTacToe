@@ -13,7 +13,8 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
         public HistoryProfile()
         {
             CreateMap<History, HistoryDataTransferObject>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(destination => destination.Turns, options => options.MapFrom(options => options.Turns));
         }   
     }
 }

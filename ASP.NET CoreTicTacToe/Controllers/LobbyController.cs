@@ -53,7 +53,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return Ok(
                 result
             );
-
         }
 
         private static object ConstructPlayerData(Player player)

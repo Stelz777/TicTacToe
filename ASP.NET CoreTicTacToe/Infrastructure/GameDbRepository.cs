@@ -34,7 +34,6 @@ namespace ASP.NETCoreTicTacToe.Models
             
             var game = mapper.Map<Game>(QueryGames(context)
                 .FirstOrDefault(gameDTO => gameDTO.ID == id.Value));
-            game = AddGameDependencies(id, game);
             return game;
             
         }
@@ -47,23 +46,6 @@ namespace ASP.NETCoreTicTacToe.Models
                 .Include(gameDTO => gameDTO.Board)
                 .Include(gameDTO => gameDTO.TicPlayer)
                 .Include(gameDTO => gameDTO.TacPlayer);
-        }
-
-        private Game AddGameDependencies(int? id, Game game)
-        {
-            
-            if (game != null)
-            {
-                var historyId = GetHistoryId(id.Value);
-                var history = mapper.Map<History>(context.Histories
-                    .Include(historyDTO => historyDTO.Turns)
-                    .FirstOrDefault(historyDTO => historyDTO.Id == historyId));
-                game.History = history;
-                var turns = context.Turns.Where(turn => turn.HistoryDataTransferObjectId == historyId).ToList();
-                turns.ForEach(turn => game.History.Turns.Add(mapper.Map<Turn>(turn)));
-            }
-            
-            return game;
         }
 
         public int AddGameToDatabase(Game newGame)
@@ -80,35 +62,24 @@ namespace ASP.NETCoreTicTacToe.Models
             context.SaveChanges();
             
             return gameDataTransferObject.ID;
-           
         }
 
         public void UpdateGameInDatabase(Game game, int gameId)
         {
-            
-            
             var gameDTO = mapper.Map<GameDataTransferObject>(game);
             gameDTO.ID = gameId;
             
-            
             context.Games.Update(gameDTO);
             context.SaveChanges();
-            
-               
-            
         }
 
         private Guid GetHistoryId(int gameId)
         {
-            
             var query = context.Games
                 .Where(game => game.ID == gameId)
                 .Include(game => game.History)
                 .FirstOrDefault<GameDataTransferObject>();
             return query.History.Id;
-            
-        }
-
-        
+        }  
     }
 }

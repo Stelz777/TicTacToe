@@ -17,6 +17,5 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles
                 .ReverseMap()
                 .ForMember(data => data.Squares, options => options.ConvertUsing(new StringToCellListConverter(), boardDTO => boardDTO.SerializedSquares));
         }
-        
     }
 }
