@@ -14,20 +14,61 @@ export function SplitLineToParagraphs(text)
     return newText;
 }
 
-export function CreateUrlParams()
+export function GetAllUrlParams(url)
+{
+    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    var params = {};
+    if (queryString)
     {
-        return new URLSearchParams(window.location.search);
+        queryString = queryString.split('#')[0];
+        var componentParts = queryString.split('&');
+        for (var i = 0; i < componentParts.length; i++)
+        {
+            var keysAndValues = componentParts[i].split('=');
+            var paramName = keysAndValues[0];
+            var paramValue = typeof(keysAndValues[1]) === 'undefined' ? true : keysAndValues[1];
+            paramName = paramName.toLowerCase();
+            if (typeof paramValue === 'string')
+            {
+                paramValue = paramValue.toLowerCase();
+            }
+            if (paramName.match(/\[(\d+)?\]$/))
+            {
+                var key = paramName.replace(/\[(\d+)?\]/, '');
+                if (!params[key])
+                {
+                    params[key] = [];
+                }
+                if (paramName.match(/\[\d+\]$/))
+                {
+                    var index = /\[(\d+)\]/.exec(paramName)[1];
+                    params[key][index] = paramValue;
+                }
+                else
+                {
+                    params[key].push(paramValue);
+                }
+            }
+            else
+            {
+                if (!params[paramName])
+                {
+                    params[paramName] = paramValue;
+                }
+                else if (params[paramName] && typeof params[paramName] === 'string')
+                {
+                    params[paramName] = [params[paramName]];
+                    params[paramName].push(paramValue);
+                }
+                else
+                {
+                    params[paramName].push(paramValue);
+                }
+            }
+        }
     }
+    return params;
+}
 
-export function GetIdFromUrlParams(urlParams)
-    {
-        return urlParams.get('id');
-    }
-
-export function GetBotFromUrlParams(urlParams)
-    {
-        return urlParams.get('bot');
-    }
-
-export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, CreateUrlParams, GetIdFromUrlParams, GetBotFromUrlParams };
+export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, GetAllUrlParams };
 

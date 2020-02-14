@@ -1,4 +1,4 @@
-using ASP.NET_CoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -60,6 +60,7 @@ namespace ASP.NETCoreTicTacToe
 
             services.AddSingleton<Models.GameFarm>();
             services.AddSingleton<Models.BotFarm>();
+            services.AddSingleton<Models.Lobby>();
             services.AddTransient<GameAPI>();
             
 

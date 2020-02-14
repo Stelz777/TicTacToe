@@ -9,7 +9,8 @@ const mapStateToProps = (state) =>
 {
     return {
         isInGame: state.isInGame,
-        isInLobby: state.isInLobby
+        isInLobby: state.isInLobby,
+        playerName: state.playerName
     };
 }
 
@@ -22,8 +23,8 @@ class Screen extends React.Component
 {
     render()
     {
-        const urlParams = utils.CreateUrlParams();
-        const id = utils.GetIdFromUrlParams(urlParams);
+        const id = utils.GetAllUrlParams().id;
+        console.log("screen render id: ", id);
         if (id)
         {
             this.props.gameInit();
@@ -39,6 +40,7 @@ class Screen extends React.Component
         }
         if (this.props.isInGame)
         {
+            console.log("screen render this.props.playerName: ", this.props.playerName)
             return (
                 <div>  
                     <Game />     

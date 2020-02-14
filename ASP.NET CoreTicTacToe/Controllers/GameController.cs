@@ -48,25 +48,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return result;
         }
 
-        [HttpPost]
-        public IActionResult SetName(int? id, string name)
-        {
-            var (_, game) = gameAPI.GetGame(id, null);
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var side = game.SetName(name);
-            if (side != null)
-            {
-                return Ok(side);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
+        
 
         private void MakeBotMove(int? id, string player)
         {
@@ -78,6 +60,26 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (gameId, game) = gameAPI.GetGame(id, null);
             gameAPI.UpdateGame(game, gameId);
+        }
+
+        [HttpGet]
+        public IActionResult SetSide(int? id, string name)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var side = game.SetSide(name);
+            if (side != null)
+            {
+                return Ok(side);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }

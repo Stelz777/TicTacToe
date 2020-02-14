@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { allGamesReceived, gameInit } from '../actions/actions';
+import Name from '../components/Name'
 
 const mapStateToProps = (state) =>
 {
     return {
-        games: state.games
+        games: state.games,
+        lobbyPlayerName: state.lobbyPlayerName
     };
 }
 
@@ -67,7 +69,8 @@ class Lobby extends React.Component
     showGame(gameIndex)
     {
         this.props.gameInit();
-        window.history.replaceState(null, null, `?id=${gameIndex}`);
+        console.log("showGame this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
+        window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}`);
     }
 
     
@@ -86,6 +89,7 @@ class Lobby extends React.Component
     createNewGame()
     {
         this.props.gameInit();
+        window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}`);
     }
 
     render()
@@ -94,6 +98,7 @@ class Lobby extends React.Component
 
         return (
             <div>
+                <Name/>
                 <button onClick = { () => this.createNewGame() }>Новая игра</button>
                 <ol> { games } </ol>
             </div>

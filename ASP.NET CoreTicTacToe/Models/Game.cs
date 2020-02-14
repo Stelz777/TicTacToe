@@ -23,7 +23,22 @@ namespace ASP.NETCoreTicTacToe.Models
             InitBoard();
         }
 
-   
+        public Side? SetSide(string name)
+        {
+            if (TicPlayer.Name == null)
+            {
+                TicPlayer.Name = name;
+                TicPlayer.IsActive = true;
+                return TicPlayer.Side;
+            }
+            else if (TacPlayer.Name == null && TicPlayer.Name != name)
+            {
+                TacPlayer.Name = name;
+                return TacPlayer.Side;
+            }
+
+            return null;
+        }
 
         public void InitHistory()
         {
@@ -50,25 +65,6 @@ namespace ASP.NETCoreTicTacToe.Models
             }
             return false;
         }
-
-        public Side? SetName(string name)
-        {
-            if (TicPlayer.Name == null)
-            {
-                TicPlayer.Name = name;
-                TicPlayer.IsActive = true;
-                return TicPlayer.Side;
-            }
-            else if (TacPlayer.Name == null && TicPlayer.Name != name)
-            {
-                TacPlayer.Name = name;
-                return TacPlayer.Side;
-            }
-            
-            return null;
-        }
-
-
 
         public bool MakeMove(Turn turn)
         {

@@ -3,7 +3,6 @@ import History from './History'
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import utils from '../utility/utils';
 import { connect } from 'react-redux';
-import Name from './Name';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 import { lobbyInit } from '../actions/actions';
 
@@ -100,7 +99,6 @@ class Info extends React.Component
 
         return (
             <div className="game-info">
-                <Name/>
                 <div> { this.renderSpectatorInfo() } </div>
                 <div> { status } </div>
                 <History/>

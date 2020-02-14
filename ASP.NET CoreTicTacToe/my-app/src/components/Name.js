@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sideReceived, spectatorResolved } from '../actions/actions'
+import { nameSetInLobby, spectatorResolved } from '../actions/actions'
 
 const mapStateToProps = (state) =>
 {
     return {
-        playerName: state.playerName,
+        lobbyPlayerName: state.lobbyPlayerName,
         ticPlayerName: state.ticPlayerName,
         tacPlayerName: state.tacPlayerName
     };
@@ -13,7 +13,7 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps =
 {
-    sideReceived,
+    nameSetInLobby,
     spectatorResolved
 }
 
@@ -26,7 +26,7 @@ class Name extends React.Component
             && this.props.ticPlayerName !== '' 
             && this.props.tacPlayerName !== null 
             && this.props.tacPlayerName !== '' 
-            && this.props.playerName === '')
+            && this.props.lobbyPlayerName === '')
         {
             console.log("spectator resolved!");
             this.props.spectatorResolved();
@@ -78,9 +78,14 @@ class Name extends React.Component
 
     textChanged(name)
     {
-        let id = new URLSearchParams(window.location.search).get('id');
-        fetch(`/api/game/setname/${id}?name=${name}`, {
-            method: 'POST'
+        console.log("textChanged name: ", name);
+        fetch(`/api/lobby/addplayer/`, {
+            method: 'POST',
+            body: JSON.stringify({ Name: name }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
         .then(response => {
             
@@ -88,12 +93,12 @@ class Name extends React.Component
             
         })
         .catch((error) => {
-            console.warn(error);
+            console.warn(error)
         })
         .then(data => {
-            
-            this.props.sideReceived(data, name);
-            
+            console.log("textchanged then data name: ", name);
+            this.props.nameSetInLobby(name);
+            console.log("textchanged then data this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
         })
     }
 }
