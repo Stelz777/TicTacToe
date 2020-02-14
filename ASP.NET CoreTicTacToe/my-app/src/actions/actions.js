@@ -12,12 +12,28 @@ export const BOT_SET = 'BOT_SET';
 export const BOT_IS_X = 'BOT_IS_X';
 export const PLAYER_NAMES_RECEIVED = 'PLAYER_NAMES_RECEIVED';
 export const SPECTATOR_RESOLVED = 'SPECTATOR_RESOLVED';
-export const GAME_INIT = 'GAMEINIT';
+export const GAME_INIT = 'GAME_INIT';
 export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED'
 export const LOBBY_INIT = 'LOBBY_INIT';
 export const SIDE_RECEIVED = 'SIDE_RECEIVED';
 export const TEST = 'TEST';
 export const NAME_SET_IN_LOBBY = 'NAME_SET_IN_LOBBY';
+export const BOT_X_BUTTON_SWITCHED = 'BOT_X_BUTTON_SWITCHED';
+export const BOT_O_BUTTON_SWITCHED = 'BOT_O_BUTTON_SWITCHED';
+
+export function botXButtonSwitched()
+{
+    return {
+        type: BOT_X_BUTTON_SWITCHED
+    }
+}
+
+export function botOButtonSwitched()
+{
+    return {
+        type: BOT_O_BUTTON_SWITCHED
+    }
+}
 
 export function nameSetInLobby(playerNameInLobby)
 {

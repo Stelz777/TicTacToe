@@ -1,5 +1,5 @@
 import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_INIT, ALL_GAMES_RECEIVED, LOBBY_INIT, SIDE_RECEIVED, TEST } from '../actions/actions';
-import { GAME_BOARD_CLICKED, NAME_SET_IN_LOBBY } from '../actions/actions';
+import { GAME_BOARD_CLICKED, NAME_SET_IN_LOBBY, BOT_X_BUTTON_SWITCHED, BOT_O_BUTTON_SWITCHED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
 import { NAME_SET } from '../actions/actions';
@@ -27,7 +27,9 @@ const initialState = {
     games: null,
     isInLobby: true,
     testValue: false,
-    lobbyPlayerName: ''
+    lobbyPlayerName: '',
+    botXIsChecked: false,
+    botOIsChecked: false
 }
 
 function getHistorySlice(state)
@@ -54,6 +56,16 @@ function rootReducer(state = initialState, action)
     
     switch (action.type)
     {
+        case BOT_X_BUTTON_SWITCHED:
+            return ({
+                ...state,
+                botXIsChecked: !state.botXIsChecked
+            });
+        case BOT_O_BUTTON_SWITCHED:
+            return ({
+                ...state,
+                botOIsChecked: !state.botOIsChecked
+            });
         case NAME_SET_IN_LOBBY:
             return ({
                 ...state,

@@ -23,6 +23,10 @@ namespace ASP.NETCoreTicTacToe.Models
         public Turn MakeAutoMove()
         {
             var board = new Board();
+            if (Game == null)
+            {
+                return null;
+            }
             board.SetSquares(Game.Board.Squares);
             var possibleTurns = new List<int>(board.GetEmptySquareIndexes());
             var random = new Random();

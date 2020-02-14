@@ -1,20 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { allGamesReceived, gameInit } from '../actions/actions';
+import { allGamesReceived, gameInit, botXButtonSwitched, botOButtonSwitched } from '../actions/actions';
 import Name from '../components/Name'
+import Switch from "react-switch";
 
 const mapStateToProps = (state) =>
 {
     return {
         games: state.games,
-        lobbyPlayerName: state.lobbyPlayerName
+        lobbyPlayerName: state.lobbyPlayerName,
+        botXIsChecked: state.botXIsChecked,
+        botOIsChecked: state.botOIsChecked
     };
 }
 
 const mapDispatchToProps =
 {
     allGamesReceived,
-    gameInit
+    gameInit,
+    botXButtonSwitched,
+    botOButtonSwitched
 }
 
 class Lobby extends React.Component
@@ -70,7 +75,9 @@ class Lobby extends React.Component
     {
         this.props.gameInit();
         console.log("showGame this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
-        window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}`);
+        this.shouldWeIncludeBot() 
+            ? window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}&bot=${this.determineBotSymbol()}`)
+            : window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}`);
     }
 
     
@@ -89,7 +96,34 @@ class Lobby extends React.Component
     createNewGame()
     {
         this.props.gameInit();
-        window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}`);
+        this.shouldWeIncludeBot() 
+            ? window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}&bot=${this.determineBotSymbol()}`)
+            : window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}`);
+    }
+
+    determineBotSymbol()
+    {
+        if (this.props.botXIsChecked && this.props.botOIsChecked)
+        {
+            return "XO";
+        }
+        if (this.props.botXIsChecked)
+        {
+            return "X";
+        }
+        if (this.props.botOIsChecked)
+        {
+            return "O";
+        }
+    }
+
+    shouldWeIncludeBot()
+    {
+        if (this.props.botXIsChecked || this.props.botOIsChecked)
+        {
+            return true;
+        }
+        return false;
     }
 
     render()
@@ -99,6 +133,16 @@ class Lobby extends React.Component
         return (
             <div>
                 <Name/>
+                Бот-X
+                <Switch
+                    onChange = { this.props.botXButtonSwitched }
+                    checked = { this.props.botXIsChecked }
+                />
+                Бот-O
+                <Switch
+                    onChange = { this.props.botOButtonSwitched }
+                    checked = { this.props.botOIsChecked }
+                />
                 <button onClick = { () => this.createNewGame() }>Новая игра</button>
                 <ol> { games } </ol>
             </div>
