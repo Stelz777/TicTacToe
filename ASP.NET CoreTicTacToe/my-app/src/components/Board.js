@@ -65,7 +65,7 @@ class Board extends React.Component
         const bot = utils.GetAllUrlParams().bot;
 
         this.props.botSet(bot);
-        
+        console.log("getGame bot: ", bot);
         fetch(`/api/lobby/getgame/${id ? id : ''}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   

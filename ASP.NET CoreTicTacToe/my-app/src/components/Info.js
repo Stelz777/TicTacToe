@@ -30,11 +30,23 @@ class Info extends React.Component
     {
         if (winner)
         {
-            return 'Выиграл ' + winner;
+            return 'Выиграл ' + this.generateWinnerPhrase(winner);
         }
         else
         {
             return this.generateNextTurn();
+        }
+    }
+
+    generateWinnerPhrase(winner)
+    {
+        if (winner === 'X')
+        {
+            return `${this.props.ticPlayerName}(X)`; 
+        }
+        if (winner === 'O')
+        {
+            return `${this.props.tacPlayerName}(O)`;
         }
     }
 

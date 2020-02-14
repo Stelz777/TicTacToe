@@ -90,18 +90,18 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (game != null && bot != null)
             {
-                if (bot == "X")
+                if (CheckBotEqualsItsSymbol(bot, "X"))
                 {
                     game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
                     game.TicPlayer.Name = "S1mpleX";
                     game.TicPlayer.Bot.MakeAutoMove();
                 }
-                else if (bot == "O")
+                else if (CheckBotEqualsItsSymbol(bot, "O"))
                 {
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
                     game.TacPlayer.Name = "S1mpleO";
                 }
-                else if (bot == "XO")
+                else if (CheckBotEqualsItsSymbol(bot, "XO"))
                 {
                     game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
                     game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
@@ -118,6 +118,11 @@ namespace ASP.NETCoreTicTacToe.Models
                     UpdateGame(game, gameId);
                 }
             }
+        }
+
+        private bool CheckBotEqualsItsSymbol(string bot, string symbol)
+        {
+            return bot == symbol || bot == symbol.ToLower();
         }
     }
 }
