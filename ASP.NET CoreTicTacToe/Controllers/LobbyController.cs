@@ -24,7 +24,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (gameId, game) = gameAPI.GetGame(id, bot);
             var history = game.History;
             var boards = history.GetBoardsForEachTurn();
-            
+            gameAPI.UpdateGame(game, gameId);
             return Ok(new 
             {
                 id = gameId, 

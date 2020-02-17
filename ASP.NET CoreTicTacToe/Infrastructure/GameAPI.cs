@@ -10,14 +10,12 @@ namespace ASP.NETCoreTicTacToe.Models
     public class GameAPI
     {
         private readonly GameDbRepository gameRepository;
-        private readonly GameFarm gameFarm;
         private readonly Lobby lobby;
         
 
-        public GameAPI(TicTacToeContext context, GameFarm gameFarm, IMapper mapper, Lobby lobby)
+        public GameAPI(TicTacToeContext context, IMapper mapper, Lobby lobby)
         {
             gameRepository = new GameDbRepository(context, mapper);
-            this.gameFarm = gameFarm;
             this.lobby = lobby;
         }
 
@@ -30,13 +28,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (id.HasValue)
             {
-                var game = gameFarm.GetGame(id.Value);
-                if (game != null)
-                {
-                    InitBot(game, id.Value, bot);
-                    return (id.Value, game);
-                }
-                game = GetGameFromDatabase(id);
+                var game = GetGameFromDatabase(id);
                 if (game == null)
                 {
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
@@ -47,7 +39,6 @@ namespace ASP.NETCoreTicTacToe.Models
 
             var newGame = new Game();                
             var newId = AddGame(newGame);
-            gameFarm.AddGame(newId, newGame);
             InitBot(newGame, newId, bot);
             return (newId, newGame);
         }
@@ -62,15 +53,7 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             if (game != null)
             {
-                if (game.CanContinue())
-                {
-                    return;
-                }
-                if (gameFarm.Games.ContainsKey(gameId))
-                {
-                    gameRepository.UpdateGameInDatabase(game, gameId);
-                    gameFarm.ExcludeGame(gameId);
-                }
+                gameRepository.UpdateGameInDatabase(game, gameId);   
             }
         }
 

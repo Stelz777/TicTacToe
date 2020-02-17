@@ -79,9 +79,7 @@ class Board extends React.Component
                 this.receiveSide(data.id, this.props.clientPlayerName);
                 window.history.replaceState(null, null, `?id=${data.id}`);
                 
-                
                 this.refreshBoard(null); 
-                
             });
     }
 
@@ -95,10 +93,7 @@ class Board extends React.Component
 
     refreshBoard(squareIndex)
     {
-        this.props.test();
-        console.log("test: ", this.props.testValue);
-        const id = utils.GetAllUrlParams().id;
-        
+        const id = utils.GetAllUrlParams().id;   
         this.updates(id, squareIndex);
     }
 

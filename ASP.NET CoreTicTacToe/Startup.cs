@@ -58,7 +58,7 @@ namespace ASP.NETCoreTicTacToe
                 configuration.RootPath = "my-app/build";
             });
 
-            services.AddSingleton<Models.GameFarm>();
+            
             services.AddSingleton<Models.BotFarm>();
             services.AddSingleton<Models.Lobby>();
             services.AddTransient<GameAPI>();

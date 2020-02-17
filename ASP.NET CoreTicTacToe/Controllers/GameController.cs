@@ -43,8 +43,9 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (_, game) = gameAPI.GetGame(id, null);
             bool result = game.MakeMove(turn);
-            UpdateGame(id);
+            gameAPI.UpdateGame(game, id.Value);
             MakeBotMove(id, name);
+            gameAPI.UpdateGame(game, id.Value);
             return result;
         }
 
@@ -54,12 +55,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             var (_, game) = gameAPI.GetGame(id, null);
             game.MakeBotMove(player);
-        }
-
-        private void UpdateGame(int? id)
-        {
-            var (gameId, game) = gameAPI.GetGame(id, null);
-            gameAPI.UpdateGame(game, gameId);
         }
 
         [HttpGet]
@@ -72,6 +67,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             }
 
             var side = game.SetSide(name);
+            gameAPI.UpdateGame(game, id.Value);
             if (side != null)
             {
                 return Ok(side);
