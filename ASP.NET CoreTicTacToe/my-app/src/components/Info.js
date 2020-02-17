@@ -16,7 +16,7 @@ const mapStateToProps = (state) =>
         ticPlayerName: state.ticPlayerName,
         tacPlayerName: state.tacPlayerName,
         isSpectator: state.isSpectator,
-        lobbyPlayerName: state.lobbyPlayerName
+        clientPlayerName: state.clientPlayerName
     };
 }
 
@@ -102,18 +102,22 @@ class Info extends React.Component
         window.history.replaceState(null, null, '../');
     }
 
-    render() 
+    resolveSpectator()
     {
-        if (this.props.ticPlayerName !== null 
-            && this.props.ticPlayerName !== '' 
-            && this.props.tacPlayerName !== null 
-            && this.props.tacPlayerName !== '' 
-            && this.props.lobbyPlayerName === '')
+        if (this.props.ticPlayerName 
+            && this.props.tacPlayerName 
+            && this.props.clientPlayerName !== this.props.ticPlayerName
+            && this.props.clientPlayerName !== this.props.tacPlayerName)
         {
             
             this.props.spectatorResolved();
             
         }
+    }
+
+    render() 
+    {
+        this.resolveSpectator();
         const history = this.props.history;
         let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
         
