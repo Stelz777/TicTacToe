@@ -74,9 +74,8 @@ class Lobby extends React.Component
     {
         this.props.gameInit();
         console.log("showGame this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
-        this.shouldWeIncludeBot() 
-            ? window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}&bot=${this.determineBotSymbol()}`)
-            : window.history.replaceState(null, null, `?id=${gameIndex}&name=${this.props.lobbyPlayerName}`);
+        const urlData = {'name': this.props.lobbyPlayerName, 'id': gameIndex, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
+        this.replaceState(urlData);
     }
 
     
@@ -95,9 +94,21 @@ class Lobby extends React.Component
     createNewGame()
     {
         this.props.gameInit();
-        this.shouldWeIncludeBot() 
-            ? window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}&bot=${this.determineBotSymbol()}`)
-            : window.history.replaceState(null, null, `?name=${this.props.lobbyPlayerName}`);
+        const urlData = {'name': this.props.lobbyPlayerName, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
+        this.replaceState(urlData);
+    }
+
+    replaceState(data)
+    {
+        let url = `?`;
+        const params = [];
+        for (let dataItem in data)
+        {
+            params.push(encodeURIComponent(dataItem) + '=' + encodeURIComponent(data[dataItem]));
+        }
+        url += params.join('&');
+        console.log("replaceState url: ", url);
+        window.history.replaceState(null, null, url);
     }
 
     determineBotSymbol()
@@ -118,11 +129,7 @@ class Lobby extends React.Component
 
     shouldWeIncludeBot()
     {
-        if (this.props.botXIsChecked || this.props.botOIsChecked)
-        {
-            return true;
-        }
-        return false;
+        return this.props.botXIsChecked || this.props.botOIsChecked;
     }
 
     render()
@@ -134,7 +141,7 @@ class Lobby extends React.Component
                 <Name/>
                 Бот-X
                 <Switch
-                    onChange = { this.props.botXButtonSwitched }
+                    onChange={this.props.botXButtonSwitched}
                     checked = { this.props.botXIsChecked }
                 />
                 Бот-O

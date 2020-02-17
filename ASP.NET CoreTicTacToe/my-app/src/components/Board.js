@@ -66,18 +66,16 @@ class Board extends React.Component
 
         this.props.botSet(bot);
         console.log("getGame bot: ", bot);
-        fetch(`/api/lobby/getgame/${id ? id : ''}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
+        fetch(`/api/lobby/game/${id ? id : ''}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-                
+                console.log("getGame data: ", data);
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
                 let name = utils.GetAllUrlParams().name;
-                console.log("name in url: ", name);
+                
                 this.props.nameSet(name);
-                console.log("then this.props.clientPlayerName: ", this.props.clientPlayerName);
-                this.props.test();
-                console.log("test: ", this.props.testValue);
+                
                 this.receiveSide(data.id, this.props.clientPlayerName);
                 window.history.replaceState(null, null, `?id=${data.id}`);
                 
@@ -151,7 +149,7 @@ class Board extends React.Component
             }
             this.props.playerNamesReceived(messages.ticPlayerName, messages.tacPlayerName);
                 
-            setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
+            setTimeout(() => this.refreshBoard(squareIndex), 500);
         });
     }
 

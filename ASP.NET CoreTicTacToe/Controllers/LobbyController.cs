@@ -18,7 +18,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpGet("{id?}")]
-        public IActionResult GetGame(int? id, string bot)
+        public IActionResult Game(int? id, string bot)
         {
             
             var (gameId, game) = gameAPI.GetGame(id, bot);
