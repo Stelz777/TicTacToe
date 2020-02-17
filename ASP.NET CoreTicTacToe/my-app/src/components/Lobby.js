@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { allGamesReceived, gameInit, botXButtonSwitched, botOButtonSwitched } from '../actions/actions';
 import Name from '../components/Name'
 import Switch from "react-switch";
+import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
@@ -101,12 +102,7 @@ class Lobby extends React.Component
     replaceState(data)
     {
         let url = `?`;
-        const params = [];
-        for (let dataItem in data)
-        {
-            params.push(encodeURIComponent(dataItem) + '=' + encodeURIComponent(data[dataItem]));
-        }
-        url += params.join('&');
+        url += utils.BuildUrlParams(data);
         console.log("replaceState url: ", url);
         window.history.replaceState(null, null, url);
     }

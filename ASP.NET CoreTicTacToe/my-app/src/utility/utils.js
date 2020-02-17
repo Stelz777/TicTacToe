@@ -14,6 +14,16 @@ export function SplitLineToParagraphs(text)
     return newText;
 }
 
+export function BuildUrlParams(data)
+{
+    const params = [];
+    for (let dataItem in data)
+    {
+        params.push(encodeURIComponent(dataItem) + '=' + encodeURIComponent(data[dataItem]));
+    }
+    return params.join('&');
+}
+
 export function GetAllUrlParams(url)
 {
     var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
@@ -70,5 +80,5 @@ export function GetAllUrlParams(url)
     return params;
 }
 
-export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, GetAllUrlParams };
+export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, GetAllUrlParams, BuildUrlParams };
 
