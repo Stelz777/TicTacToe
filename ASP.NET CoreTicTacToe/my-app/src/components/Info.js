@@ -4,7 +4,7 @@ import CalculateWinner from '../gameLogic/CalculateWinner';
 import utils from '../utility/utils';
 import { connect } from 'react-redux';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
-import { lobbyInit } from '../actions/actions';
+import { lobbyInit, spectatorResolved } from '../actions/actions';
 
 const mapStateToProps = (state) =>
 {
@@ -15,13 +15,15 @@ const mapStateToProps = (state) =>
         reverseIsChecked: state.reverseIsChecked,
         ticPlayerName: state.ticPlayerName,
         tacPlayerName: state.tacPlayerName,
-        isSpectator: state.isSpectator
+        isSpectator: state.isSpectator,
+        lobbyPlayerName: state.lobbyPlayerName
     };
 }
 
 const mapDispatchToProps =
 {
-    lobbyInit
+    lobbyInit,
+    spectatorResolved
 }
 
 class Info extends React.Component
@@ -102,6 +104,16 @@ class Info extends React.Component
 
     render() 
     {
+        if (this.props.ticPlayerName !== null 
+            && this.props.ticPlayerName !== '' 
+            && this.props.tacPlayerName !== null 
+            && this.props.tacPlayerName !== '' 
+            && this.props.lobbyPlayerName === '')
+        {
+            
+            this.props.spectatorResolved();
+            
+        }
         const history = this.props.history;
         let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
         

@@ -29,7 +29,8 @@ const initialState = {
     testValue: false,
     lobbyPlayerName: '',
     botXIsChecked: false,
-    botOIsChecked: false
+    botOIsChecked: false,
+    isDisabledNameInput: false
 }
 
 function getHistorySlice(state)
@@ -91,7 +92,8 @@ function rootReducer(state = initialState, action)
             return ({
                 ...state,
                 isInGame: false,
-                isInLobby: true
+                isInLobby: true,
+                isDisabledNameInput: false
             });
         case ALL_GAMES_RECEIVED:
             return ({

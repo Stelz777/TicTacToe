@@ -7,7 +7,8 @@ const mapStateToProps = (state) =>
     return {
         lobbyPlayerName: state.lobbyPlayerName,
         ticPlayerName: state.ticPlayerName,
-        tacPlayerName: state.tacPlayerName
+        tacPlayerName: state.tacPlayerName,
+        isDisabledNameInput: state.isDisabledNameInput
     };
 }
 
@@ -22,18 +23,10 @@ class Name extends React.Component
     
     render()
     {
-        if (this.props.ticPlayerName !== null 
-            && this.props.ticPlayerName !== '' 
-            && this.props.tacPlayerName !== null 
-            && this.props.tacPlayerName !== '' 
-            && this.props.lobbyPlayerName === '')
-        {
-            console.log("spectator resolved!");
-            this.props.spectatorResolved();
-            return (null);
-        }
+        
         return (
             <input
+                disabled = { this.props.isDisabledNameInput }
                 type = "text"
                 onBlur = { 
                     (event) =>
@@ -68,6 +61,7 @@ class Name extends React.Component
         
             
         let name = event.target.value;
+        console.log("nameTextBoxEventBody name: ", name);
         if (name !== '')
         {
             this.textChanged(name);
