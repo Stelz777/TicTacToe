@@ -45,8 +45,8 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 return new
                 {
                     id = gameId,
-                    ticPlayer = ConstructPlayerData(game.TicPlayer),
-                    tacPlayer = ConstructPlayerData(game.TacPlayer)
+                    ticPlayer = ConstructPlayerData(game.TicPlayer, gameId),
+                    tacPlayer = ConstructPlayerData(game.TacPlayer, gameId)
                 };
             });
 
@@ -63,8 +63,13 @@ namespace ASP.NETCoreTicTacToe.Controllers
             lobby.AddPlayer(player.Name);
         }
 
-        private static object ConstructPlayerData(Player player)
+        private object ConstructPlayerData(Player player, int gameId)
         {
+            if (player.Name == null)
+            {
+                var (_, game) = gameAPI.GetGame(gameId, null);
+                player.Name = player.Side == Side.Tic ? game.TicPlayer.Name : game.TacPlayer.Name;
+            }
             return new
             {
                 name = player.Name,

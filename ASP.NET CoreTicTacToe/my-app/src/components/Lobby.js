@@ -62,7 +62,6 @@ class Lobby extends React.Component
 
     getPlayerName(player)
     {
-        console.log("getPlayerName player: ", player);
         return player.name || "свободно";
     }
 
