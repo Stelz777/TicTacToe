@@ -70,26 +70,39 @@ class History extends React.Component
             else
             {
                 let reverseMove = history.length - move - 1;
-                
+                console.log("history: ", history);
+                console.log("move: ", move);
                 if (move + 1 < history.length)
                 {
                     i = this.findDifferencesBetweenTwoArrays(history[move + 1].squares, history[move].squares);
                 }
                 else
                 {
-                    i = 0;
+                    i = this.getNotNullCell(history[move].squares);
                 }
                 
                 desc = this.generateDescription(desc, reverseMove, i);
             }
             
             return (
-                <li key = { move } >
+                <li key = { move + 1 } >
                     <button onClick = { this.props.reverseIsChecked ? () => this.jumpTo(history.length - move - 1, i) : () => this.jumpTo(move, i) }> { desc } </button>
                 </li>
             );
         });
         return moves;
+    }
+
+    getNotNullCell(array)
+    {
+        for (let i = 0; i < array.length; i++)
+        {
+            if (array[i] !== null)
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 
     findDifferencesBetweenTwoArrays(step, previous)
