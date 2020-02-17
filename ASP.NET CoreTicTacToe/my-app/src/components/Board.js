@@ -79,14 +79,9 @@ class Board extends React.Component
                 this.receiveSide(data.id, this.props.clientPlayerName);
                 window.history.replaceState(null, null, `?id=${data.id}`);
                 
-                if (bot === "X")
-                {
-                    this.props.botIsX();
-                }
-                if (bot !== "XO")
-                {
-                    this.refreshBoard(null); 
-                }
+                
+                this.refreshBoard(null); 
+                
             });
     }
 
