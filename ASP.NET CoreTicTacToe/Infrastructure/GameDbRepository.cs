@@ -66,8 +66,14 @@ namespace ASP.NETCoreTicTacToe.Models
         {
             var gameDTO = mapper.Map<GameDataTransferObject>(game);
             gameDTO.ID = gameId;
-            
-            context.Games.Update(gameDTO);
+
+            var gameInDb = context.Games.Find(gameId);
+            gameInDb.Board = gameDTO.Board;
+            gameInDb.History = gameDTO.History;
+            gameInDb.TacPlayer = gameDTO.TacPlayer;
+            gameInDb.TicPlayer = gameDTO.TicPlayer;
+
+            context.Games.Update(gameInDb);
             context.SaveChanges();
         }
     }
