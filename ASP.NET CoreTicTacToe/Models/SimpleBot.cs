@@ -6,28 +6,25 @@ namespace ASP.NETCoreTicTacToe.Models
 {
     public class SimpleBot : Player, IBot
     {
-        public Game Game { get; set; }
-
-        public SimpleBot(Game game)
+        public SimpleBot()
         {
-            Game = game;
             Name = "S1mple";
         }
 
-        public SimpleBot(Game game, Side side)
-            :this(game)
+        public SimpleBot(Side side)
+            :this()
         {
             Side = side;
         }
 
-        public Turn MakeAutoMove()
+        public Turn MakeAutoMove(Game game)
         {
             var board = new Board();
-            if (Game == null)
+            if (game == null)
             {
                 return null;
             }
-            board.SetSquares(Game.Board.Squares);
+            board.SetSquares(game.Board.Squares);
             var possibleTurns = new List<int>(board.GetEmptySquareIndexes());
             var random = new Random();
             int randomTurn = random.Next(0, possibleTurns.Count);
@@ -41,7 +38,7 @@ namespace ASP.NETCoreTicTacToe.Models
                         CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
                         Side = Side
                     };
-                    Game.MakeMove(validTurn);
+                    game.MakeMove(validTurn);
                     return validTurn;
                 }
                 else

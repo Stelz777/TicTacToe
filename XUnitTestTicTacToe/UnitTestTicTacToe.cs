@@ -51,8 +51,8 @@ namespace XUnitTestTicTacToe
         {
             var game = new Game();
             var result = BotFarm.CreateSimpleBot(game);
-            var expectedResult = new SimpleBot(game, Side.Tac);
-            Assert.Equal(expectedResult.Game, result.Game);
+            var expectedResult = new SimpleBot(Side.Tac);
+            Assert.Equal(expectedResult.Name, result.Name);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace XUnitTestTicTacToe
         {
             var botFarm = new BotFarm();
             var game = new Game();
-            var bot = new SimpleBot(game, Side.Tac);
+            var bot = new SimpleBot(Side.Tac);
             botFarm.AddBotToPool(bot);
             var expectedResult = new List<SimpleBot>();
             expectedResult.Add(bot);
@@ -76,12 +76,12 @@ namespace XUnitTestTicTacToe
             var game = new Game();
             game.InitHistory();
             game.InitBoard();
-            var ticBot = new SimpleBot(game, Side.Tic);
-            var tacBot = new SimpleBot(game, Side.Tac);
+            var ticBot = new SimpleBot(Side.Tic);
+            var tacBot = new SimpleBot(Side.Tac);
             while (!BoardIsFull(game.Board) && !TicTacToeRulesHelper.HasWinner(game.Board.Squares))
             {
-                ticBot.MakeAutoMove();
-                tacBot.MakeAutoMove();
+                ticBot.MakeAutoMove(game);
+                tacBot.MakeAutoMove(game);
             }
         }
 
@@ -91,8 +91,8 @@ namespace XUnitTestTicTacToe
             var game = new Game();
             game.InitHistory();
             game.InitBoard();
-            var ticBot = new SimpleBot(game, Side.Tic);
-            ticBot.MakeAutoMove();
+            var ticBot = new SimpleBot(Side.Tic);
+            ticBot.MakeAutoMove(game);
             Assert.Equal(Side.Tic, game.History.LastTurn.Side);
         }
 
@@ -102,10 +102,10 @@ namespace XUnitTestTicTacToe
             var game = new Game();
             game.InitHistory();
             game.InitBoard();
-            var ticBot = new SimpleBot(game, Side.Tic);
-            var tacBot = new SimpleBot(game, Side.Tac);
-            ticBot.MakeAutoMove();
-            tacBot.MakeAutoMove();
+            var ticBot = new SimpleBot(Side.Tic);
+            var tacBot = new SimpleBot(Side.Tac);
+            ticBot.MakeAutoMove(game);
+            tacBot.MakeAutoMove(game);
             Assert.Equal(Side.Tac, game.History.LastTurn.Side);
         }
 

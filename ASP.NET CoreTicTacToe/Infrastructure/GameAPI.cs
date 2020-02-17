@@ -75,27 +75,27 @@ namespace ASP.NETCoreTicTacToe.Models
             {
                 if (CheckBotEqualsItsSymbol(bot, "X"))
                 {
-                    game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
+                    game.TicPlayer.Bot = new SimpleBot(Side.Tic);
                     game.TicPlayer.Name = "S1mpleX";
-                    game.TicPlayer.Bot.MakeAutoMove();
+                    game.TicPlayer.Bot.MakeAutoMove(game);
                 }
                 else if (CheckBotEqualsItsSymbol(bot, "O"))
                 {
-                    game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
+                    game.TacPlayer.Bot = new SimpleBot(Side.Tac);
                     game.TacPlayer.Name = "S1mpleO";
                 }
                 else if (CheckBotEqualsItsSymbol(bot, "XO"))
                 {
-                    game.TicPlayer.Bot = new SimpleBot(game, Side.Tic);
-                    game.TacPlayer.Bot = new SimpleBot(game, Side.Tac);
+                    game.TicPlayer.Bot = new SimpleBot(Side.Tic);
+                    game.TacPlayer.Bot = new SimpleBot(Side.Tac);
                     game.TicPlayer.Name = "S1mpleX";
                     game.TacPlayer.Name = "S1mpleO";
                     while (game.CanContinue())
                     {
-                        game.TicPlayer.Bot.MakeAutoMove();
+                        game.TicPlayer.Bot.MakeAutoMove(game);
                         if (game.CanContinue())
                         {
-                            game.TacPlayer.Bot.MakeAutoMove();
+                            game.TacPlayer.Bot.MakeAutoMove(game);
                         }
                     }
                     UpdateGame(game, gameId);

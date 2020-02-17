@@ -44,16 +44,15 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (_, game) = gameAPI.GetGame(id, null);
             bool result = game.MakeMove(turn);
             gameAPI.UpdateGame(game, id.Value);
-            MakeBotMove(id, name);
+            MakeBotMove(id, name, game);
             gameAPI.UpdateGame(game, id.Value);
             return result;
         }
 
         
 
-        private void MakeBotMove(int? id, string player)
+        private void MakeBotMove(int? id, string player, Game game)
         {
-            var (_, game) = gameAPI.GetGame(id, null);
             game.MakeBotMove(player);
         }
 

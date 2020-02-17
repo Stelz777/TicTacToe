@@ -128,8 +128,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 if (opponent.Bot != null)
                 {
                     var bot = opponent.Bot;
-                    //bot
-                    bot.MakeAutoMove();
+                    bot.MakeAutoMove(this);
                 }
             }
         }       
