@@ -99,7 +99,7 @@ class Info extends React.Component
     returnToLobby()
     {
         this.props.lobbyInit();
-        window.history.replaceState(null, null, '../');
+        window.history.replaceState(null, null, `../?name=${this.props.clientPlayerName}`);
     }
 
     resolveSpectator()
