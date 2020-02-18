@@ -6,7 +6,6 @@ class Game extends React.Component
 {
     render()
     {
-        console.log("game render!");
         return (
             <div className="game">  
                 <Board/>
