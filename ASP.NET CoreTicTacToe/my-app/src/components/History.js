@@ -1,6 +1,6 @@
 import React from 'react';
-import Switch from "react-switch";
 import { connect } from 'react-redux';
+import Switch from "react-switch";
 import { historyButtonSwitched, historyItemClicked } from '../actions/actions';
 
 const mapStateToProps = (state) =>
@@ -31,24 +31,23 @@ class History extends React.Component
         this.props.historyButtonSwitched();
     }
 
-    jumpTo(step, i)
-    {  
-        
-        if (step < 0)
-        {
-            step = 0;
-        }
-        this.props.historyItemClicked(step, i);     
-    }
-
-    getRow(i)
+    render()
     {
-        return Math.floor(i / 3) + 1;
-    }
+        const history = this.props.history;
+        let previousStep;
+        previousStep = Array(9).fill(null);
+        let moves;
+        moves = this.printMoveList(history, moves, previousStep)
 
-    getColumn(i)
-    {
-        return i % 3 + 1;
+        return (
+            <div>
+                <ol> { moves } </ol>
+                <Switch
+                    onChange = { this.handleChange }
+                    checked = { this.props.reverseIsChecked }
+                />
+            </div>
+        )
     }
 
     printMoveList(history, moves, previousStep)
@@ -70,8 +69,7 @@ class History extends React.Component
             else
             {
                 let reverseMove = history.length - move - 1;
-                console.log("history: ", history);
-                console.log("move: ", move);
+                
                 if (move + 1 < history.length)
                 {
                     i = this.findDifferencesBetweenTwoArrays(history[move + 1].squares, history[move].squares);
@@ -91,18 +89,6 @@ class History extends React.Component
             );
         });
         return moves;
-    }
-
-    getNotNullCell(array)
-    {
-        for (let i = 0; i < array.length; i++)
-        {
-            if (array[i] !== null)
-            {
-                return i;
-            }
-        }
-        return 0;
     }
 
     findDifferencesBetweenTwoArrays(step, previous)
@@ -125,24 +111,37 @@ class History extends React.Component
         return desc;
     }
 
-    render()
+    getColumn(i)
     {
-        const history = this.props.history;
-        let previousStep;
-        previousStep = Array(9).fill(null);
-        let moves;
-        moves = this.printMoveList(history, moves, previousStep)
-
-        return (
-            <div>
-                <ol> { moves } </ol>
-                <Switch
-                    onChange = { this.handleChange }
-                    checked = { this.props.reverseIsChecked }
-                />
-            </div>
-        )
+        return i % 3 + 1;
     }
+
+    getRow(i)
+    {
+        return Math.floor(i / 3) + 1;
+    }
+
+    getNotNullCell(array)
+    {
+        for (let i = 0; i < array.length; i++)
+        {
+            if (array[i] !== null)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    jumpTo(step, i)
+    {  
+        
+        if (step < 0)
+        {
+            step = 0;
+        }
+        this.props.historyItemClicked(step, i);     
+    }  
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(History);
