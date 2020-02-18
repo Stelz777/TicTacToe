@@ -1,22 +1,22 @@
 import React from 'react';
-import History from './History'
-import CalculateWinner from '../gameLogic/CalculateWinner';
-import utils from '../utility/utils';
 import { connect } from 'react-redux';
-import GetCurrentItem from '../gameLogic/GetCurrentItem';
+import History from './History'
 import { lobbyInit, spectatorResolved } from '../actions/actions';
+import CalculateWinner from '../gameLogic/CalculateWinner';
+import GetCurrentItem from '../gameLogic/GetCurrentItem';
+import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
+        clientPlayerName: state.clientPlayerName,
         history: state.history,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        reverseIsChecked: state.reverseIsChecked,
-        ticPlayerName: state.ticPlayerName,
-        tacPlayerName: state.tacPlayerName,
         isSpectator: state.isSpectator,
-        clientPlayerName: state.clientPlayerName
+        reverseIsChecked: state.reverseIsChecked,
+        stepNumber: state.status.stepNumber,
+        tacPlayerName: state.tacPlayerName,
+        ticPlayerName: state.ticPlayerName,
+        xIsNext: state.status.xIsNext
     };
 }
 
@@ -28,6 +28,36 @@ const mapDispatchToProps =
 
 class Info extends React.Component
 {
+    render() 
+    {
+        this.resolveSpectator();
+        const history = this.props.history;
+        let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
+        
+        let winner = utils.ArrayNotNullOrEmpty(history) ? CalculateWinner(current.squares) : null; 
+        let status = this.calculateStatus(winner);
+        
+        return (
+            <div className="game-info">
+                <div> { this.renderSpectatorInfo() } </div>
+                <div> { status } </div>
+                <History/>
+                <button onClick = { () => this.returnToLobby() }>Вернуться в лобби</button>
+            </div>
+        );
+    }
+
+    resolveSpectator()
+    {
+        if (this.props.ticPlayerName 
+            && this.props.tacPlayerName 
+            && this.props.clientPlayerName !== this.props.ticPlayerName
+            && this.props.clientPlayerName !== this.props.tacPlayerName)
+        {
+            this.props.spectatorResolved();
+        }
+    }
+
     calculateStatus(winner)
     {
         if (winner)
@@ -54,7 +84,6 @@ class Info extends React.Component
 
     generateNextTurn()
     {
-        console.log("generateNextTurn this.props.ticPlayerName: ", this.props.ticPlayerName);
         let turnMark = this.props.reverseIsChecked
             ? this.props.xIsNext ? 'O' : 'X'
             : this.props.xIsNext ? 'X' : 'O';
@@ -85,10 +114,10 @@ class Info extends React.Component
     {
         if (this.props.isSpectator)
         {
-            return utils.SplitLineToParagraphs(`${this.generatePhraseForSpectator(this.props.ticPlayerName, 'X')}\n${this.generatePhraseForSpectator(this.props.tacPlayerName, 'O')}`);
+            return utils.SplitLineToParagraphs(`${this.generatePhraseForSpectator(this.props.ticPlayerName, 'X')}
+                                              \n${this.generatePhraseForSpectator(this.props.tacPlayerName, 'O')}`);
         }
         return null;
-        
     }
 
     generatePhraseForSpectator(playerName, mark)
@@ -100,39 +129,6 @@ class Info extends React.Component
     {
         this.props.lobbyInit();
         window.history.replaceState(null, null, `../?name=${this.props.clientPlayerName}`);
-    }
-
-    resolveSpectator()
-    {
-        if (this.props.ticPlayerName 
-            && this.props.tacPlayerName 
-            && this.props.clientPlayerName !== this.props.ticPlayerName
-            && this.props.clientPlayerName !== this.props.tacPlayerName)
-        {
-            
-            this.props.spectatorResolved();
-            
-        }
-    }
-
-    render() 
-    {
-        this.resolveSpectator();
-        const history = this.props.history;
-        let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
-        
-        let winner = utils.ArrayNotNullOrEmpty(history) ? CalculateWinner(current.squares) : null; 
-        let status = this.calculateStatus(winner);
-        
-
-        return (
-            <div className="game-info">
-                <div> { this.renderSpectatorInfo() } </div>
-                <div> { status } </div>
-                <History/>
-                <button onClick = { () => this.returnToLobby() }>Вернуться в лобби</button>
-            </div>
-        );
     }
 }
 
