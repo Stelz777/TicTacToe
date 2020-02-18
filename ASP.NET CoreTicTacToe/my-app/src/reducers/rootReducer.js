@@ -26,7 +26,6 @@ const initialState = {
     isInGame: false,
     games: null,
     isInLobby: true,
-    testValue: false,
     lobbyPlayerName: '',
     botXIsChecked: false,
     botOIsChecked: false,

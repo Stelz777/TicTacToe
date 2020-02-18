@@ -1,61 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
-import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested, botSet, botIsX, playerNamesReceived, sideReceived, nameSet } from '../actions/actions';
-import utils from '../utility/utils';
+import { boardRequested, botIsX, botSet, gameBoardClicked, historyRequested, nameSet, playerNamesReceived, sideReceived } from '../actions/actions';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
+import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
-        history: state.history,
-        reverseIsChecked: state.reverseIsChecked,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext,
-        highlights: state.highlights,
-        side: state.side,
-        clientPlayerName: state.clientPlayerName,
         bot: state.bot,
         board: state.board,
-        testValue: state.testValue
+        clientPlayerName: state.clientPlayerName,
+        highlights: state.highlights,
+        history: state.history,
+        reverseIsChecked: state.reverseIsChecked,
+        side: state.side,
+        stepNumber: state.status.stepNumber,
+        xIsNext: state.status.xIsNext
     };
 }
 
 const mapDispatchToProps =
 {
-    gameBoardClicked,
     boardRequested,
-    historyRequested,
-    botSet,
     botIsX,
+    botSet,
+    gameBoardClicked,
+    historyRequested,
+    nameSet,
     playerNamesReceived,
-    sideReceived,
-    nameSet
+    sideReceived
 }
 
 class Board extends React.Component
 {
     async componentDidMount()
     {
-        console.log("Board componentdidmount!");
         await this.getGame();
-    }
-
-    receiveSide(id, name)
-    {
-        console.log("receiveSide name: ", name);
-        return fetch(`/api/game/setside/${id}?name=${name}`, { 
-            method: 'POST'
-        })
-        .then(
-            response => response.json()
-        )
-        .then(
-            data => {
-                this.props.sideReceived(data);
-            }
-        )
     }
 
     getGame()
@@ -64,11 +46,10 @@ class Board extends React.Component
         const bot = utils.GetAllUrlParams().bot;
 
         this.props.botSet(bot);
-        console.log("getGame bot: ", bot);
+        
         fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
-                console.log("getGame data: ", data);
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
 
@@ -90,6 +71,17 @@ class Board extends React.Component
         }
     }
 
+    receiveSide(id, name)
+    {
+        return fetch(`/api/game/setside/${id}?name=${name}`, { 
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+                this.props.sideReceived(data);
+            });
+    }
+
     refreshBoard(squareIndex)
     {
         const id = utils.GetAllUrlParams().id;   
@@ -108,9 +100,6 @@ class Board extends React.Component
     updates(id, squareIndex)
     {
         let currentTurn = this.props.history.length;
-        console.log("updates id: ", id);
-        console.log("updates squareIndex: ", squareIndex);
-        console.log("updates currentTurn: ", currentTurn);
         this.callUpdatesAPI(id, squareIndex, currentTurn);
     }
 
@@ -122,7 +111,6 @@ class Board extends React.Component
         }
         catch (exception)
         {
-            console.log("callUpdatesAPI exception: ", exception);
             setTimeout(() => { this.refreshBoard(squareIndex) }, 500);
         }
     }
@@ -134,8 +122,6 @@ class Board extends React.Component
         })
         .then((response) => response.json())
         .then((messages) => {
-
-            console.log("updates messages: ", messages);
             let turns = messages.turns;
             for (var i = 0; i < turns.length; i++)
             {
@@ -150,6 +136,11 @@ class Board extends React.Component
                 
             setTimeout(() => this.refreshBoard(squareIndex), 500);
         });
+    }
+
+    render()
+    {
+        return (<div className="game-board"> { this.renderTable() } </div>);
     }
 
     renderTable()
@@ -214,23 +205,14 @@ class Board extends React.Component
         );
     }
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    handleClick(i)
+    {
+        
+        if (this.props.clientPlayerName !== '')
+        {
+            this.sendTurn(i, this.props.side);
+        }
+    }
 
     sendTurn(squareIndex, side)
     {
@@ -246,30 +228,11 @@ class Board extends React.Component
         })
         .then(response => response.json())
         .then(data => {
-            
             if (data)
             {
-                
-                this.props.gameBoardClicked(squareIndex, this.props.side);
-                
+                this.props.gameBoardClicked(squareIndex, this.props.side);   
             }
         })
-    }
-
-    handleClick(i)
-    {
-        
-        if (this.props.clientPlayerName !== '')
-        {
-            this.sendTurn(i, this.props.side);
-        }
-    }
-
-    render()
-    {
-        return (
-            <div className="game-board"> { this.renderTable() } </div>
-        );
     }
 }
 
