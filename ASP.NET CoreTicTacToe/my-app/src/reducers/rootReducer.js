@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_INIT, ALL_GAMES_RECEIVED, LOBBY_INIT, SIDE_RECEIVED, TEST } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_REQUESTED, PLAYER_NAMES_RECEIVED, SPECTATOR_RESOLVED, GAME_INIT, ALL_GAMES_RECEIVED, LOBBY_INIT, SIDE_RECEIVED } from '../actions/actions';
 import { GAME_BOARD_CLICKED, NAME_SET_IN_LOBBY, BOT_X_BUTTON_SWITCHED, BOT_O_BUTTON_SWITCHED } from '../actions/actions';
 import { HISTORY_ITEM_CLICKED } from '../actions/actions';
 import { BOARD_REQUESTED } from '../actions/actions';
@@ -77,11 +77,6 @@ function rootReducer(state = initialState, action)
             return ({
                 ...state,
                 clientPlayerName: action.clientPlayerName
-            });
-        case TEST:
-            return ({
-                ...state,
-                testValue: true
             });
         case SIDE_RECEIVED:
             return ({

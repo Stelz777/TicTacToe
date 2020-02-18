@@ -2,7 +2,7 @@ import React from 'react';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { connect } from 'react-redux';
-import { gameBoardClicked, boardRequested, historyRequested, botSet, botIsX, playerNamesReceived, sideReceived, nameSet, test } from '../actions/actions';
+import { gameBoardClicked, boardRequested, historyRequested, botSet, botIsX, playerNamesReceived, sideReceived, nameSet } from '../actions/actions';
 import utils from '../utility/utils';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 
@@ -31,8 +31,7 @@ const mapDispatchToProps =
     botIsX,
     playerNamesReceived,
     sideReceived,
-    nameSet,
-    test
+    nameSet
 }
 
 class Board extends React.Component
