@@ -72,28 +72,7 @@ class Name extends React.Component
 
     textChanged(name)
     {
-        console.log("textChanged name: ", name);
-        fetch(`/api/lobby/addplayer/`, {
-            method: 'POST',
-            body: JSON.stringify({ Name: name }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            
-            return (response.ok) ? response.json() : Promise.reject(response.status);
-            
-        })
-        .catch((error) => {
-            console.warn(error)
-        })
-        .then(data => {
-            console.log("textchanged then data name: ", name);
-            this.props.nameSetInLobby(name);
-            console.log("textchanged then data this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
-        })
+        this.props.nameSetInLobby(name);    
     }
 }
 

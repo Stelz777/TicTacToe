@@ -55,14 +55,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             );
         }
 
-        [HttpPost]
-        public void AddPlayer(Player player)
-        {
-            var lobby = gameAPI.GetLobby();
-
-            lobby.AddPlayer(player.Name);
-        }
-
         private object ConstructPlayerData(Player player, int gameId)
         {
             if (player.Name == null)

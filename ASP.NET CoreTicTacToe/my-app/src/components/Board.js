@@ -37,17 +37,17 @@ const mapDispatchToProps =
 
 class Board extends React.Component
 {
-    componentDidMount()
+    async componentDidMount()
     {
         console.log("Board componentdidmount!");
-        this.getGame();
+        await this.getGame();
     }
 
     receiveSide(id, name)
     {
         console.log("receiveSide name: ", name);
         return fetch(`/api/game/setside/${id}?name=${name}`, { 
-            method: 'GET'
+            method: 'POST'
         })
         .then(
             response => response.json()
@@ -66,14 +66,14 @@ class Board extends React.Component
 
         this.props.botSet(bot);
         console.log("getGame bot: ", bot);
-        fetch(`/api/lobby/game/${id ? id : ''}?bot=${bot == null ? '' : bot}`, { method: 'GET' })
+        fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}`, { method: 'GET' })
             .then(result => result.json())
             .then(data => {   
                 console.log("getGame data: ", data);
                 this.fillSquares(data); 
                 this.props.historyRequested(data.boards);
-                let name = utils.GetAllUrlParams().name;
-                
+
+                const name = utils.GetAllUrlParams().name;
                 this.props.nameSet(name);
                 
                 this.receiveSide(data.id, this.props.clientPlayerName);

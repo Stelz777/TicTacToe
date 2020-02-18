@@ -16,12 +16,7 @@ export function SplitLineToParagraphs(text)
 
 export function BuildUrlParams(data)
 {
-    const params = [];
-    for (let dataItem in data)
-    {
-        params.push(encodeURIComponent(dataItem) + '=' + encodeURIComponent(data[dataItem]));
-    }
-    return params.join('&');
+    return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')
 }
 
 export function GetAllUrlParams(url)

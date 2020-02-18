@@ -56,7 +56,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             game.MakeBotMove(player);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult SetSide(int? id, string name)
         {
             var (_, game) = gameAPI.GetGame(id, null);

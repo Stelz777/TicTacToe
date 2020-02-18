@@ -17,6 +17,17 @@ namespace ASP.NETCoreTicTacToe.Models
             Side = side;
         }
 
+        public static Player Create(Player player, string name)
+        {
+            if (player == null)
+            {
+                return null;
+            }
+            player.Bot = new SimpleBot(player.Side);
+            player.Name = name;
+            return player;
+        }
+
         public Turn MakeAutoMove(Game game)
         {
             var board = new Board();

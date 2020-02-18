@@ -43,12 +43,6 @@ namespace ASP.NETCoreTicTacToe.Models
             return (newId, newGame);
         }
 
-        public Lobby GetLobby()
-        {
-            return lobby;
-        }
-
-
         public void UpdateGame(Game game, int gameId)
         {
             if (game != null)
@@ -71,41 +65,30 @@ namespace ASP.NETCoreTicTacToe.Models
 
         private void InitBot(Game game, int gameId, string bot)
         {
-            if (game != null && bot != null)
+            if (game == null || bot == null)
             {
-                if (CheckBotEqualsItsSymbol(bot, "X"))
-                {
-                    game.TicPlayer.Bot = new SimpleBot(Side.Tic);
-                    game.TicPlayer.Name = "S1mpleX";
-                    game.TicPlayer.Bot.MakeAutoMove(game);
-                }
-                else if (CheckBotEqualsItsSymbol(bot, "O"))
-                {
-                    game.TacPlayer.Bot = new SimpleBot(Side.Tac);
-                    game.TacPlayer.Name = "S1mpleO";
-                }
-                else if (CheckBotEqualsItsSymbol(bot, "XO"))
-                {
-                    game.TicPlayer.Bot = new SimpleBot(Side.Tic);
-                    game.TacPlayer.Bot = new SimpleBot(Side.Tac);
-                    game.TicPlayer.Name = "S1mpleX";
-                    game.TacPlayer.Name = "S1mpleO";
-                    while (game.CanContinue())
-                    {
-                        game.TicPlayer.Bot.MakeAutoMove(game);
-                        if (game.CanContinue())
-                        {
-                            game.TacPlayer.Bot.MakeAutoMove(game);
-                        }
-                    }
-                    UpdateGame(game, gameId);
-                }
+                return;
             }
-        }
 
-        private bool CheckBotEqualsItsSymbol(string bot, string symbol)
-        {
-            return bot == symbol || bot == symbol.ToLower();
+            bot = bot.ToUpperInvariant();
+            if (bot.Contains("X"))
+            {
+                SimpleBot.Create(game.TicPlayer, "S1mpleX");
+            }
+
+            if (bot.Contains("O"))
+            {
+                SimpleBot.Create(game.TacPlayer, "S1mpleO");
+            }
+            if (bot.Equals("X"))
+            {
+                BotManager.MakeFirstXMove(game);
+            }
+            else if (bot.Equals("XO"))
+            {
+                BotManager.PlayBotVsBot(game);
+                UpdateGame(game, gameId);
+            }
         }
     }
 }
