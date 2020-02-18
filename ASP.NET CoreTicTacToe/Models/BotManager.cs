@@ -39,7 +39,10 @@ namespace ASP.NETCoreTicTacToe.Models
 
         private void MakeBotTurn(Player player, Game game)
         {
-            player.Bot.MakeAutoMove(game);
+            if (player.Bot != null)
+            {
+                player.Bot.MakeAutoMove(game);
+            }
         }
     }
 }
