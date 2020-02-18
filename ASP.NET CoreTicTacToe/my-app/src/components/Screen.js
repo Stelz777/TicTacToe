@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { gameInit } from '../actions/actions';
 import Game from '../components/Game';
 import Lobby from '../components/Lobby';
-import { connect } from 'react-redux';
 import utils from '../utility/utils';
-import { gameInit } from '../actions/actions';
+
 
 const mapStateToProps = (state) =>
 {
@@ -24,7 +25,7 @@ class Screen extends React.Component
     render()
     {
         const id = utils.GetAllUrlParams().id;
-        console.log("screen render id: ", id);
+        
         if (id)
         {
             this.props.gameInit();
@@ -40,7 +41,6 @@ class Screen extends React.Component
         }
         if (this.props.isInGame)
         {
-            console.log("screen render this.props.playerName: ", this.props.playerName)
             return (
                 <div>  
                     <Game />     
