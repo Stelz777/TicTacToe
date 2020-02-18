@@ -24,6 +24,13 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.GetAllGamesFromDatabase();
         }
 
+        public void PlayBotVsBot(Game game, int? id)
+        {
+            var botManager = new BotManager();
+            botManager.PlayBotVsBot(game);
+            UpdateGame(game, id.Value);
+        }
+
         public (int, Game) GetGame(int? id, string bot)
         {
             if (id.HasValue)
@@ -34,6 +41,7 @@ namespace ASP.NETCoreTicTacToe.Models
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
                 InitBot(game, id.Value, bot);
+                
                 return (id.Value, game);
             }
 
@@ -83,11 +91,6 @@ namespace ASP.NETCoreTicTacToe.Models
             if (bot.Equals("X"))
             {
                 BotManager.MakeFirstXMove(game);
-            }
-            else if (bot.Equals("XO"))
-            {
-                BotManager.PlayBotVsBot(game);
-                UpdateGame(game, gameId);
             }
         }
     }

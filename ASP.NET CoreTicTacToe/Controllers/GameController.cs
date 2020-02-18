@@ -49,7 +49,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return result;
         }
 
-        
+        [HttpPost]
+        public void PlayBotVsBot(int? id)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            gameAPI.PlayBotVsBot(game, id);
+        }
 
         private void MakeBotMove(int? id, string player, Game game)
         {
