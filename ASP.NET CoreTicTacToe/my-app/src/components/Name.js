@@ -6,10 +6,10 @@ import utils from '../utility/utils';
 const mapStateToProps = (state) =>
 {
     return {
+        isDisabledNameInput: state.isDisabledNameInput,
         lobbyPlayerName: state.lobbyPlayerName,
         ticPlayerName: state.ticPlayerName,
-        tacPlayerName: state.tacPlayerName,
-        isDisabledNameInput: state.isDisabledNameInput
+        tacPlayerName: state.tacPlayerName
     };
 }
 
@@ -29,7 +29,6 @@ class Name extends React.Component
 
     render()
     {
-        console.log("Name render this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
         return (
             <input
                 disabled = { this.props.isDisabledNameInput }
@@ -48,21 +47,10 @@ class Name extends React.Component
         );
     }
 
-    checkEventEnterKey()
-    {
-        return (event) =>
-        {
-            if (event.key === 'Enter')
-            {
-                this.nameTextBoxEventBody(event);
-            }
-        }
-    }
-
     nameTextBoxEventBody(event)
     {
         let name = event.target.value;
-        console.log("nameTextBoxEventBody name: ", name);
+        
         if (name !== '')
         {
             this.textChanged(name);
@@ -74,6 +62,17 @@ class Name extends React.Component
     {
         this.props.nameSetInLobby(name);    
     }
+
+    checkEventEnterKey()
+    {
+        return (event) =>
+        {
+            if (event.key === 'Enter')
+            {
+                this.nameTextBoxEventBody(event);
+            }
+        }
+    } 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Name);
