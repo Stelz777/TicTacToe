@@ -1,26 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { allGamesReceived, gameInit, botXButtonSwitched, botOButtonSwitched } from '../actions/actions';
-import Name from '../components/Name'
 import Switch from "react-switch";
+import { allGamesReceived, botOButtonSwitched, botXButtonSwitched, gameInit } from '../actions/actions';
+import Name from '../components/Name'
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
-        games: state.games,
-        lobbyPlayerName: state.lobbyPlayerName,
+        botOIsChecked: state.botOIsChecked,
         botXIsChecked: state.botXIsChecked,
-        botOIsChecked: state.botOIsChecked
+        games: state.games,
+        lobbyPlayerName: state.lobbyPlayerName
     };
 }
 
 const mapDispatchToProps =
 {
     allGamesReceived,
-    gameInit,
+    botOButtonSwitched,
     botXButtonSwitched,
-    botOButtonSwitched
+    gameInit
 }
 
 class Lobby extends React.Component
@@ -30,10 +30,46 @@ class Lobby extends React.Component
         this.getGames();
     }
 
+    getGames()
+    {
+        fetch(`/api/lobby/allgames/`, { method: 'GET' })
+            .then(result => result.json())
+            .then(data => {   
+                this.props.allGamesReceived(data);
+            });
+    }
+
+    render()
+    {
+        const games = this.printGamesList();
+
+        return (
+            <div>
+                <Name/>
+                <div>
+                    Бот-X
+                    <Switch
+                        onChange={this.props.botXButtonSwitched}
+                        checked = { this.props.botXIsChecked }
+                    />
+                </div>
+                <div>
+                    Бот-O
+                    <Switch
+                        onChange = { this.props.botOButtonSwitched }
+                        checked = { this.props.botOIsChecked }
+                    />
+                </div>    
+                <button onClick = { () => this.createNewGame() }>Новая игра</button>
+                <ol> { games } </ol>
+            </div>
+        );
+    }
+
     printGamesList()
     {
         const games = this.props.games;
-        console.log("printgamelist games: ", games);
+        
         if (!games)
         {
             return [];
@@ -51,7 +87,6 @@ class Lobby extends React.Component
 
     generateDescription(id, ticPlayer, tacPlayer)
     {
-        console.log("generateDescription ticPlayer: ", ticPlayer);
         return `"id: ${id} X: ${this.generatePlayerDescription(ticPlayer)}
                            O: ${this.generatePlayerDescription(tacPlayer)}`;
     }
@@ -74,37 +109,13 @@ class Lobby extends React.Component
     showGame(gameIndex)
     {
         this.props.gameInit();
-        console.log("showGame this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
         const urlData = {'name': this.props.lobbyPlayerName, 'id': gameIndex, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
         this.replaceState(urlData);
     }
 
-    
-
-    getGames()
+    shouldWeIncludeBot()
     {
-        console.log("inside getGames()");
-        fetch(`/api/lobby/allgames/`, { method: 'GET' })
-            .then(result => result.json())
-            .then(data => {   
-                console.log("getGames data: ", data);
-                this.props.allGamesReceived(data);
-            });
-    }
-
-    createNewGame()
-    {
-        this.props.gameInit();
-        const urlData = {'name': this.props.lobbyPlayerName, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
-        this.replaceState(urlData);
-    }
-
-    replaceState(data)
-    {
-        let url = `?`;
-        url += utils.BuildUrlParams(data);
-        console.log("replaceState url: ", url);
-        window.history.replaceState(null, null, url);
+        return this.props.botXIsChecked || this.props.botOIsChecked;
     }
 
     determineBotSymbol()
@@ -123,32 +134,18 @@ class Lobby extends React.Component
         }
     }
 
-    shouldWeIncludeBot()
+    createNewGame()
     {
-        return this.props.botXIsChecked || this.props.botOIsChecked;
+        this.props.gameInit();
+        const urlData = {'name': this.props.lobbyPlayerName, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
+        this.replaceState(urlData);
     }
 
-    render()
+    replaceState(data)
     {
-        const games = this.printGamesList();
-
-        return (
-            <div>
-                <Name/>
-                Бот-X
-                <Switch
-                    onChange={this.props.botXButtonSwitched}
-                    checked = { this.props.botXIsChecked }
-                />
-                Бот-O
-                <Switch
-                    onChange = { this.props.botOButtonSwitched }
-                    checked = { this.props.botOIsChecked }
-                />
-                <button onClick = { () => this.createNewGame() }>Новая игра</button>
-                <ol> { games } </ol>
-            </div>
-        );
+        let url = `?`;
+        url += utils.BuildUrlParams(data);
+        window.history.replaceState(null, null, url);
     }
 }
 
