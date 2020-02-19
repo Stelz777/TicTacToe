@@ -18,25 +18,15 @@ ol, ul
     display: table;
 }
 
-.status
+.game
 {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
-.square
+.game-info
 {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 34px;
+    margin-left: 20px;
 }
 
 .highlightedSquare
@@ -60,9 +50,9 @@ ol, ul
     outline: none;
 }
 
-.square:focus
+.kbd-navigation .highLightedSquare:focus
 {
-    outline: none;
+    background: #ddd;
 }
 
 .kbd-navigation .square:focus
@@ -70,18 +60,43 @@ ol, ul
     background: #ddd;
 }
 
-.kbd-navigation .highLightedSquare:focus
+.square
 {
-    background: #ddd;
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
 }
 
-.game
+.square:focus
 {
-    display: flex;
-    flex-direction: row;
+    outline: none;
 }
 
-.game-info
+.status
 {
-    margin-left: 20px;
+    margin-bottom: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

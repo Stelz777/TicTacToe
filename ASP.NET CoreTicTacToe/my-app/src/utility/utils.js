@@ -5,15 +5,6 @@ export function ArrayNotNullOrEmpty(history)
     return history && Array.isArray(history) && history.length;
 }
 
-export function SplitLineToParagraphs(text)
-{
-    let newText = text.split('\n').map((item, i) => 
-    {
-        return <p key = {i}>{item}</p>;
-    });
-    return newText;
-}
-
 export function BuildUrlParams(data)
 {
     return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')
@@ -75,5 +66,14 @@ export function GetAllUrlParams(url)
     return params;
 }
 
-export default { ArrayNotNullOrEmpty, SplitLineToParagraphs, GetAllUrlParams, BuildUrlParams };
+export function SplitLineToParagraphs(text)
+{
+    let newText = text.split('\n').map((item, i) => 
+    {
+        return <p key = {i}>{item}</p>;
+    });
+    return newText;
+}
+
+export default { ArrayNotNullOrEmpty, BuildUrlParams, GetAllUrlParams, SplitLineToParagraphs };
 
