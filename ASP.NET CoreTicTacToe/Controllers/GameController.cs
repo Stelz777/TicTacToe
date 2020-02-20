@@ -15,17 +15,16 @@ namespace ASP.NETCoreTicTacToe.Controllers
             this.gameAPI = gameAPI;
         }
 
-        [HttpPost]
-        public void PlayBotVsBot(int? id)
-        {
-            var (_, game) = gameAPI.GetGame(id, null);
-            gameAPI.PlayBotVsBot(game, id);
-        }
-
         [HttpGet]
         public IActionResult Updates(int? id, int currentTurn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
+            if (game.TicPlayer.IsBot && game.TacPlayer.IsBot)
+            {
+                var botManager = new BotManager();
+                botManager.PlayBotVsBot(game);
+                gameAPI.UpdateGame(game, id.Value);
+            }
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
             var ticPlayerName = game.TicPlayer.Name;
             var tacPlayerName = game.TacPlayer.Name;

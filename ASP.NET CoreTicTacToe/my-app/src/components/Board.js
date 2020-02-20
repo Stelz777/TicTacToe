@@ -86,16 +86,7 @@ class Board extends React.Component
     refreshBoard(squareIndex)
     {
         const id = utils.GetAllUrlParams().id;   
-        this.playBotVsBot(id);
         this.updates(id, squareIndex);
-    }
-
-    playBotVsBot(id)
-    {
-        if (this.props.bot.toLowerCase() === "xo")
-        {
-            fetch(`api/game/playBotVsBot/${id}`, { method: 'POST' });
-        }
     }
 
     updates(id, squareIndex)

@@ -24,13 +24,6 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.GetAllGamesFromDatabase();
         }
 
-        public void PlayBotVsBot(Game game, int? id)
-        {
-            var botManager = new BotManager();
-            botManager.PlayBotVsBot(game);
-            UpdateGame(game, id.Value);
-        }
-
         public (int, Game) GetGame(int? id, string bot)
         {
             if (id.HasValue)
