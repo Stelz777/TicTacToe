@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import History from './History'
-import { lobbyInit, spectatorResolved } from '../actions/actions';
+import { lobbyInit, spectatorResolved } from '../actions/commonActions';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 import utils from '../utility/utils';

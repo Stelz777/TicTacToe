@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Switch from "react-switch";
-import { allGamesReceived, botOButtonSwitched, botXButtonSwitched, gameInit, historyInit } from '../actions/actions';
+import { botOButtonSwitched, botXButtonSwitched } from '../actions/botActions';
+import { allGamesReceived, gameInit } from '../actions/commonActions';
+import { historyInit } from '../actions/historyActions';
 import Name from '../components/Name'
 import utils from '../utility/utils';
 

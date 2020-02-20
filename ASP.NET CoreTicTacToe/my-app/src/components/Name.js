@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { nameSetInLobby } from '../actions/actions'
+import { nameSetInLobby } from '../actions/nameActions'
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>

@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
-import { botSet, historyItemAdded, historyRequested, nameSet, playerNamesReceived, sideReceived } from '../actions/actions';
+import { botSet } from '../actions/botActions';
+import { playerNamesReceived, sideReceived } from '../actions/commonActions';
+import { historyItemAdded, historyRequested } from '../actions/historyActions';
+import { nameSet } from '../actions/nameActions';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 import utils from '../utility/utils';
 

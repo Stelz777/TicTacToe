@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { gameInit } from '../actions/actions';
+import { gameInit } from '../actions/commonActions';
 import Game from '../components/Game';
 import Lobby from '../components/Lobby';
 import utils from '../utility/utils';
