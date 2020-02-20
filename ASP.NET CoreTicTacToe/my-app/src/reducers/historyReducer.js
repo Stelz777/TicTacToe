@@ -1,4 +1,4 @@
-import { HISTORY_BUTTON_SWITCHED, HISTORY_INIT, HISTORY_ITEM_ADDED, HISTORY_ITEM_CLICKED, HISTORY_REQUESTED } from '../actions/actions';
+import { HISTORY_BUTTON_SWITCHED, HISTORY_INIT, HISTORY_ITEM_ADDED, HISTORY_ITEM_CLICKED, HISTORY_REQUESTED } from '../constants/historyConstants';
 import CalculateWinner from '../gameLogic/CalculateWinner';
 import utils from '../utility/utils';
 

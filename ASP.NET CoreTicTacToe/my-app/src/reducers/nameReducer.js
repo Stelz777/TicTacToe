@@ -1,4 +1,4 @@
-import { NAME_SET, NAME_SET_IN_LOBBY } from '../actions/actions';
+import { NAME_SET, NAME_SET_IN_LOBBY } from '../constants/nameConstants';
 
 const initialState = {
     clientPlayerName: '',

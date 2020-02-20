@@ -1,4 +1,4 @@
-import { ALL_GAMES_RECEIVED, GAME_INIT, LOBBY_INIT, PLAYER_NAMES_RECEIVED, SIDE_RECEIVED, SPECTATOR_RESOLVED } from '../actions/actions';
+import { ALL_GAMES_RECEIVED, GAME_INIT, LOBBY_INIT, PLAYER_NAMES_RECEIVED, SIDE_RECEIVED, SPECTATOR_RESOLVED } from '../constants/commonConstants';
 
 const initialState = {
     games: null,

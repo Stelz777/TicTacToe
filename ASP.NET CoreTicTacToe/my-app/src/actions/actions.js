@@ -1,28 +1,14 @@
-//Action Type
-export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED'
-export const BOT_O_BUTTON_SWITCHED = 'BOT_O_BUTTON_SWITCHED';
-export const BOT_SET = 'BOT_SET';
-export const BOT_X_BUTTON_SWITCHED = 'BOT_X_BUTTON_SWITCHED';
-export const GAME_INIT = 'GAME_INIT';
-export const HISTORY_BUTTON_SWITCHED = 'HISTORY_BUTTON_SWITCHED';
-export const HISTORY_INIT = 'HISTORY_INIT';
-export const HISTORY_ITEM_ADDED = 'HISTORY_ITEM_ADDED';
-export const HISTORY_ITEM_CLICKED = 'HISTORY_ITEM_CLICKED';
-export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
-export const LOBBY_INIT = 'LOBBY_INIT';
-export const NAME_SET = 'NAME_SET';
-export const NAME_SET_IN_LOBBY = 'NAME_SET_IN_LOBBY';
-export const PLAYER_NAMES_RECEIVED = 'PLAYER_NAMES_RECEIVED';
-export const SIDE_RECEIVED = 'SIDE_RECEIVED';
-export const SPECTATOR_RESOLVED = 'SPECTATOR_RESOLVED';
-
+import * as bots from '../constants/botConstants';
+import * as commons from '../constants/commonConstants';
+import * as histories from '../constants/historyConstants';
+import * as names from '../constants/nameConstants';
 
 //Action Creator
 export function allGamesReceived(games)
 {
     //Action
     return {
-        type: ALL_GAMES_RECEIVED,
+        type: commons.ALL_GAMES_RECEIVED,
         games
     }
 }
@@ -30,14 +16,14 @@ export function allGamesReceived(games)
 export function botOButtonSwitched()
 {
     return {
-        type: BOT_O_BUTTON_SWITCHED
+        type: bots.BOT_O_BUTTON_SWITCHED
     }
 }
 
 export function botSet(bot)
 {
     return {
-        type: BOT_SET,
+        type: bots.BOT_SET,
         bot
     }
 }
@@ -45,35 +31,35 @@ export function botSet(bot)
 export function botXButtonSwitched()
 {
     return {
-        type: BOT_X_BUTTON_SWITCHED
+        type: bots.BOT_X_BUTTON_SWITCHED
     }
 }
 
 export function gameInit()
 {
     return {
-        type: GAME_INIT   
+        type: commons.GAME_INIT   
     }
 }
 
 export function historyButtonSwitched()
 {
     return {
-        type: HISTORY_BUTTON_SWITCHED  
+        type: histories.HISTORY_BUTTON_SWITCHED  
     }
 }
 
 export function historyInit()
 {
     return {
-        type: HISTORY_INIT
+        type: histories.HISTORY_INIT
     }
 }
 
 export function historyItemAdded(squareIndex, side)
 {
     return {
-        type: HISTORY_ITEM_ADDED,
+        type: histories.HISTORY_ITEM_ADDED,
         squareIndex,
         side
     }
@@ -82,7 +68,7 @@ export function historyItemAdded(squareIndex, side)
 export function historyItemClicked(stepInput, squareIndex)
 {
     return {
-        type: HISTORY_ITEM_CLICKED,
+        type: histories.HISTORY_ITEM_CLICKED,
         stepInput,
         squareIndex
     }
@@ -91,7 +77,7 @@ export function historyItemClicked(stepInput, squareIndex)
 export function historyRequested(boards)
 {
     return {
-        type: HISTORY_REQUESTED,
+        type: histories.HISTORY_REQUESTED,
         boards
     }
 }
@@ -99,14 +85,14 @@ export function historyRequested(boards)
 export function lobbyInit()
 {
     return {
-        type: LOBBY_INIT
+        type: commons.LOBBY_INIT
     }
 }
 
 export function nameSet(clientPlayerName)
 {
     return {
-        type: NAME_SET,
+        type: names.NAME_SET,
         clientPlayerName  
     }
 }
@@ -114,7 +100,7 @@ export function nameSet(clientPlayerName)
 export function nameSetInLobby(playerNameInLobby)
 {
     return {
-        type: NAME_SET_IN_LOBBY,
+        type: names.NAME_SET_IN_LOBBY,
         playerNameInLobby
     }
 }
@@ -122,7 +108,7 @@ export function nameSetInLobby(playerNameInLobby)
 export function playerNamesReceived(ticName, tacName)
 {
     return {
-        type: PLAYER_NAMES_RECEIVED,
+        type: commons.PLAYER_NAMES_RECEIVED,
         ticName,
         tacName
     }
@@ -131,7 +117,7 @@ export function playerNamesReceived(ticName, tacName)
 export function sideReceived(side)
 {
     return {
-        type: SIDE_RECEIVED,
+        type: commons.SIDE_RECEIVED,
         side
     }
 }
@@ -139,7 +125,7 @@ export function sideReceived(side)
 export function spectatorResolved()
 {
     return {
-        type: SPECTATOR_RESOLVED   
+        type: commons.SPECTATOR_RESOLVED   
     }
 }
 

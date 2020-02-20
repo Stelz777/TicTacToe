@@ -1,4 +1,4 @@
-import { BOT_O_BUTTON_SWITCHED, BOT_SET, BOT_X_BUTTON_SWITCHED } from '../actions/actions';
+import { BOT_O_BUTTON_SWITCHED, BOT_SET, BOT_X_BUTTON_SWITCHED } from '../constants/botConstants';
 
 const initialState = {
     bot: '',
