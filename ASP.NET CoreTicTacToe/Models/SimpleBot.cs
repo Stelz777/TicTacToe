@@ -31,7 +31,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     var validTurn = new Turn
                     {
-                        CellNumber = (int)(float)(int)Convert.ToInt32(possibleTurns[randomTurn]),
+                        CellNumber = possibleTurns[randomTurn],
                         Side = Side
                     };
                     game.MakeMove(validTurn);

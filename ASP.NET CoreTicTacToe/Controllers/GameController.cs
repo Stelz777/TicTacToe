@@ -19,7 +19,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         public IActionResult Updates(int? id, int currentTurn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
-            if (game.TicPlayer.IsBot && game.TacPlayer.IsBot)
+            if (game.TicPlayer.IsBot 
+             && game.TacPlayer.IsBot 
+             && !game.Board.HasWinner 
+             && game.Board.Squares.Contains(Cell.Empty))
             {
                 var botManager = new BotManager();
                 botManager.PlayBotVsBot(game);
