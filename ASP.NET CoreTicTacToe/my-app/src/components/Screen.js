@@ -9,13 +9,12 @@ import utils from '../utility/utils';
 const mapStateToProps = (state) =>
 {
     return {
-        isInGame: state.isInGame,
-        isInLobby: state.isInLobby,
-        playerName: state.playerName
-    };
+        isInGame: state.commonReducer.isInGame,
+        isInLobby: state.commonReducer.isInLobby,
+    }
 }
 
-const mapDispatchToProps =
+const mapDispatchToProps = 
 {
     gameInit
 }
@@ -30,7 +29,7 @@ class Screen extends React.Component
         {
             this.props.gameInit();
         }
-
+        
         if (this.props.isInLobby)
         {
             return (

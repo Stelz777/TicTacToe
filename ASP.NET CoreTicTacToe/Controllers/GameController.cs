@@ -1,10 +1,5 @@
 ﻿using ASP.NETCoreTicTacToe.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ASP.NETCoreTicTacToe.Controllers
@@ -20,7 +15,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
             this.gameAPI = gameAPI;
         }
 
-        
+        [HttpPost]
+        public void PlayBotVsBot(int? id)
+        {
+            var (_, game) = gameAPI.GetGame(id, null);
+            gameAPI.PlayBotVsBot(game, id);
+        }
 
         [HttpGet]
         public IActionResult Updates(int? id, int currentTurn)
@@ -47,13 +47,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             MakeBotMove(id, name, game);
             gameAPI.UpdateGame(game, id.Value);
             return result;
-        }
-
-        [HttpPost]
-        public void PlayBotVsBot(int? id)
-        {
-            var (_, game) = gameAPI.GetGame(id, null);
-            gameAPI.PlayBotVsBot(game, id);
         }
 
         private void MakeBotMove(int? id, string player, Game game)

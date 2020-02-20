@@ -7,5 +7,11 @@
         public Side Side { get; set; }
         public IBot Bot { get; set; }
         public bool IsBot => Bot != null;
+
+        public void MakeSimpleBot()
+        {
+            Bot = new SimpleBot(Side);
+            Name = "Simple";
+        }
     }
 }

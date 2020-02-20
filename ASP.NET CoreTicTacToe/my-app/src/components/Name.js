@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { nameSetInLobby, spectatorResolved } from '../actions/actions'
+import { nameSetInLobby } from '../actions/actions'
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
-        isDisabledNameInput: state.isDisabledNameInput,
-        lobbyPlayerName: state.lobbyPlayerName,
-        ticPlayerName: state.ticPlayerName,
-        tacPlayerName: state.tacPlayerName
-    };
+        isDisabledNameInput: state.commonReducer.isDisabledNameInput,
+        lobbyPlayerName: state.nameReducer.lobbyPlayerName,
+        ticPlayerName: state.commonReducer.ticPlayerName,
+        tacPlayerName: state.commonReducer.tacPlayerName
+    }
 }
 
-const mapDispatchToProps =
+const mapDispatchToProps = 
 {
-    nameSetInLobby,
-    spectatorResolved
+    nameSetInLobby
 }
 
 class Name extends React.Component

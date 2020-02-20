@@ -1,13 +1,12 @@
 //Action Type
 export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED'
-export const BOARD_REQUESTED = 'BOARD_REQUESTED';
-export const BOT_IS_X = 'BOT_IS_X';
 export const BOT_O_BUTTON_SWITCHED = 'BOT_O_BUTTON_SWITCHED';
 export const BOT_SET = 'BOT_SET';
 export const BOT_X_BUTTON_SWITCHED = 'BOT_X_BUTTON_SWITCHED';
-export const GAME_BOARD_CLICKED = 'GAME_BOARD_CLICKED';
 export const GAME_INIT = 'GAME_INIT';
-export const HISTORY_BUTTON_SWITCHED = 'HISTORY_BUTTON_SWITCHED'
+export const HISTORY_BUTTON_SWITCHED = 'HISTORY_BUTTON_SWITCHED';
+export const HISTORY_INIT = 'HISTORY_INIT';
+export const HISTORY_ITEM_ADDED = 'HISTORY_ITEM_ADDED';
 export const HISTORY_ITEM_CLICKED = 'HISTORY_ITEM_CLICKED';
 export const HISTORY_REQUESTED = 'HISTORY_REQUESTED';
 export const LOBBY_INIT = 'LOBBY_INIT';
@@ -25,21 +24,6 @@ export function allGamesReceived(games)
     return {
         type: ALL_GAMES_RECEIVED,
         games
-    }
-}
-
-export function boardRequested(board)
-{
-    return {
-        type: BOARD_REQUESTED,
-        board
-    }
-}
-
-export function botIsX()
-{
-    return {
-        type: BOT_IS_X
     }
 }
 
@@ -65,26 +49,33 @@ export function botXButtonSwitched()
     }
 }
 
-export function gameBoardClicked(squareIndex, side)
-{
-    return {
-        type: GAME_BOARD_CLICKED,
-        squareIndex,
-        side
-    }
-}
-
 export function gameInit()
 {
     return {
-        type: GAME_INIT
+        type: GAME_INIT   
     }
 }
 
 export function historyButtonSwitched()
 {
     return {
-        type: HISTORY_BUTTON_SWITCHED
+        type: HISTORY_BUTTON_SWITCHED  
+    }
+}
+
+export function historyInit()
+{
+    return {
+        type: HISTORY_INIT
+    }
+}
+
+export function historyItemAdded(squareIndex, side)
+{
+    return {
+        type: HISTORY_ITEM_ADDED,
+        squareIndex,
+        side
     }
 }
 
@@ -116,7 +107,7 @@ export function nameSet(clientPlayerName)
 {
     return {
         type: NAME_SET,
-        clientPlayerName
+        clientPlayerName  
     }
 }
 
@@ -148,7 +139,7 @@ export function sideReceived(side)
 export function spectatorResolved()
 {
     return {
-        type: SPECTATOR_RESOLVED
+        type: SPECTATOR_RESOLVED   
     }
 }
 

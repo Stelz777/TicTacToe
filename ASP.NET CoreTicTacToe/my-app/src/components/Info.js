@@ -9,21 +9,21 @@ import utils from '../utility/utils';
 const mapStateToProps = (state) =>
 {
     return {
-        clientPlayerName: state.clientPlayerName,
-        history: state.history,
-        isSpectator: state.isSpectator,
-        reverseIsChecked: state.reverseIsChecked,
-        stepNumber: state.status.stepNumber,
-        tacPlayerName: state.tacPlayerName,
-        ticPlayerName: state.ticPlayerName,
-        xIsNext: state.status.xIsNext
-    };
+        clientPlayerName: state.nameReducer.clientPlayerName,
+        history: state.historyReducer.history,
+        isSpectator: state.commonReducer.isSpectator,
+        reverseIsChecked: state.historyReducer.reverseIsChecked,
+        stepNumber: state.historyReducer.status.stepNumber,
+        tacPlayerName: state.commonReducer.tacPlayerName,
+        ticPlayerName: state.commonReducer.ticPlayerName,
+        xIsNext: state.historyReducer.status.xIsNext  
+    }
 }
 
-const mapDispatchToProps =
+const mapDispatchToProps = 
 {
     lobbyInit,
-    spectatorResolved
+    spectatorResolved  
 }
 
 class Info extends React.Component

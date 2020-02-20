@@ -1,26 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Switch from "react-switch";
-import { allGamesReceived, botOButtonSwitched, botXButtonSwitched, gameInit } from '../actions/actions';
+import { allGamesReceived, botOButtonSwitched, botXButtonSwitched, gameInit, historyInit } from '../actions/actions';
 import Name from '../components/Name'
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
-        botOIsChecked: state.botOIsChecked,
-        botXIsChecked: state.botXIsChecked,
-        games: state.games,
-        lobbyPlayerName: state.lobbyPlayerName
-    };
+        botOIsChecked: state.botReducer.botOIsChecked,
+        botXIsChecked: state.botReducer.botXIsChecked,
+        games: state.commonReducer.games,
+        lobbyPlayerName: state.nameReducer.lobbyPlayerName
+    }
 }
 
-const mapDispatchToProps =
+const mapDispatchToProps = 
 {
     allGamesReceived,
     botOButtonSwitched,
     botXButtonSwitched,
-    gameInit
+    gameInit,
+    historyInit
 }
 
 class Lobby extends React.Component
@@ -109,6 +110,7 @@ class Lobby extends React.Component
     showGame(gameIndex)
     {
         this.props.gameInit();
+        this.props.historyInit();
         const urlData = {'name': this.props.lobbyPlayerName, 'id': gameIndex, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
         this.replaceState(urlData);
     }
@@ -137,6 +139,7 @@ class Lobby extends React.Component
     createNewGame()
     {
         this.props.gameInit();
+        this.props.historyInit();
         const urlData = {'name': this.props.lobbyPlayerName, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
         this.replaceState(urlData);
     }

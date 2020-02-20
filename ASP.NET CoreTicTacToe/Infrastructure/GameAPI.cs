@@ -81,12 +81,14 @@ namespace ASP.NETCoreTicTacToe.Models
             bot = bot.ToUpperInvariant();
             if (bot.Contains("X"))
             {
-                SimpleBot.Create(game.TicPlayer, "S1mpleX");
+                game.TicPlayer.MakeSimpleBot();
+                game.TicPlayer.Name = "S1mpleX";
             }
 
             if (bot.Contains("O"))
             {
-                SimpleBot.Create(game.TacPlayer, "S1mpleO");
+                game.TacPlayer.MakeSimpleBot();
+                game.TacPlayer.Name = "S1mpleO";
             }
             if (bot.Equals("X"))
             {

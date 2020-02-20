@@ -2,31 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
-import { boardRequested, botIsX, botSet, gameBoardClicked, historyRequested, nameSet, playerNamesReceived, sideReceived } from '../actions/actions';
+import { botSet, historyItemAdded, historyRequested, nameSet, playerNamesReceived, sideReceived } from '../actions/actions';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
 {
     return {
-        bot: state.bot,
-        board: state.board,
-        clientPlayerName: state.clientPlayerName,
-        highlights: state.highlights,
-        history: state.history,
-        reverseIsChecked: state.reverseIsChecked,
-        side: state.side,
-        stepNumber: state.status.stepNumber,
-        xIsNext: state.status.xIsNext
-    };
-}
+        bot: state.botReducer.bot,
+        board: state.historyReducer.board,
+        clientPlayerName: state.nameReducer.clientPlayerName,
+        highlights: state.historyReducer.highlights,
+        history: state.historyReducer.history,
+        reverseIsChecked: state.historyReducer.reverseIsChecked,
+        side: state.commonReducer.side,
+        stepNumber: state.historyReducer.status.stepNumber,
+        xIsNext: state.historyReducer.status.xIsNext 
+    }
+};
 
-const mapDispatchToProps =
+const mapDispatchToProps = 
 {
-    boardRequested,
-    botIsX,
     botSet,
-    gameBoardClicked,
+    historyItemAdded,
     historyRequested,
     nameSet,
     playerNamesReceived,
@@ -128,7 +126,7 @@ class Board extends React.Component
                 let receivedCell = turns[i].cellNumber;
                 if (receivedCell >= 0)
                 {
-                    this.props.gameBoardClicked(receivedCell, turns[i].side);
+                    this.props.historyItemAdded(receivedCell, turns[i].side);
                     squareIndex = receivedCell;
                 }
             }
@@ -230,7 +228,7 @@ class Board extends React.Component
         .then(data => {
             if (data)
             {
-                this.props.gameBoardClicked(squareIndex, this.props.side);   
+                this.props.historyItemAdded(squareIndex, this.props.side);   
             }
         })
     }

@@ -4,29 +4,14 @@ using System.Collections.Generic;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
-    public class SimpleBot : Player, IBot
+    public class SimpleBot : IBot
     {
-        public SimpleBot()
-        {
-            Name = "S1mple";
-        }
-
         public SimpleBot(Side side)
-            :this()
         {
             Side = side;
         }
 
-        public static Player Create(Player player, string name)
-        {
-            if (player == null)
-            {
-                return null;
-            }
-            player.Bot = new SimpleBot(player.Side);
-            player.Name = name;
-            return player;
-        }
+        public Side Side { get; private set; }
 
         public Turn MakeAutoMove(Game game)
         {
@@ -46,7 +31,7 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     var validTurn = new Turn
                     {
-                        CellNumber = Convert.ToInt32(possibleTurns[randomTurn]),
+                        CellNumber = (int)(float)(int)Convert.ToInt32(possibleTurns[randomTurn]),
                         Side = Side
                     };
                     game.MakeMove(validTurn);
