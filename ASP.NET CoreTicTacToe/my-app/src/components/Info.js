@@ -85,9 +85,7 @@ class Info extends React.Component
 
     generateNextTurn()
     {
-        let turnMark = this.props.reverseIsChecked
-            ? this.props.xIsNext ? 'O' : 'X'
-            : this.props.xIsNext ? 'X' : 'O';
+        let turnMark = this.props.xIsNext ? 'X' : 'O';
         if (turnMark === 'X')
         {
             return this.generateFullNextTurnString(turnMark, this.props.ticPlayerName);
