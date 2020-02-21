@@ -9,6 +9,7 @@ import utils from '../utility/utils';
 const mapStateToProps = (state) =>
 {
     return {
+        bot: state.botReducer.bot,
         clientPlayerName: state.nameReducer.clientPlayerName,
         history: state.historyReducer.history,
         isSpectator: state.commonReducer.isSpectator,
@@ -129,6 +130,10 @@ class Info extends React.Component
     {
         this.props.lobbyInit();
         window.history.replaceState(null, null, `../?name=${this.props.clientPlayerName}`);
+        if (this.props.bot.toLowerCase() === "xo")
+        {
+            window.location.reload();
+        }
     }
 }
 
