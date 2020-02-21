@@ -26,7 +26,6 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var continueUpdating = true;
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
             if (game.TicPlayer.IsBot
-             && game.TacPlayer.IsBot
              && (game.Board.HasWinner
              || !game.Board.Squares.Contains(Cell.Empty)))
             {
