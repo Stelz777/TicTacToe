@@ -125,8 +125,10 @@ class Board extends React.Component
                 }
             }
             this.props.playerNamesReceived(messages.ticPlayerName, messages.tacPlayerName);
-                
-            setTimeout(() => this.refreshBoard(squareIndex), 500);
+            if (messages.continueUpdating)
+            {
+                setTimeout(() => this.refreshBoard(squareIndex), 500);
+            }
         });
     }
 

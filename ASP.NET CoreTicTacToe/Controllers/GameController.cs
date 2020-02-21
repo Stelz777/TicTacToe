@@ -31,15 +31,21 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 botManager.PlayBotVsBot(game);
                 gameAPI.UpdateGame(game, id.Value);
             }
-            
+            var continueUpdating = true;
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
-            
-
+            if (game.TicPlayer.IsBot
+             && game.TacPlayer.IsBot
+             && (game.Board.HasWinner
+             || !game.Board.Squares.Contains(Cell.Empty)))
+            {
+                continueUpdating = false;
+            }
             return Ok(new
             {
                 Turns = resultTurns,
                 ticPlayerName,
-                tacPlayerName
+                tacPlayerName,
+                continueUpdating
             });
         }
 
