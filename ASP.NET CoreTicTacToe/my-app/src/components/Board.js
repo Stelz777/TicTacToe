@@ -55,7 +55,10 @@ class Board extends React.Component
                 this.props.historyRequested(data.boards);
 
                 const name = utils.GetAllUrlParams().name;
-                this.props.nameSet(name);
+                if (name !== 'undefined')
+                {
+                    this.props.nameSet(name);
+                }
                 
                 this.receiveSide(data.id, this.props.clientPlayerName);
                 window.history.replaceState(null, null, `?id=${data.id}`);
