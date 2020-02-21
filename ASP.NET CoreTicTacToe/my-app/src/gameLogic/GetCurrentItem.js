@@ -1,4 +1,4 @@
-function GetCurrentItem(history, reverseIsChecked, stepNumber)
+function GetCurrentItem(history, stepNumber)
 {
     if (history === null)
     {

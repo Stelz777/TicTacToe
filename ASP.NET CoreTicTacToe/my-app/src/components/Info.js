@@ -32,7 +32,7 @@ class Info extends React.Component
     {
         this.resolveSpectator();
         const history = this.props.history;
-        let current = GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber);
+        let current = GetCurrentItem(history, this.props.stepNumber);
         
         let winner = utils.ArrayNotNullOrEmpty(history) ? CalculateWinner(current.squares) : null; 
         let status = this.calculateStatus(winner);

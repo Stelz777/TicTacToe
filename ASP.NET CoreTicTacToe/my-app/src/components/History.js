@@ -135,7 +135,6 @@ class History extends React.Component
 
     jumpTo(step, i)
     {  
-        
         if (step < 0)
         {
             step = 0;

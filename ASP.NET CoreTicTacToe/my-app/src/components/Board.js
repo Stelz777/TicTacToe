@@ -168,7 +168,7 @@ class Board extends React.Component
     {
         const history = this.props.history;
         
-        let squares = utils.ArrayNotNullOrEmpty(history) ? GetCurrentItem(history, this.props.reverseIsChecked, this.props.stepNumber).squares : this.props.board;
+        let squares = utils.ArrayNotNullOrEmpty(history) ? GetCurrentItem(history, this.props.stepNumber).squares : this.props.board;
         
         if (isHighlighted)
         {

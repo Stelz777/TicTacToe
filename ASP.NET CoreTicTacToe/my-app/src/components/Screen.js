@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { gameInit } from '../actions/commonActions';
+import { historyInit } from '../actions/historyActions';
 import Game from '../components/Game';
 import Lobby from '../components/Lobby';
 import utils from '../utility/utils';
@@ -16,7 +17,8 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps = 
 {
-    gameInit
+    gameInit,
+    historyInit
 }
 
 class Screen extends React.Component
@@ -28,6 +30,7 @@ class Screen extends React.Component
         if (id)
         {
             this.props.gameInit();
+            this.props.historyInit();
         }
         
         if (this.props.isInLobby)

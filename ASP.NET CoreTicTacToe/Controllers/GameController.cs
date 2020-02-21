@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreTicTacToe.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace ASP.NETCoreTicTacToe.Controllers
@@ -19,6 +20,8 @@ namespace ASP.NETCoreTicTacToe.Controllers
         public IActionResult Updates(int? id, int currentTurn)
         {
             var (_, game) = gameAPI.GetGame(id, null);
+            var ticPlayerName = game.TicPlayer.Name;
+            var tacPlayerName = game.TacPlayer.Name;
             if (game.TicPlayer.IsBot 
              && game.TacPlayer.IsBot 
              && !game.Board.HasWinner 
@@ -28,9 +31,9 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 botManager.PlayBotVsBot(game);
                 gameAPI.UpdateGame(game, id.Value);
             }
+            
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
-            var ticPlayerName = game.TicPlayer.Name;
-            var tacPlayerName = game.TacPlayer.Name;
+            
 
             return Ok(new
             {

@@ -21,7 +21,7 @@ function historyReducer(state = initialState, action)
             let currentStepNumber = state.history.length - state.status.stepNumber - 1;
                 
             let currentHistory = state.history.slice().reverse();
-    
+            
             return ({ 
                 ...state, 
                 history: currentHistory, 
@@ -44,7 +44,7 @@ function historyReducer(state = initialState, action)
                 return state;
             }
             squares[action.squareIndex] = action.side === 0 ? 'X' : 'O';
-                    
+            
             return { 
                 ...state, 
                 board: squares,
