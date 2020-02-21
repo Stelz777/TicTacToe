@@ -22,15 +22,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (_, game) = gameAPI.GetGame(id, null);
             var ticPlayerName = game.TicPlayer.Name;
             var tacPlayerName = game.TacPlayer.Name;
-            if (game.TicPlayer.IsBot 
-             && game.TacPlayer.IsBot 
-             && !game.Board.HasWinner 
-             && game.Board.Squares.Contains(Cell.Empty))
-            {
-                var botManager = new BotManager();
-                botManager.PlayBotVsBot(game);
-                gameAPI.UpdateGame(game, id.Value);
-            }
+            PlayBotVsBot(game, id);
             var continueUpdating = true;
             var resultTurns = game.History.Turns.Skip(currentTurn).ToList();
             if (game.TicPlayer.IsBot
@@ -47,6 +39,19 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 tacPlayerName,
                 continueUpdating
             });
+        }
+
+        private void PlayBotVsBot(Game game, int? id)
+        {
+            if (game.TicPlayer.IsBot
+             && game.TacPlayer.IsBot
+             && !game.Board.HasWinner
+             && game.Board.Squares.Contains(Cell.Empty))
+            {
+                var botManager = new BotManager();
+                botManager.PlayBotVsBot(game);
+                gameAPI.UpdateGame(game, id.Value);
+            }
         }
 
         [HttpPost]

@@ -130,10 +130,6 @@ class Info extends React.Component
     {
         this.props.lobbyInit();
         window.history.replaceState(null, null, `../?name=${this.props.clientPlayerName}`);
-        /*if (this.props.bot.toLowerCase() === "xo")
-        {
-            window.location.reload();
-        }*/
     }
 }
 
