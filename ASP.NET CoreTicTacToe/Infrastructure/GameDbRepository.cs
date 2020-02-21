@@ -24,7 +24,8 @@ namespace ASP.NETCoreTicTacToe.Models
             var result = new Dictionary<int, Game>();
             
             var games = QueryGames(context);
-            result = games.Select(item => new { GameDto = item, Game = mapper.Map<Game>(item) }).ToDictionary(x => x.GameDto.ID, x => x.Game);
+            result = games.Select(item => new { GameDto = item, Game = mapper.Map<Game>(item) })
+                          .ToDictionary(x => x.GameDto.ID, x => x.Game);
             
             return result;
         }

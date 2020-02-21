@@ -48,8 +48,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
              && !game.Board.HasWinner
              && game.Board.Squares.Contains(Cell.Empty))
             {
-                var botManager = new BotManager();
-                botManager.PlayBotVsBot(game);
+                BotManager.PlayBotVsBot(game);
                 gameAPI.UpdateGame(game, id.Value);
             }
         }
@@ -65,7 +64,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return result;
         }
 
-        private void MakeBotMove(int? id, string player, Game game)
+        private static void MakeBotMove(int? id, string player, Game game)
         {
             game.MakeBotMove(player);
         }

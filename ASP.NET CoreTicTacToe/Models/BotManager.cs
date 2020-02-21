@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASP.NETCoreTicTacToe.Models
 {
-    public class BotManager
+    public static class BotManager
     {
         public static void MakeFirstXMove(Game game)
         {
@@ -15,7 +15,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        public void PlayBotVsBot(Game game)
+        public static void PlayBotVsBot(Game game)
         {
             if (game != null && game.CanContinue())
             {
@@ -37,7 +37,7 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }
 
-        private void MakeBotTurn(Player player, Game game)
+        private static void MakeBotTurn(Player player, Game game)
         {
             if (player.Bot != null)
             {

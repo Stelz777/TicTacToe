@@ -41,8 +41,6 @@ namespace ASP.NETCoreTicTacToe.Models
             }
         }   
 
-        
-
         public static Cell GetCellBySide(Side side)
         {
             if (side == Side.Tic)

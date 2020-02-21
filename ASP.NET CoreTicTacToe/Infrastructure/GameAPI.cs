@@ -33,14 +33,14 @@ namespace ASP.NETCoreTicTacToe.Models
                 {
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
-                InitBot(game, id.Value, bot);
+                InitBot(game, bot);
                 
                 return (id.Value, game);
             }
 
             var newGame = new Game();                
             var newId = AddGame(newGame);
-            InitBot(newGame, newId, bot);
+            InitBot(newGame, bot);
             return (newId, newGame);
         }
 
@@ -62,9 +62,7 @@ namespace ASP.NETCoreTicTacToe.Models
             return gameRepository.AddGameToDatabase(game);
         }
 
-        
-
-        private void InitBot(Game game, int gameId, string bot)
+        private static void InitBot(Game game, string bot)
         {
             if (game == null || bot == null)
             {
@@ -72,18 +70,18 @@ namespace ASP.NETCoreTicTacToe.Models
             }
 
             bot = bot.ToUpperInvariant();
-            if (bot.Contains("X"))
+            if (bot.Contains("X", StringComparison.OrdinalIgnoreCase))
             {
                 game.TicPlayer.MakeSimpleBot();
                 game.TicPlayer.Name = "S1mpleX";
             }
 
-            if (bot.Contains("O"))
+            if (bot.Contains("O", StringComparison.OrdinalIgnoreCase))
             {
                 game.TacPlayer.MakeSimpleBot();
                 game.TacPlayer.Name = "S1mpleO";
             }
-            if (bot.Equals("X"))
+            if (bot.Equals("X", StringComparison.OrdinalIgnoreCase))
             {
                 BotManager.MakeFirstXMove(game);
             }
