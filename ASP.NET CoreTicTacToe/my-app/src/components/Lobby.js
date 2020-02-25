@@ -93,7 +93,7 @@ class Lobby extends React.Component
 
     generateDescription(id, ticPlayer, tacPlayer)
     {
-        return `"id: ${id} X: ${this.generatePlayerDescription(ticPlayer)}
+        return `id: ${id} X: ${this.generatePlayerDescription(ticPlayer)}
                            O: ${this.generatePlayerDescription(tacPlayer)}`;
     }
 

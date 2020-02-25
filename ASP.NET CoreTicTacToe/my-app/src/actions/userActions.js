@@ -30,6 +30,7 @@ export function userLogin(username, password)
 
     function userLoginRequest(user)
     {
+        console.log("userLoginRequest!");
         return {
             type: users.USER_LOGIN_REQUEST,
             user
