@@ -47,8 +47,10 @@ class Board extends React.Component
         const bot = utils.GetAllUrlParams().bot;
 
         this.props.botSet(bot);
-        
-        fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}`, { method: 'GET' })
+        const requestOptions = {
+            method: 'GET'
+        };
+        fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}`, requestOptions)
             .then(result => result.json())
             .then(data => {   
                 this.fillSquares(data); 
@@ -77,9 +79,10 @@ class Board extends React.Component
 
     receiveSide(id, name)
     {
-        return fetch(`/api/game/setside/${id}?name=${name}`, { 
+        const requestOptions = {
             method: 'POST'
-        })
+        }
+        return fetch(`/api/game/setside/${id}?name=${name}`, requestOptions)
         .then(response => response.json())
         .then(data => {
                 this.props.sideReceived(data);
@@ -112,9 +115,10 @@ class Board extends React.Component
 
     async updatesAPI(id, squareIndex, currentTurn)
     {
-        return fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, { 
+        const requestOptions = {
             method: 'GET'
-        })
+        };
+        return fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, requestOptions)
         .then((response) => response.json())
         .then((messages) => {
             let turns = messages.turns;
@@ -214,15 +218,15 @@ class Board extends React.Component
     sendTurn(squareIndex, side)
     {
         const id = utils.GetAllUrlParams().id;
-        
-        fetch(`/api/game/maketurn/${id}?name=${this.props.clientPlayerName}`, {
+        const requestOptions = {
             method: 'POST',
             body: JSON.stringify({ CellNumber: squareIndex, Side: side }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        })
+        };
+        fetch(`/api/game/maketurn/${id}?name=${this.props.clientPlayerName}`, requestOptions)
         .then(response => response.json())
         .then(data => {
             if (data)

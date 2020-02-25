@@ -35,7 +35,10 @@ class Lobby extends React.Component
 
     getGames()
     {
-        fetch(`/api/lobby/allgames/`, { method: 'GET' })
+        const requestOptions = {
+            method: 'GET'
+        };
+        fetch(`/api/lobby/allgames/`, requestOptions)
             .then(result => result.json())
             .then(data => {   
                 this.props.allGamesReceived(data);
