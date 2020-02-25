@@ -1,7 +1,6 @@
-import config from 'config';
-import { authHeader } from '../helpers';
+import { authHeader } from '../helpers/authHeader';
 
-function login(username, password)
+export function login(username, password)
 {
     const requestOptions = {
         method: 'POST',
@@ -11,7 +10,7 @@ function login(username, password)
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch(`/api/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             localStorage.setItem('user', JSON.stringify(user));
@@ -38,17 +37,17 @@ function handleResponse(response)
     });
 }
 
-function logout()
+export function logout()
 {
     localStorage.removeItem('user');
 }
 
-function getAll()
+export function getAll()
 {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+    return fetch(`/api/users`, requestOptions).then(handleResponse);
 }

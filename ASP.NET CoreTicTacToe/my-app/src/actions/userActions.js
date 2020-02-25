@@ -1,13 +1,13 @@
 import * as users from '../constants/userConstants';
-import { userService } from '../services/userService';
-import { alertActions } from '../actions/alertActions';
+import { getAll, login, logout } from '../services/userService';
+import { alertError } from '../actions/alertActions';
 import { history } from '../helpers/history';
 
-function login(username, password)
+export function userLogin(username, password)
 {
     return dispatch => {
         dispatch(userLoginRequest({ username }));
-        userService.login(username, password)
+        login(username, password)
             .then(
                 user => {
                     dispatch(userLoginSuccess(user));
@@ -15,7 +15,7 @@ function login(username, password)
                 },
                 error => {
                     dispatch(userLoginFailure(error));
-                    dispatch(alertActions.alertError(error));
+                    dispatch(alertError(error));
                 }
             );
     }
@@ -45,24 +45,24 @@ function login(username, password)
     }
 }
 
-function userLogout()
+export function userLogout()
 {
-    userService.logout();
+    logout();
     return {
         type: users.USER_LOGOUT
     };
 }
 
-function getAll()
+export function userGetAll()
 {
     return dispatch => {
         dispatch(userGetallRequest());
-        userService.getAll()
+        getAll()
             .then(
                 users => dispatch(userGetallSuccess(users)),
                 error => {
                     dispatch(userGetallFailure(error));
-                    dispatch(alertActions.alertError(error));
+                    dispatch(alertError(error));
                 }
             );
     };
