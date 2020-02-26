@@ -48,10 +48,11 @@ class Lobby extends React.Component
     render()
     {
         const games = this.printGamesList();
-
+        console.log("lobby render this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
+        
         return (
             <div>
-                <Name/>
+                { this.props.lobbyPlayerName ? null : <Name /> }
                 <div>
                     Бот-X
                     <Switch

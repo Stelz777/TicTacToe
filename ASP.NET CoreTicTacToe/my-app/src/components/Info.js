@@ -50,10 +50,10 @@ class Info extends React.Component
 
     resolveSpectator()
     {
-        if (this.props.ticPlayerName 
+        if ((this.props.ticPlayerName 
             && this.props.tacPlayerName 
             && this.props.clientPlayerName !== this.props.ticPlayerName
-            && this.props.clientPlayerName !== this.props.tacPlayerName)
+            && this.props.clientPlayerName !== this.props.tacPlayerName) || !this.props.clientPlayerName)
         {
             this.props.spectatorResolved();
         }
