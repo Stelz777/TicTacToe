@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,11 @@ namespace ASP.NETCoreTicTacToe.Controllers
     {
         private IUserService userService;
 
-        public UserController(IUserService userService)
+        private UserAPI userAPI;
+
+        public UserController(UserAPI userAPI, IUserService userService)
         {
+            this.userAPI = userAPI;
             this.userService = userService;
         }
 
@@ -27,7 +31,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 return BadRequest();
             }
 
-            var user = userService.Authenticate(userParam.Name, userParam.Password);
+            var user = userService.Authenticate(userAPI, userParam.Name, userParam.Password);
             if (user == null)
             {
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -38,7 +42,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult All()
         {
-            var users = userService.GetAll();
+            var users = userService.GetAll(userAPI);
             return Ok(users);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using ASP.NETCoreTicTacToe.Helpers;
+using ASP.NETCoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +17,6 @@ namespace ASP.NETCoreTicTacToe.Services
 {
     public class UserService : IUserService
     {
-        
-        
-        private List<User> users = new List<User>();
-       
-
         private readonly AppSettings appSettings;
 
         public UserService(IOptions<AppSettings> appSettings)
@@ -29,23 +25,16 @@ namespace ASP.NETCoreTicTacToe.Services
             {
                 this.appSettings = appSettings.Value;
             }
-            var sha256 = new SHA256CryptoServiceProvider();
-            var password = sha256.ComputeHash(ConvertStringToByteArray("test"));
-            sha256.Dispose();
-            var user = new User()
-            {
-                Id = 1,
-                FirstName = "Test",
-                LastName = "User",
-                Name = "test"
-            };
-            user.Password = ConvertByteArrayToString(password);
-            users.Add(user);
         }
 
         private string ConvertByteArrayToString(byte[] input)
         {
-            return Encoding.ASCII.GetString(input, 0, input.Length);
+            var hex = new StringBuilder(input.Length * 2);
+            foreach (var item in input)
+            {
+                hex.AppendFormat("{0:x2}", item);
+            }
+            return hex.ToString();
         }
 
         private byte[] ConvertStringToByteArray(string input)
@@ -53,26 +42,28 @@ namespace ASP.NETCoreTicTacToe.Services
             return Encoding.ASCII.GetBytes(input);
         }
 
-        public User Authenticate(string username, string password)
+        public User Authenticate(UserAPI userAPI, string userName, string password)
         {
-            if (password == null)
+            if (password == null || userAPI == null)
             {
                 return null;
             }
             var sha256 = new SHA256CryptoServiceProvider();
-
+            
             var hashedPassword = ConvertByteArrayToString(
                 sha256.ComputeHash(ConvertStringToByteArray(password)));
 
-            var user = users.SingleOrDefault(item => 
-                item.Name == username && 
-                item.Password == hashedPassword);
-
             sha256.Dispose();
+            var user = userAPI.GetUserFromDatabase(userName);
             if (user == null)
             {
                 return null;
             }
+            if (user.Password != hashedPassword)
+            {
+                return null;
+            }
+            
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
@@ -93,9 +84,13 @@ namespace ASP.NETCoreTicTacToe.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAll(UserAPI userAPI)
         {
-            return users.Select(user =>
+            if (userAPI == null)
+            {
+                return null;
+            }
+            return userAPI.GetAllUsersFromDatabase().Select(user =>
             {
                 user.Password = null;
                 return user;

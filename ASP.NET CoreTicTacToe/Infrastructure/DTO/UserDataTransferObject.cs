@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASP.NET_CoreTicTacToe.Infrastructure.DTO
+namespace ASP.NETCoreTicTacToe.Infrastructure.DTO
 {
     public class UserDataTransferObject
     {

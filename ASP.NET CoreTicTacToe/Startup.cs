@@ -64,11 +64,11 @@ namespace ASP.NETCoreTicTacToe
             });
 
             
-            services.AddSingleton<Models.BotFarm>();
-            services.AddSingleton<Models.Lobby>();
+            services.AddSingleton<BotFarm>();
+            services.AddSingleton<Lobby>();
             services.AddTransient<GameAPI>();
+            services.AddTransient<UserAPI>();
             
-
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 

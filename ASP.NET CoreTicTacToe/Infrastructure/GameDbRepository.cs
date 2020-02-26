@@ -1,12 +1,13 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Infrastructure.DTO;
+using ASP.NETCoreTicTacToe.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Infrastructure
 {
     public class GameDbRepository
     {
@@ -45,6 +46,26 @@ namespace ASP.NETCoreTicTacToe.Models
                 .Include(gameDTO => gameDTO.Board)
                 .Include(gameDTO => gameDTO.TicPlayer)
                 .Include(gameDTO => gameDTO.TacPlayer);
+        }
+
+        public List<User> GetAllUsersFromDatabase()
+        {
+            var result = new List<User>();
+            var users = QueryUsers(context);
+            result = users.Select(userDTO => mapper.Map<User>(userDTO)).ToList();
+            return result;
+        }
+
+        public User GetUserFromDatabase(string userName)
+        {
+            var user = mapper.Map<User>(QueryUsers(context)
+                .FirstOrDefault(userDTO => userDTO.Name == userName));
+            return user;
+        }
+
+        private static IQueryable<UserDataTransferObject> QueryUsers(TicTacToeContext context)
+        {
+            return context.Users;
         }
 
         public int AddGameToDatabase(Game newGame)

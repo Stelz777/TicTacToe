@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

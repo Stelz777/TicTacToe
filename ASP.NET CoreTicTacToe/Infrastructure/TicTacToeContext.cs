@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Infrastructure
 {
     public class TicTacToeContext : DbContext
     {
@@ -15,6 +15,8 @@ namespace ASP.NETCoreTicTacToe.Models
         public DbSet<TurnDataTransferObject> Turns { get; set; }
 
         public DbSet<PlayerDataTransferObject> Players { get; set; }
+
+        public DbSet<UserDataTransferObject> Users { get; set; }
         
         public TicTacToeContext(DbContextOptions<TicTacToeContext> options) : base(options)
         {

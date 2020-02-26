@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace ASP.NETCoreTicTacToe.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
+        User Authenticate(UserAPI userAPI, string username, string password);
+        IEnumerable<User> GetAll(UserAPI userAPI);
     }
 }
