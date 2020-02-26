@@ -24,6 +24,14 @@ export function lobbyInit()
     }
 }
 
+export function nameSet(clientPlayerName)
+{
+    return {
+        type: commons.NAME_SET,
+        clientPlayerName  
+    }
+}
+
 export function playerNamesReceived(ticName, tacName)
 {
     return {

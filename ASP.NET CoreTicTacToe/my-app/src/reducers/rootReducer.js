@@ -4,7 +4,6 @@ import authenticationReducer from './authenticationReducer';
 import botReducer from './botReducer'
 import commonReducer from './commonReducer';
 import historyReducer from './historyReducer';
-import nameReducer from './nameReducer';
 import usersReducer from './usersReducer';
 
 const rootReducer = combineReducers({
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
     botReducer: botReducer,
     commonReducer: commonReducer,
     historyReducer: historyReducer,
-    nameReducer: nameReducer,
     usersReducer: usersReducer
 });
 

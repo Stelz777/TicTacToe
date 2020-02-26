@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import HighlightedSquare from './HighlightedSquare.js';
 import Square from './Square.js';
 import { botSet } from '../actions/botActions';
-import { playerNamesReceived, sideReceived } from '../actions/commonActions';
+import { nameSet, playerNamesReceived, sideReceived } from '../actions/commonActions';
 import { historyItemAdded, historyRequested } from '../actions/historyActions';
-import { nameSet } from '../actions/nameActions';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
 import utils from '../utility/utils';
 
@@ -14,7 +13,7 @@ const mapStateToProps = (state) =>
     return {
         bot: state.botReducer.bot,
         board: state.historyReducer.board,
-        clientPlayerName: state.nameReducer.clientPlayerName,
+        clientPlayerName: state.commonReducer.clientPlayerName,
         highlights: state.historyReducer.highlights,
         history: state.historyReducer.history,
         reverseIsChecked: state.historyReducer.reverseIsChecked,

@@ -9,7 +9,7 @@ const mapStateToProps = (state) =>
     const { loggingIn } = state.authenticationReducer;
     return {
         isDisabledNameInput: state.commonReducer.isDisabledNameInput,
-        lobbyPlayerName: state.nameReducer.lobbyPlayerName,
+        lobbyPlayerName: state.commonReducer.lobbyPlayerName,
         loggingIn,
         ticPlayerName: state.commonReducer.ticPlayerName,
         tacPlayerName: state.commonReducer.tacPlayerName

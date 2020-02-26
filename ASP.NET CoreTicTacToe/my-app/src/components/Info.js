@@ -10,7 +10,7 @@ const mapStateToProps = (state) =>
 {
     return {
         bot: state.botReducer.bot,
-        clientPlayerName: state.nameReducer.clientPlayerName,
+        clientPlayerName: state.commonReducer.clientPlayerName,
         history: state.historyReducer.history,
         isSpectator: state.commonReducer.isSpectator,
         reverseIsChecked: state.historyReducer.reverseIsChecked,
