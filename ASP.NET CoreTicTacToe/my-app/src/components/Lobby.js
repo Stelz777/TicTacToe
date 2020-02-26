@@ -4,7 +4,7 @@ import Switch from "react-switch";
 import { botOButtonSwitched, botXButtonSwitched } from '../actions/botActions';
 import { allGamesReceived, gameInit } from '../actions/commonActions';
 import { historyInit } from '../actions/historyActions';
-import Name from '../components/Name'
+import Name from './Login'
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
