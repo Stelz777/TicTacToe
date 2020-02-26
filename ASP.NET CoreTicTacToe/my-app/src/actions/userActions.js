@@ -1,5 +1,5 @@
 import * as users from '../constants/userConstants';
-import { getAll, login, logout } from '../services/userService';
+import { getAll, login, logout, register } from '../services/userService';
 import { alertError } from '../actions/alertActions';
 import { history } from '../helpers/history';
 
@@ -98,5 +98,49 @@ export function userNameSetInLobby(playerNameInLobby)
     return {
         type: users.USER_NAME_SET_IN_LOBBY,
         playerNameInLobby
+    }
+}
+
+export function userRegister(userName, password)
+{
+    return dispatch => {
+        dispatch(userRegisterRequest({ userName }));
+        register(userName, password)
+            .then(
+                user => {
+                    dispatch(userRegisterSuccess(user));
+                    history.push('/');
+                },
+                error => {
+                    dispatch(userRegisterFailure(error));
+                    dispatch(alertError(error));
+                }
+            );
+    }
+
+    function userRegisterFailure(error)
+    {
+        return {
+            type: users.USER_REGISTER_FAILURE,
+            error
+        }
+    }
+
+    function userRegisterRequest(user)
+    {
+        console.log("userRegisterRequest!");
+        return {
+            type: users.USER_REGISTER_REQUEST,
+            user
+        }
+    }
+
+    function userRegisterSuccess(user)
+    {
+        console.log("userLoginSuccess user: ", user);
+        return {
+            type: users.USER_REGISTER_SUCCESS,
+            user
+        }
     }
 }

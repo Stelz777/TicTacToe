@@ -51,3 +51,22 @@ export function getAll()
 
     return fetch(`/api/user/all/`, requestOptions).then(handleResponse);
 }
+
+export function register(username, password)
+{
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ Name: username, Password: password })
+    };
+
+    return fetch(`/api/user/register/`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        });
+
+}

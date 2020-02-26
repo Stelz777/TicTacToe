@@ -39,6 +39,22 @@ namespace ASP.NETCoreTicTacToe.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Register(User userParam)
+        {
+            if (userParam == null)
+            {
+                return BadRequest();
+            }
+            var user = userService.Register(userAPI, userParam.Name, userParam.Password);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User already exists" });
+            }
+            return Ok(user);
+        }
+
         [HttpGet]
         public IActionResult All()
         {

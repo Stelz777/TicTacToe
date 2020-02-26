@@ -84,6 +84,33 @@ namespace ASP.NETCoreTicTacToe.Services
             return user;
         }
 
+        public User Register(UserAPI userAPI, string userName, string password)
+        {
+            if (password == null || userAPI == null)
+            {
+                return null;
+            }
+            var sha256 = new SHA256CryptoServiceProvider();
+
+            var hashedPassword = ConvertByteArrayToString(
+                sha256.ComputeHash(ConvertStringToByteArray(password)));
+
+            sha256.Dispose();
+            var user = userAPI.GetUserFromDatabase(userName);
+            if (user != null)
+            {
+                return null;
+            }
+            user = new User();
+            user.Name = userName;
+            user.Password = hashedPassword;
+
+            userAPI.AddUser(user);
+
+            user.Password = null;
+            return user;
+        }
+
         public IEnumerable<User> GetAll(UserAPI userAPI)
         {
             if (userAPI == null)

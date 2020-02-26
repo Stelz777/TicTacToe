@@ -84,6 +84,20 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             return gameDataTransferObject.ID;
         }
 
+        public void AddUserToDatabase(User newUser)
+        {
+            if (newUser == null)
+            {
+                throw new ArgumentNullException(nameof(newUser));
+            }
+
+            var userDataTransferObject = mapper.Map<UserDataTransferObject>(newUser);
+
+            context.Users.Add(userDataTransferObject);
+
+            context.SaveChanges();
+        }
+
         public void UpdateGameInDatabase(Game game, int gameId)
         {
             var gameDTO = mapper.Map<GameDataTransferObject>(game);

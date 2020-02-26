@@ -11,5 +11,6 @@ namespace ASP.NETCoreTicTacToe.Services
     {
         User Authenticate(UserAPI userAPI, string username, string password);
         IEnumerable<User> GetAll(UserAPI userAPI);
+        User Register(UserAPI userAPI, string userName, string password);
     }
 }

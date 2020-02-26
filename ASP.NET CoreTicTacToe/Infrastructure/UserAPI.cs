@@ -25,5 +25,10 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
         {
             return gameRepository.GetUserFromDatabase(userName);
         }
+
+        public void AddUser(User user)
+        {
+            gameRepository.AddUserToDatabase(user);
+        }
     }
 }
