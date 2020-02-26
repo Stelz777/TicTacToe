@@ -7,10 +7,10 @@ export function login(username, password)
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ Name: username, Password: password })
     };
 
-    return fetch(`/api/users/authenticate`, requestOptions)
+    return fetch(`/api/user/authenticate/`, requestOptions)
         .then(handleResponse)
         .then(user => {
             localStorage.setItem('user', JSON.stringify(user));
@@ -49,5 +49,5 @@ export function getAll()
         headers: authHeader()
     };
 
-    return fetch(`/api/users`, requestOptions).then(handleResponse);
+    return fetch(`/api/user/all/`, requestOptions).then(handleResponse);
 }
