@@ -13,7 +13,7 @@ const mapStateToProps = (state) =>
         botOIsChecked: state.botReducer.botOIsChecked,
         botXIsChecked: state.botReducer.botXIsChecked,
         games: state.commonReducer.games,
-        lobbyPlayerName: state.nameReducer.lobbyPlayerName
+        lobbyPlayerName: state.authenticationReducer.lobbyPlayerName
     }
 }
 

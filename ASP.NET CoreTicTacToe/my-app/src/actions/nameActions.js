@@ -9,13 +9,7 @@ export function nameSet(clientPlayerName)
     }
 }
 
-export function nameSetInLobby(playerNameInLobby)
-{
-    return {
-        type: names.NAME_SET_IN_LOBBY,
-        playerNameInLobby
-    }
-}
+
 
 
 

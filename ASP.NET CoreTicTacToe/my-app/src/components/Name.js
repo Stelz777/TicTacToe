@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { nameSetInLobby } from '../actions/nameActions'
 import utils from '../utility/utils';
-import { userLogin, userLogout } from '../actions/userActions';
+import { userLogin, userLogout, userNameSetInLobby } from '../actions/userActions';
 
 const mapStateToProps = (state) =>
 {
@@ -19,9 +18,9 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps = 
 {
-    nameSetInLobby,
     userLogin,
-    userLogout
+    userLogout,
+    userNameSetInLobby
 }
 
 class Name extends React.Component
@@ -60,7 +59,7 @@ class Name extends React.Component
     componentDidMount()
     {
         const name = utils.GetAllUrlParams().name;
-        this.props.nameSetInLobby(name);
+        this.props.userNameSetInLobby(name);
     }
 
     render()
@@ -85,17 +84,10 @@ class Name extends React.Component
                         <div className = { 'form-group' + (submitted && !username ? ' has-error' : '') }>
                             <label htmlFor = "username">Username</label>
                             <input
-                                //disabled = { this.props.isDisabledNameInput }
                                 type = "text"
                                 className = "form-control"
                                 name = "username"
                                 value = { username }
-                                onBlur = { 
-                                    (event) =>
-                                    {
-                                        this.nameTextBoxEventBody(event)
-                                    }
-                                }
                                 onChange = { this.handleChange }
                                 onKeyDown = {
                                     this.checkEventEnterKey()
@@ -122,22 +114,6 @@ class Name extends React.Component
                 </div>
             </div>
         );
-    }
-
-    nameTextBoxEventBody(event)
-    {
-        let name = event.target.value;
-        
-        if (name !== '')
-        {
-            this.textChanged(name);
-            //event.target.disabled = true;
-        }   
-    }
-
-    textChanged(name)
-    {
-        this.props.nameSetInLobby(name);    
     }
 
     checkEventEnterKey()

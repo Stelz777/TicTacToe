@@ -39,6 +39,7 @@ export function userLogin(username, password)
 
     function userLoginSuccess(user)
     {
+        console.log("userLoginSuccess user: ", user);
         return {
             type: users.USER_LOGIN_SUCCESS,
             user
@@ -89,5 +90,13 @@ export function userGetAll()
             type: users.USER_GETALL_SUCCESS,
             users
         }
+    }
+}
+
+export function userNameSetInLobby(playerNameInLobby)
+{
+    return {
+        type: users.USER_NAME_SET_IN_LOBBY,
+        playerNameInLobby
     }
 }

@@ -14,11 +14,6 @@ function nameReducer(state = initialState, action)
                 ...state,
                 clientPlayerName: action.clientPlayerName
             });    
-        case NAME_SET_IN_LOBBY:
-            return ({
-                ...state,
-                lobbyPlayerName: action.playerNameInLobby
-            });
         default:
             return state;
     }
