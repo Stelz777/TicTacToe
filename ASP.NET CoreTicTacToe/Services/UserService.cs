@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +16,10 @@ namespace ASP.NETCoreTicTacToe.Services
 {
     public class UserService : IUserService
     {
-        private List<User> users = new List<User>
-        {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Name = "test", Password = "test" }
-        };
+        
+        
+        private List<User> users = new List<User>();
+       
 
         private readonly AppSettings appSettings;
 
@@ -28,11 +29,46 @@ namespace ASP.NETCoreTicTacToe.Services
             {
                 this.appSettings = appSettings.Value;
             }
+            var sha256 = new SHA256CryptoServiceProvider();
+            var password = sha256.ComputeHash(ConvertStringToByteArray("test"));
+            sha256.Dispose();
+            var user = new User()
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "User",
+                Name = "test"
+            };
+            user.Password = ConvertByteArrayToString(password);
+            users.Add(user);
+        }
+
+        private string ConvertByteArrayToString(byte[] input)
+        {
+            return Encoding.ASCII.GetString(input, 0, input.Length);
+        }
+
+        private byte[] ConvertStringToByteArray(string input)
+        {
+            return Encoding.ASCII.GetBytes(input);
         }
 
         public User Authenticate(string username, string password)
         {
-            var user = users.SingleOrDefault(item => item.Name == username && item.Password == password);
+            if (password == null)
+            {
+                return null;
+            }
+            var sha256 = new SHA256CryptoServiceProvider();
+
+            var hashedPassword = ConvertByteArrayToString(
+                sha256.ComputeHash(ConvertStringToByteArray(password)));
+
+            var user = users.SingleOrDefault(item => 
+                item.Name == username && 
+                item.Password == hashedPassword);
+
+            sha256.Dispose();
             if (user == null)
             {
                 return null;
