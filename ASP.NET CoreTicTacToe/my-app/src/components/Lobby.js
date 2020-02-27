@@ -15,6 +15,8 @@ const mapStateToProps = (state) =>
         botXIsChecked: state.botReducer.botXIsChecked,
         games: state.commonReducer.games,
         isRegistering: state.registerReducer.isRegistering,
+        lobbyPlayerFirstName: state.authenticationReducer.lobbyPlayerFirstName,
+        lobbyPlayerLastName: state.authenticationReducer.lobbyPlayerLastName,
         lobbyPlayerName: state.authenticationReducer.lobbyPlayerName
     }
 }
@@ -52,9 +54,11 @@ class Lobby extends React.Component
         const games = this.printGamesList();
         console.log("lobby render this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
         console.log("Lobby render this.props.isRegistering", this.props.isRegistering);
+        let greetings = `Здравствуйте, ${this.props.lobbyPlayerFirstName} ${this.props.lobbyPlayerLastName}`; 
         return (
             
             <div>
+                { this.props.lobbyPlayerName ? greetings : null }
                 { this.props.lobbyPlayerName || this.props.isRegistering ? null : <Login /> }
                 { this.props.isRegistering ? <Registration /> : null }
                 <div>

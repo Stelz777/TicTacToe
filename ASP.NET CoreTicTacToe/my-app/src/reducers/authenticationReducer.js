@@ -18,7 +18,9 @@ export function authenticationReducer(state = intitialState, action)
             return {
                 loggedIn: true,
                 user: action.user,
-                lobbyPlayerName: action.user.name
+                lobbyPlayerName: action.user.name,
+                lobbyPlayerFirstName: action.user.firstName,
+                lobbyPlayerLastName: action.user.lastName
             };
         case USER_LOGOUT:
             return {};
