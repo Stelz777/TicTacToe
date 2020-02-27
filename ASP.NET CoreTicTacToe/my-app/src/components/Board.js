@@ -45,7 +45,7 @@ class Board extends React.Component
         const id = utils.GetAllUrlParams().id;
         const bot = utils.GetAllUrlParams().bot;
         const difficulty = utils.GetAllUrlParams().difficulty;
-
+        console.log("getGame difficulty: ", difficulty);
         this.props.botSet(bot);
         const requestOptions = {
             method: 'GET'

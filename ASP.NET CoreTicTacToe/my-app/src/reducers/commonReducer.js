@@ -2,7 +2,7 @@ import { ALL_GAMES_RECEIVED, GAME_INIT, LOBBY_INIT, NAME_SET, PLAYER_NAMES_RECEI
 
 const initialState = {
     clientPlayerName: '',
-    diffuculty: '',
+    difficulty: '',
     games: null,
     isDisabledNameInput: false,
     isInGame: false,
@@ -25,7 +25,7 @@ function commonReducer(state = initialState, action)
         case DIFFICULTY_SET:
             return ({
                 ...state,
-                diffuculty: action.diffuculty
+                difficulty: action.difficulty
             })
         case GAME_INIT:
             return ({

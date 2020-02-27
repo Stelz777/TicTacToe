@@ -79,6 +79,10 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
 
         private void MakeBot(Game game, string bot, string difficulty)
         {
+            if (difficulty == null)
+            {
+                return;
+            }
             if (bot.Contains("X", StringComparison.OrdinalIgnoreCase))
             {
                 if (difficulty.ToUpperInvariant() == "MINIMAX")
