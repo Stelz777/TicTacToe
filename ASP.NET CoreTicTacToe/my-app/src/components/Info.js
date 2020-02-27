@@ -61,6 +61,10 @@ class Info extends React.Component
 
     calculateStatus(winner)
     {
+        if (winner === "Ничья!")
+        {
+            return winner;
+        }
         if (winner)
         {
             return 'Выиграл ' + this.generateWinnerPhrase(winner);
