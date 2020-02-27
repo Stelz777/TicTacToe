@@ -84,7 +84,7 @@ namespace ASP.NETCoreTicTacToe.Services
             return user;
         }
 
-        public User Register(UserAPI userAPI, string userName, string password)
+        public User Register(UserAPI userAPI, string userName, string password, string firstName, string lastName)
         {
             if (password == null || userAPI == null)
             {
@@ -104,6 +104,8 @@ namespace ASP.NETCoreTicTacToe.Services
             user = new User();
             user.Name = userName;
             user.Password = hashedPassword;
+            user.FirstName = firstName;
+            user.LastName = lastName;
 
             userAPI.AddUser(user);
 

@@ -101,11 +101,11 @@ export function userNameSetInLobby(playerNameInLobby)
     }
 }
 
-export function userRegister(userName, password)
+export function userRegister(userName, password, firstName, lastName)
 {
     return dispatch => {
         dispatch(userRegisterRequest({ userName }));
-        register(userName, password)
+        register(userName, password, firstName, lastName)
             .then(
                 user => {
                     dispatch(userRegisterSuccess(user));
@@ -142,5 +142,12 @@ export function userRegister(userName, password)
             type: users.USER_REGISTER_SUCCESS,
             user
         }
+    }
+}
+
+export function userRegisterStarted()
+{
+    return {
+        type: users.USER_REGISTER_STARTED
     }
 }

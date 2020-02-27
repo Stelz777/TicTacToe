@@ -1,4 +1,4 @@
-import { USER_REGISTER_FAILURE, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../constants/userConstants';
+import { USER_REGISTER_FAILURE, USER_REGISTER_REQUEST, USER_REGISTER_STARTED, USER_REGISTER_SUCCESS } from '../constants/userConstants';
 
 let user = JSON.parse(localStorage.getItem('user'));
 const intitialState = user ? { loggedIn: true, user } : {};
@@ -14,11 +14,17 @@ export function registerReducer(state = intitialState, action)
                 loggingIn: true,
                 user: action.user
             };
+        case USER_REGISTER_STARTED:
+            return ({
+                ...state,
+                isRegistering: true
+            });
         case USER_REGISTER_SUCCESS:
             return {
                 loggedIn: true,
                 user: action.user,
-                lobbyPlayerName: action.user.name
+                lobbyPlayerName: action.user.name,
+                isRegistering: false
             };
         default:
             return state;

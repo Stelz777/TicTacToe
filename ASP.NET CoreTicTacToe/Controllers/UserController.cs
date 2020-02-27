@@ -47,7 +47,8 @@ namespace ASP.NETCoreTicTacToe.Controllers
             {
                 return BadRequest();
             }
-            var user = userService.Register(userAPI, userParam.Name, userParam.Password);
+            var user = userService.Register(
+                userAPI, userParam.Name, userParam.Password, userParam.FirstName, userParam.LastName);
             if (user == null)
             {
                 return BadRequest(new { message = "User already exists" });

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import utils from '../utility/utils';
-import { userLogin, userLogout, userNameSetInLobby, userRegister } from '../actions/userActions';
+import { userLogin, userLogout, userNameSetInLobby, userRegisterStarted } from '../actions/userActions';
 
 const mapStateToProps = (state) =>
 {
@@ -21,10 +21,10 @@ const mapDispatchToProps =
     userLogin,
     userLogout,
     userNameSetInLobby,
-    userRegister
+    userRegisterStarted
 }
 
-class Name extends React.Component
+class Login extends React.Component
 {
     constructor(props)
     {
@@ -128,13 +128,7 @@ class Name extends React.Component
 
     register()
     {
-        this.setState({ submitted: true });
-        const { username, password } = this.state;
-        if (username && password)
-        {
-            console.log("handleSubmit true!");
-            this.props.userRegister(username, password);
-        }
+        this.props.userRegisterStarted();
     }
 
     checkEventEnterKey()
@@ -149,4 +143,4 @@ class Name extends React.Component
     } 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -52,14 +52,14 @@ export function getAll()
     return fetch(`/api/user/all/`, requestOptions).then(handleResponse);
 }
 
-export function register(username, password)
+export function register(username, password, firstName, lastName)
 {
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Name: username, Password: password })
+        body: JSON.stringify({ Name: username, Password: password, FirstName: firstName, LastName: lastName })
     };
 
     return fetch(`/api/user/register/`, requestOptions)

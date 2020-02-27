@@ -4,7 +4,8 @@ import Switch from "react-switch";
 import { botOButtonSwitched, botXButtonSwitched } from '../actions/botActions';
 import { allGamesReceived, gameInit } from '../actions/commonActions';
 import { historyInit } from '../actions/historyActions';
-import Name from './Login'
+import Login from './Login';
+import Registration from './Registration';
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
@@ -13,6 +14,7 @@ const mapStateToProps = (state) =>
         botOIsChecked: state.botReducer.botOIsChecked,
         botXIsChecked: state.botReducer.botXIsChecked,
         games: state.commonReducer.games,
+        isRegistering: state.registerReducer.isRegistering,
         lobbyPlayerName: state.authenticationReducer.lobbyPlayerName
     }
 }
@@ -49,10 +51,12 @@ class Lobby extends React.Component
     {
         const games = this.printGamesList();
         console.log("lobby render this.props.lobbyPlayerName: ", this.props.lobbyPlayerName);
-        
+        console.log("Lobby render this.props.isRegistering", this.props.isRegistering);
         return (
+            
             <div>
-                { this.props.lobbyPlayerName ? null : <Name /> }
+                { this.props.lobbyPlayerName || this.props.isRegistering ? null : <Login /> }
+                { this.props.isRegistering ? <Registration /> : null }
                 <div>
                     Бот-X
                     <Switch
