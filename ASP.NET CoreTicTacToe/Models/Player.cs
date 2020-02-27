@@ -13,5 +13,11 @@
             Bot = new SimpleBot(Side);
             Name = "Simple";
         }
+
+        public void MakeMinimaxBot()
+        {
+            Bot = new MinimaxBot(Side);
+            Name = "Minimax";
+        }
     }
 }

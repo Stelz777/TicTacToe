@@ -4,6 +4,7 @@ import Switch from "react-switch";
 import { botOButtonSwitched, botXButtonSwitched } from '../actions/botActions';
 import { allGamesReceived, gameInit } from '../actions/commonActions';
 import { historyInit } from '../actions/historyActions';
+import Difficulty from './Difficulty';
 import Login from './Login';
 import Registration from './Registration';
 import utils from '../utility/utils';
@@ -13,6 +14,7 @@ const mapStateToProps = (state) =>
     return {
         botOIsChecked: state.botReducer.botOIsChecked,
         botXIsChecked: state.botReducer.botXIsChecked,
+        difficulty: state.commonReducer.difficulty,
         games: state.commonReducer.games,
         isRegistering: state.registerReducer.isRegistering,
         lobbyPlayerFirstName: state.authenticationReducer.lobbyPlayerFirstName,
@@ -75,6 +77,7 @@ class Lobby extends React.Component
                         checked = { this.props.botOIsChecked }
                     />
                 </div>    
+                <Difficulty />
                 <button onClick = { () => this.createNewGame() }>Новая игра</button>
                 <ol> { games } </ol>
             </div>
@@ -125,7 +128,11 @@ class Lobby extends React.Component
     {
         this.props.gameInit();
         this.props.historyInit();
-        const urlData = {'name': this.props.lobbyPlayerName, 'id': gameIndex, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
+        const urlData = {'name': this.props.lobbyPlayerName, 
+                        'id': gameIndex, 
+                        'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null, 
+                        'difficulty': this.shouldWeIncludeBot() ? this.props.difficulty : null};
+
         this.replaceState(urlData);
     }
 
@@ -154,7 +161,9 @@ class Lobby extends React.Component
     {
         this.props.gameInit();
         this.props.historyInit();
-        const urlData = {'name': this.props.lobbyPlayerName, 'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null};
+        const urlData = {'name': this.props.lobbyPlayerName, 
+                        'bot': this.shouldWeIncludeBot() ? this.determineBotSymbol() : null,
+                        'difficulty': this.shouldWeIncludeBot() ? this.props.difficulty : null};
         this.replaceState(urlData);
     }
 

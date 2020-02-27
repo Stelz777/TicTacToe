@@ -1,7 +1,8 @@
-import { ALL_GAMES_RECEIVED, GAME_INIT, LOBBY_INIT, NAME_SET, PLAYER_NAMES_RECEIVED, SIDE_RECEIVED, SPECTATOR_RESOLVED } from '../constants/commonConstants';
+import { ALL_GAMES_RECEIVED, GAME_INIT, LOBBY_INIT, NAME_SET, PLAYER_NAMES_RECEIVED, SIDE_RECEIVED, SPECTATOR_RESOLVED, DIFFICULTY_SET } from '../constants/commonConstants';
 
 const initialState = {
     clientPlayerName: '',
+    diffuculty: '',
     games: null,
     isDisabledNameInput: false,
     isInGame: false,
@@ -21,6 +22,11 @@ function commonReducer(state = initialState, action)
                 ...state,
                 games: action.games
             });
+        case DIFFICULTY_SET:
+            return ({
+                ...state,
+                diffuculty: action.diffuculty
+            })
         case GAME_INIT:
             return ({
                 ...initialState,

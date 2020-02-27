@@ -10,6 +10,14 @@ export function allGamesReceived(games)
     }
 }
 
+export function difficultySet(difficulty)
+{
+    return {
+        type: commons.DIFFICULTY_SET,
+        difficulty
+    }
+}
+
 export function gameInit()
 {
     return {

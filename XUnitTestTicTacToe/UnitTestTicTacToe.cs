@@ -44,21 +44,6 @@ namespace XUnitTestTicTacToe
        
     }
 
-    public class UnitTestBotFarm
-    {
-        [Fact]
-        public void AddBotToGroupFact()
-        {
-            var botFarm = new BotFarm();
-            var game = new Game();
-            var bot = new SimpleBot(Side.Tac);
-            botFarm.AddBotToPool(bot);
-            var expectedResult = new List<SimpleBot>();
-            expectedResult.Add(bot);
-            Assert.Equal(expectedResult, botFarm.BotGroup);
-        }
-    }
-
     public class CustomUnitTests
     {
         [Fact]

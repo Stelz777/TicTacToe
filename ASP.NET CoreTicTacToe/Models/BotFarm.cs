@@ -8,7 +8,7 @@ namespace ASP.NETCoreTicTacToe.Models
         
         public IReadOnlyList<IBot> BotGroup => botPool;
         
-        public void AddBotToPool(SimpleBot bot)
+        public void AddBotToPool(IBot bot)
         {
             botPool.Add(bot);
         }

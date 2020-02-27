@@ -20,7 +20,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult Updates(int? id, int currentTurn)
         {
-            var (_, game) = gameAPI.GetGame(id, null);
+            var (_, game) = gameAPI.GetGame(id, null, null);
             var ticPlayerName = game.TicPlayer.Name;
             var tacPlayerName = game.TacPlayer.Name;
             PlayBotVsBot(game, id);
@@ -55,7 +55,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public bool MakeTurn(int? id, string name, Turn turn)
         {
-            var (_, game) = gameAPI.GetGame(id, null);
+            var (_, game) = gameAPI.GetGame(id, null, null);
             bool result = game.MakeMove(turn);
             gameAPI.UpdateGame(game, id.Value);
             MakeBotMove(id, name, game);
@@ -71,7 +71,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public IActionResult SetSide(int? id, string name)
         {
-            var (_, game) = gameAPI.GetGame(id, null);
+            var (_, game) = gameAPI.GetGame(id, null, null);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -24,7 +24,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             return gameRepository.GetAllGamesFromDatabase();
         }
 
-        public (int, Game) GetGame(int? id, string bot)
+        public (int, Game) GetGame(int? id, string bot, string difficulty)
         {
             if (id.HasValue)
             {
@@ -33,14 +33,14 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
                 {
                     throw new InvalidOperationException("A game not found by specified id in game farm or db");
                 }
-                InitBot(game, bot);
+                InitBot(game, bot, difficulty);
                 
                 return (id.Value, game);
             }
 
             var newGame = new Game();                
             var newId = AddGame(newGame);
-            InitBot(newGame, bot);
+            InitBot(newGame, bot, difficulty);
             return (newId, newGame);
         }
 
@@ -62,7 +62,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             return gameRepository.AddGameToDatabase(game);
         }
 
-        private static void InitBot(Game game, string bot)
+        private void InitBot(Game game, string bot, string difficulty)
         {
             if (game == null || bot == null)
             {
@@ -70,20 +70,41 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             }
 
             bot = bot.ToUpperInvariant();
+            MakeBot(game, bot, difficulty);
+            if (bot.Equals("X", StringComparison.OrdinalIgnoreCase))
+            {
+                BotManager.MakeFirstXMove(game);
+            }
+        }
+
+        private void MakeBot(Game game, string bot, string difficulty)
+        {
             if (bot.Contains("X", StringComparison.OrdinalIgnoreCase))
             {
-                game.TicPlayer.MakeSimpleBot();
-                game.TicPlayer.Name = "S1mpleX";
+                if (difficulty.ToUpperInvariant() == "MINIMAX")
+                {
+                    game.TicPlayer.MakeMinimaxBot();
+                    game.TicPlayer.Name = "M1n1m4xX";
+                }
+                else
+                {
+                    game.TicPlayer.MakeSimpleBot();
+                    game.TicPlayer.Name = "S1mpleX";
+                }
             }
 
             if (bot.Contains("O", StringComparison.OrdinalIgnoreCase))
             {
-                game.TacPlayer.MakeSimpleBot();
-                game.TacPlayer.Name = "S1mpleO";
-            }
-            if (bot.Equals("X", StringComparison.OrdinalIgnoreCase))
-            {
-                BotManager.MakeFirstXMove(game);
+                if (difficulty.ToUpperInvariant() == "MINIMAX")
+                {
+                    game.TacPlayer.MakeMinimaxBot();
+                    game.TacPlayer.Name = "M1n1m4xO";
+                }
+                else
+                {
+                    game.TacPlayer.MakeSimpleBot();
+                    game.TacPlayer.Name = "S1mpleO";
+                }
             }
         }
     }

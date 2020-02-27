@@ -1,5 +1,6 @@
 //Action Type
-export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED'
+export const ALL_GAMES_RECEIVED = 'ALL_GAMES_RECEIVED';
+export const DIFFICULTY_SET = 'DIFFICULTY_SET';
 export const GAME_INIT = 'GAME_INIT';
 export const LOBBY_INIT = 'LOBBY_INIT';
 export const NAME_SET = 'NAME_SET';

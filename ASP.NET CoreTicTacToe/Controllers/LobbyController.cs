@@ -19,10 +19,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpGet("{id?}")]
-        public IActionResult Game(int? id, string bot)
+        public IActionResult Game(int? id, string bot, string difficulty)
         {
             
-            var (gameId, game) = gameAPI.GetGame(id, bot);
+            var (gameId, game) = gameAPI.GetGame(id, bot, difficulty);
             var history = game.History;
             var boards = history.GetBoardsForEachTurn();
             gameAPI.UpdateGame(game, gameId);
@@ -60,7 +60,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         {
             if (player.Name == null)
             {
-                var (_, game) = gameAPI.GetGame(gameId, null);
+                var (_, game) = gameAPI.GetGame(gameId, null, null);
                 player.Name = player.Side == Side.Tic ? game.TicPlayer.Name : game.TacPlayer.Name;
             }
             return new

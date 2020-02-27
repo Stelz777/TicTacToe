@@ -44,12 +44,13 @@ class Board extends React.Component
     {
         const id = utils.GetAllUrlParams().id;
         const bot = utils.GetAllUrlParams().bot;
+        const difficulty = utils.GetAllUrlParams().difficulty;
 
         this.props.botSet(bot);
         const requestOptions = {
             method: 'GET'
         };
-        fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}`, requestOptions)
+        fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}&difficulty=${difficulty || ''}`, requestOptions)
             .then(result => result.json())
             .then(data => {   
                 this.fillSquares(data); 
