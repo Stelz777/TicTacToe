@@ -1,9 +1,9 @@
 ﻿using ASP.NETCoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models.Bots;
+using ASP.NETCoreTicTacToe.Models.Games;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASP.NETCoreTicTacToe.Infrastructure
 {

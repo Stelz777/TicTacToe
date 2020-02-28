@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASP.NETCoreTicTacToe.Models.Games;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models.Bots
 {
     public static class BotManager
     {

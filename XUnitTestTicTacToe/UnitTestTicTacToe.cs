@@ -1,14 +1,7 @@
-using ASP.NETCoreTicTacToe.Controllers;
 using ASP.NETCoreTicTacToe.Models;
-using AutoMapper;
-using AutoMapper.Configuration;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Memory;
-using Microsoft.Extensions.Logging;
+using ASP.NETCoreTicTacToe.Models.Bots;
+using ASP.NETCoreTicTacToe.Models.Games;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace XUnitTestTicTacToe

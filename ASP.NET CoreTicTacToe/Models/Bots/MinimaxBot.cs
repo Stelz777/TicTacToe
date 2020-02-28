@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ASP.NETCoreTicTacToe.Models.Games;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models.Bots
 {
     public class MinimaxBot : IBot
     {

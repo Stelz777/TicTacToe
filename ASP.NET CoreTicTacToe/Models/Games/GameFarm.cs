@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models.Games
 {
     public class GameFarm
     {

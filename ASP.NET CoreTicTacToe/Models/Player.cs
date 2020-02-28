@@ -1,4 +1,6 @@
-﻿namespace ASP.NETCoreTicTacToe.Models
+﻿using ASP.NETCoreTicTacToe.Models.Bots;
+
+namespace ASP.NETCoreTicTacToe.Models
 {
     public class Player
     {

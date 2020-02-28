@@ -1,6 +1,7 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Infrastructure.Services;
 using ASP.NETCoreTicTacToe.Models;
-using ASP.NETCoreTicTacToe.Services;
+using ASP.NETCoreTicTacToe.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +15,14 @@ namespace ASP.NETCoreTicTacToe.Controllers
     {
         private IUserService userService;
 
-        private UserAPI userAPI;
-
-        public UserController(UserAPI userAPI, IUserService userService)
+        public UserController(IUserService userService)
         {
-            this.userAPI = userAPI;
             this.userService = userService;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody]User userParam)
+        public IActionResult Authenticate(UserForLogin userParam)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +34,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 return BadRequest();
             }
 
-            var user = userService.Authenticate(userAPI, userParam.Name, userParam.Password);
+            var user = userService.Authenticate(userParam);
             if (user == null)
             {
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -46,7 +44,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Register(User userParam)
+        public IActionResult Register(UserForRegistration userParam)
         {
             if (!ModelState.IsValid)
             {
@@ -56,8 +54,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
             {
                 return BadRequest();
             }
-            var user = userService.Register(
-                userAPI, userParam.Name, userParam.Password, userParam.FirstName, userParam.LastName);
+            var user = userService.Register(userParam);
             if (user == null)
             {
                 return BadRequest(new { message = "User already exists" });
@@ -68,7 +65,7 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult All()
         {
-            var users = userService.GetAll(userAPI);
+            var users = userService.GetAll();
             return Ok(users);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure.DTO;
 using ASP.NETCoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models.Bots;
 using AutoMapper;
 
 namespace ASP.NETCoreTicTacToe.Infrastructure.MapperProfiles

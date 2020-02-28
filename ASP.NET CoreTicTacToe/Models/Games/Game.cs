@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models.Games
 {
     public class Game
     {

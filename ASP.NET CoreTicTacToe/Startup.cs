@@ -1,7 +1,8 @@
 using ASP.NETCoreTicTacToe.Helpers;
 using ASP.NETCoreTicTacToe.Infrastructure;
+using ASP.NETCoreTicTacToe.Infrastructure.Services;
 using ASP.NETCoreTicTacToe.Models;
-using ASP.NETCoreTicTacToe.Services;
+using ASP.NETCoreTicTacToe.Models.Bots;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

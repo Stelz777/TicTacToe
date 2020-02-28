@@ -1,6 +1,6 @@
-﻿using ASP.NETCoreTicTacToe.Infrastructure;
-using ASP.NETCoreTicTacToe.Infrastructure.DTO;
-using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure.DTO;
+using ASP.NETCoreTicTacToe.Models.Games;
+using ASP.NETCoreTicTacToe.Models.Users;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;

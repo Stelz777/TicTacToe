@@ -1,5 +1,7 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure;
 using ASP.NETCoreTicTacToe.Models;
+using ASP.NETCoreTicTacToe.Models.Bots;
+using ASP.NETCoreTicTacToe.Models.Games;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

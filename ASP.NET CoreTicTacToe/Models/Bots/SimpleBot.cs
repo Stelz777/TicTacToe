@@ -1,8 +1,8 @@
-﻿using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Models.Games;
 using System;
 using System.Collections.Generic;
 
-namespace ASP.NETCoreTicTacToe.Models
+namespace ASP.NETCoreTicTacToe.Models.Bots
 {
     public class SimpleBot : IBot
     {
