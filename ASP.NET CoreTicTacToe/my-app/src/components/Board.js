@@ -6,6 +6,7 @@ import { botSet } from '../actions/botActions';
 import { nameSet, playerNamesReceived, sideReceived } from '../actions/commonActions';
 import { historyItemAdded, historyRequested } from '../actions/historyActions';
 import GetCurrentItem from '../gameLogic/GetCurrentItem';
+import { authHeader, authHeaderJSON } from '../helpers/authHeader';
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
@@ -48,7 +49,8 @@ class Board extends React.Component
         console.log("getGame difficulty: ", difficulty);
         this.props.botSet(bot);
         const requestOptions = {
-            method: 'GET'
+            method: 'GET',
+            headers: authHeader()
         };
         fetch(`/api/lobby/game/${id || ''}?bot=${bot || ''}&difficulty=${difficulty || ''}`, requestOptions)
             .then(result => result.json())
@@ -66,6 +68,11 @@ class Board extends React.Component
                 window.history.replaceState(null, null, `?id=${data.id}`);
                 
                 this.refreshBoard(null); 
+            })
+            .catch(error => {
+                Promise.reject({
+                    message: error
+                })
             });
     }
 
@@ -80,13 +87,19 @@ class Board extends React.Component
     receiveSide(id, name)
     {
         const requestOptions = {
-            method: 'POST'
+            method: 'POST',
+            headers: authHeader()
         }
         return fetch(`/api/game/setside/${id}?name=${name}`, requestOptions)
         .then(response => response.json())
         .then(data => {
                 this.props.sideReceived(data);
-            });
+        })
+        .catch(error => {
+            Promise.reject({
+                message: error
+            })
+        });
     }
 
     refreshBoard(squareIndex)
@@ -116,7 +129,8 @@ class Board extends React.Component
     async updatesAPI(id, squareIndex, currentTurn)
     {
         const requestOptions = {
-            method: 'GET'
+            method: 'GET',
+            headers: authHeader()
         };
         return fetch(`/api/game/updates/${id}?currentTurn=${currentTurn}`, requestOptions)
         .then((response) => response.json())
@@ -218,13 +232,11 @@ class Board extends React.Component
     sendTurn(squareIndex, side)
     {
         const id = utils.GetAllUrlParams().id;
+        
         const requestOptions = {
             method: 'POST',
+            headers: authHeaderJSON(),
             body: JSON.stringify({ CellNumber: squareIndex, Side: side }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
         };
         fetch(`/api/game/maketurn/${id}?name=${this.props.clientPlayerName}`, requestOptions)
         .then(response => response.json())
@@ -234,6 +246,12 @@ class Board extends React.Component
                 this.props.historyItemAdded(squareIndex, this.props.side);   
             }
         })
+        .catch(error => {
+            Promise.reject({
+                message: error
+            })
+        })
+        
     }
 }
 

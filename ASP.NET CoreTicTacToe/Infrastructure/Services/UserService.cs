@@ -1,18 +1,14 @@
 ﻿using ASP.NETCoreTicTacToe.Helpers;
-using ASP.NETCoreTicTacToe.Infrastructure;
-using ASP.NETCoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Models.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ASP.NETCoreTicTacToe.Infrastructure.Services
 {

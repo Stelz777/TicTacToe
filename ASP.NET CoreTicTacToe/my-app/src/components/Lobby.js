@@ -7,6 +7,7 @@ import { historyInit } from '../actions/historyActions';
 import Difficulty from './Difficulty';
 import Login from './Login';
 import Registration from './Registration';
+import { authHeader } from '../helpers/authHeader';
 import utils from '../utility/utils';
 
 const mapStateToProps = (state) =>
@@ -42,12 +43,18 @@ class Lobby extends React.Component
     getGames()
     {
         const requestOptions = {
-            method: 'GET'
+            method: 'GET',
+            headers: authHeader()
         };
         fetch(`/api/lobby/allgames/`, requestOptions)
             .then(result => result.json())
             .then(data => {   
                 this.props.allGamesReceived(data);
+            })
+            .catch(error => {
+                Promise.reject({
+                    message: error
+                })
             });
     }
 

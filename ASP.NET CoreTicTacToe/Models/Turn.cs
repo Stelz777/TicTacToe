@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace ASP.NETCoreTicTacToe.Models
+﻿namespace ASP.NETCoreTicTacToe.Models
 {
     public class Turn
     {

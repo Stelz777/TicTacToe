@@ -10,3 +10,23 @@ export function authHeader()
         return {};
     }
 }
+
+export function authHeaderJSON()
+{
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.token)
+    {
+        return {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + user.token,
+            'Content-Type': 'application/json' 
+        };
+    }
+    else
+    {
+        return {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        };
+    }
+}

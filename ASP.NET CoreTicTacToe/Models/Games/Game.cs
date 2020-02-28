@@ -1,10 +1,4 @@
-﻿using ASP.NETCoreTicTacToe.Models;
-using Microsoft.Data.SqlClient;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-
-namespace ASP.NETCoreTicTacToe.Models.Games
+﻿namespace ASP.NETCoreTicTacToe.Models.Games
 {
     public class Game
     {

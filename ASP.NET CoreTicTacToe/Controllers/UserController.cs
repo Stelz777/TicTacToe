@@ -1,6 +1,4 @@
-﻿using ASP.NETCoreTicTacToe.Infrastructure;
-using ASP.NETCoreTicTacToe.Infrastructure.Services;
-using ASP.NETCoreTicTacToe.Models;
+﻿using ASP.NETCoreTicTacToe.Infrastructure.Services;
 using ASP.NETCoreTicTacToe.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +63,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult All()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var users = userService.GetAll();
             return Ok(users);
         }

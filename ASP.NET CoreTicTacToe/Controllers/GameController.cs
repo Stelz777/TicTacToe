@@ -2,12 +2,14 @@
 using ASP.NETCoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Models.Bots;
 using ASP.NETCoreTicTacToe.Models.Games;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]/{id?}")]
     [ApiController]
     public class GameController : ControllerBase
@@ -22,6 +24,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult Updates(int? id, int currentTurn)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var (_, game) = gameAPI.GetGame(id, null, null);
             var ticPlayerName = game.TicPlayer.Name;
             var tacPlayerName = game.TacPlayer.Name;
@@ -55,14 +61,18 @@ namespace ASP.NETCoreTicTacToe.Controllers
         }
 
         [HttpPost]
-        public bool MakeTurn(int? id, string name, Turn turn)
+        public IActionResult MakeTurn(int? id, string name, Turn turn)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var (_, game) = gameAPI.GetGame(id, null, null);
             bool result = game.MakeMove(turn);
             gameAPI.UpdateGame(game, id.Value);
             MakeBotMove(id, name, game);
             gameAPI.UpdateGame(game, id.Value);
-            return result;
+            return Ok(result);
         }
 
         private static void MakeBotMove(int? id, string player, Game game)

@@ -1,7 +1,4 @@
-﻿using ASP.NETCoreTicTacToe.Models;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ASP.NETCoreTicTacToe.Models.Games

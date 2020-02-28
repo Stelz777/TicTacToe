@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using ASP.NETCoreTicTacToe.Models;
-using AutoMapper;
+﻿using ASP.NETCoreTicTacToe.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using ASP.NETCoreTicTacToe.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASP.NETCoreTicTacToe.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class LobbyController : ControllerBase
@@ -21,7 +21,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet("{id?}")]
         public IActionResult Game(int? id, string bot, string difficulty)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var (gameId, game) = gameAPI.GetGame(id, bot, difficulty);
             var history = game.History;
             var boards = history.GetBoardsForEachTurn();
@@ -36,6 +39,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpGet]
         public IActionResult AllGames()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var games = gameAPI.GetAllGames();
             var ids = games.Keys.ToList();
             var ticPlayers = games.Values.Select(item => item.TicPlayer);
