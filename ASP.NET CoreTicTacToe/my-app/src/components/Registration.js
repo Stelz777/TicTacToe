@@ -55,12 +55,6 @@ class Registration extends React.Component
         const { username, password, repeatedPassword, firstName, lastName, submitted } = this.state;
         return (
             <div>
-                <link
-                    rel="stylesheet"
-                    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-                    crossorigin="anonymous"
-                />
                 <div className = "col-lg-6 col-lg-offset-3">
                     <h2>Registration</h2>
                     <form name = "form" onSubmit = { this.handleSubmit }>

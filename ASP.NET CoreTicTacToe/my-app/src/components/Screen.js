@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { gameInit } from '../actions/commonActions';
 import { historyInit } from '../actions/historyActions';
+import BootstrapLink from '../components/BootstrapLink';
 import Game from '../components/Game';
 import Lobby from '../components/Lobby';
 import utils from '../utility/utils';
@@ -37,6 +38,7 @@ class Screen extends React.Component
         {
             return (
                 <div>
+                    <BootstrapLink />
                     <Lobby />
                 </div>
             )
@@ -45,6 +47,7 @@ class Screen extends React.Component
         {
             return (
                 <div>  
+                    <BootstrapLink />
                     <Game />     
                 </div> 
             );
