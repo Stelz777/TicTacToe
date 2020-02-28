@@ -1,6 +1,6 @@
 function GetCurrentItem(history, stepNumber)
 {
-    if (history === null)
+    if (!history)
     {
         return null;
     }
