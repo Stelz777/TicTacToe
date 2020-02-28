@@ -223,10 +223,16 @@ class Board extends React.Component
     handleClick(i)
     {
         
-        if (this.props.clientPlayerName !== '')
+        if (this.props.clientPlayerName !== '' && this.isSideValid())
         {
             this.sendTurn(i, this.props.side);
         }
+    }
+
+    isSideValid()
+    {
+        let side = this.props.side;
+        return side === 0 || side === 1;
     }
 
     sendTurn(squareIndex, side)
