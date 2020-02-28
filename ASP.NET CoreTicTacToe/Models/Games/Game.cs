@@ -19,13 +19,13 @@
 
         public Side? SetSide(string name)
         {
-            if (TicPlayer.Name == null)
+            if (TicPlayer.Name == null || TicPlayer.Name == name)
             {
                 TicPlayer.Name = name;
                 TicPlayer.IsActive = true;
                 return TicPlayer.Side;
             }
-            else if (TacPlayer.Name == null && TicPlayer.Name != name)
+            else if (TacPlayer.Name == null || TacPlayer.Name == name)
             {
                 TacPlayer.Name = name;
                 return TacPlayer.Side;
