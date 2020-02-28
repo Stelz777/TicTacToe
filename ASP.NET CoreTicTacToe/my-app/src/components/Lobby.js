@@ -52,6 +52,7 @@ class Lobby extends React.Component
                 this.props.allGamesReceived(data);
             })
             .catch(error => {
+                setTimeout(() => this.getGames(), 500);
                 Promise.reject({
                     message: error
                 })
