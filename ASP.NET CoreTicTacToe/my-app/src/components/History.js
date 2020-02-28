@@ -93,7 +93,7 @@ class History extends React.Component
 
     findDifferencesBetweenTwoArrays(step, previous)
     {
-        if (step !== undefined)
+        if (step || step === 0)
         {
             for (let i = 0; i < step.length; i++)
             {
