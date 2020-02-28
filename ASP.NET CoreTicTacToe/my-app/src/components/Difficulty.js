@@ -29,7 +29,6 @@ class Difficulty extends React.Component
                                         type = "radio"
                                         name = "difficulty"
                                         value = "simple"
-                                        checked = { true }
                                         onChange = { this.handleOptionChange }
                                         className = "form-check-input"
                                     />
@@ -48,12 +47,6 @@ class Difficulty extends React.Component
                                     />
                                     Minimax
                                 </label>
-                            </div>
-
-                            <div className = "form-group">
-                                <button className = "btn-primary mt-2" type = "submit">
-                                    Save
-                                </button>
                             </div>
                         </form>
                     </div>
