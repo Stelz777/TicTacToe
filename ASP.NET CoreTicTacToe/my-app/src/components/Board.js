@@ -238,8 +238,7 @@ class Board extends React.Component
     sendTurn(squareIndex, side)
     {
         const id = utils.GetAllUrlParams().id;
-        console.log("sendTurn squareIndex: ", squareIndex);
-        console.log("sendTurn side: ", side);
+        
         const requestOptions = {
             method: 'POST',
             headers: authHeaderJSON(),

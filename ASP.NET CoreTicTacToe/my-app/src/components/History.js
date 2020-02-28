@@ -52,7 +52,7 @@ class History extends React.Component
 
     printMoveList(history, moves, previousStep)
     {
-        if (history === null)
+        if (!history)
         {
             return null;
         }
