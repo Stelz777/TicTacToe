@@ -13,6 +13,7 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public Side Side { get; private set; }
 
+        public string Name => "Simple";
         public Turn MakeAutoMove(Game game)
         {
             var board = new Board();

@@ -24,8 +24,13 @@ namespace ASP.NETCoreTicTacToe.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate(User userParam)
+        public IActionResult Authenticate([FromBody]User userParam)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Username or password is incorrect" });
+            }
+
             if (userParam == null)
             {
                 return BadRequest();
@@ -43,6 +48,10 @@ namespace ASP.NETCoreTicTacToe.Controllers
         [HttpPost]
         public IActionResult Register(User userParam)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "User already exists" });
+            }
             if (userParam == null)
             {
                 return BadRequest();

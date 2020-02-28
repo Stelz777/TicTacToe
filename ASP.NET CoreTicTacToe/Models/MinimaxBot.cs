@@ -14,6 +14,8 @@ namespace ASP.NETCoreTicTacToe.Models
 
         public Side Side { get; private set; }
 
+        public string Name => "Minimax";
+
         public Turn MakeAutoMove(Game game)
         {
             if (game == null)
