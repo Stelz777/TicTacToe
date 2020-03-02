@@ -75,9 +75,9 @@ namespace ASP.NETCoreTicTacToe.Models
         public bool HasWon(Side side)
         {
             if (!IsEmpty() 
-                && HasWonVertically(side) 
-                || HasWonHorizontally(side) 
-                || HasWonDiagonally(side))
+                && TicTacToeRulesHelper.HasWonVertically(squares, side) 
+                || TicTacToeRulesHelper.HasWonHorizontally(squares, side) 
+                || TicTacToeRulesHelper.HasWonDiagonally(squares, side))
             {
                 return true;
             }
@@ -91,41 +91,6 @@ namespace ASP.NETCoreTicTacToe.Models
                 return false;
             }
             return true;
-        }
-
-        private bool HasWonVertically(Side side)
-        {
-            var cell = GetCellBySide(side);
-            if ((cell == Squares[0] && Squares[0] == Squares[1] && Squares[0] == Squares[2]) ||
-                (cell == Squares[3] && Squares[3] == Squares[4] && Squares[3] == Squares[5]) ||
-                (cell == Squares[6] && Squares[6] == Squares[7] && Squares[6] == Squares[8]))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool HasWonHorizontally(Side side)
-        {
-            var cell = GetCellBySide(side);
-            if ((cell == Squares[0] && Squares[0] == Squares[3] && Squares[0] == Squares[6]) ||
-                (cell == Squares[1] && Squares[1] == Squares[4] && Squares[1] == Squares[7]) ||
-                (cell == Squares[2] && Squares[2] == Squares[5] && Squares[2] == Squares[8]))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool HasWonDiagonally(Side side)
-        {
-            var cell = GetCellBySide(side);
-            if ((cell == Squares[0] && Squares[0] == Squares[4] && Squares[0] == Squares[8]) ||
-                (cell == Squares[2] && Squares[2] == Squares[4] && Squares[2] == Squares[6]))
-            {
-                return true;
-            }
-            return false;
         }
     }   
 }
