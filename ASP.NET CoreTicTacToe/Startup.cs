@@ -66,7 +66,7 @@ namespace ASP.NETCoreTicTacToe
 
             
             services.AddSingleton<BotFarm>();
-            services.AddSingleton<Lobby>();
+            
             services.AddTransient<GameAPI>();
             services.AddTransient<UserAPI>();
             

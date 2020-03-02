@@ -70,12 +70,12 @@ namespace ASP.NETCoreTicTacToe.Controllers
             var (_, game) = gameAPI.GetGame(id, null, null);
             bool result = game.MakeMove(turn);
             gameAPI.UpdateGame(game, id.Value);
-            MakeBotMove(id, name, game);
+            MakeBotMove(name, game);
             gameAPI.UpdateGame(game, id.Value);
             return Ok(result);
         }
 
-        private static void MakeBotMove(int? id, string player, Game game)
+        private static void MakeBotMove(string player, Game game)
         {
             game.MakeBotMove(player);
         }

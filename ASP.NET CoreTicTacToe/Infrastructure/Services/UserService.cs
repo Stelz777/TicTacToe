@@ -43,6 +43,10 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.Services
 
         public User Authenticate(UserForLogin userForLogin)
         {
+            if (userForLogin == null)
+            {
+                return null;
+            }
             if (userForLogin.Password == null || userAPI == null)
             {
                 return null;
@@ -85,6 +89,10 @@ namespace ASP.NETCoreTicTacToe.Infrastructure.Services
 
         public User Register(UserForRegistration userForRegistration)
         {
+            if (userForRegistration == null)
+            {
+                return null;
+            }
             if (userForRegistration.Password == null || userAPI == null)
             {
                 return null;

@@ -10,13 +10,10 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
     public class GameAPI
     {
         private readonly GameDbRepository gameRepository;
-        private readonly Lobby lobby;
         
-
-        public GameAPI(TicTacToeContext context, IMapper mapper, Lobby lobby)
+        public GameAPI(TicTacToeContext context, IMapper mapper)
         {
             gameRepository = new GameDbRepository(context, mapper);
-            this.lobby = lobby;
         }
 
         public Dictionary<int, Game> GetAllGames()
@@ -62,7 +59,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             return gameRepository.AddGameToDatabase(game);
         }
 
-        private void InitBot(Game game, string bot, string difficulty)
+        private static void InitBot(Game game, string bot, string difficulty)
         {
             if (game == null || bot == null)
             {
@@ -77,7 +74,7 @@ namespace ASP.NETCoreTicTacToe.Infrastructure
             }
         }
 
-        private void MakeBot(Game game, string bot, string difficulty)
+        private static void MakeBot(Game game, string bot, string difficulty)
         {
             if (difficulty == null)
             {
