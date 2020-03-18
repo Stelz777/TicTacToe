@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Captcha, captchaSettings } from 'reactjs-captcha';
 import { userRegister } from '../actions/userActions';
 
 const mapStateToProps = (state) =>
@@ -29,6 +30,11 @@ class Registration extends React.Component
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        captchaSettings.set({
+            captchaEndpoint:
+                'https://localhost:44315/simple-captcha-endpoint.ashx'
+        });
     }
 
     handleChange(event)
@@ -42,6 +48,15 @@ class Registration extends React.Component
         event.preventDefault();
         this.setState({ submitted: true });
         const { username, password, repeatedPassword, firstName, lastName } = this.state;
+
+        let userEnteredCaptchaCode = this.captcha.getUserEnteredCaptchaCode();
+        let captchaId = this.captcha.getCaptchaId();
+        let postData = {
+            userEnteredCaptchaCode: userEnteredCaptchaCode,
+            captchaId: captchaId
+        };
+        let self = this;
+
         if (username && password && repeatedPassword && firstName && lastName && (password === repeatedPassword))
         {
             console.log("handleSubmit true!");
@@ -111,6 +126,14 @@ class Registration extends React.Component
                                 <div className = "help-block">Lastname is required</div>
                             }
                         </div>
+                        <Captcha captchaStyleName = "ticTacToeCaptchaStyle"
+                                 ref = { (captcha) => { this.captcha = captcha } } />
+                        <label>
+                            <span>
+                                Retype the characters from the picture:
+                            </span>
+                            <input id = "ticTacToeCaptchaUserInput" type = "text"/>
+                        </label>
                         <div className = "form-group">
                             <button className = "btn btn-primary">Done</button>
                         </div>

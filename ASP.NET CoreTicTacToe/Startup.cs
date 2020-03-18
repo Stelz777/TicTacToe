@@ -4,9 +4,11 @@ using ASP.NETCoreTicTacToe.Infrastructure.Services;
 using ASP.NETCoreTicTacToe.Models;
 using ASP.NETCoreTicTacToe.Models.Bots;
 using AutoMapper;
+using BotDetect.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -66,10 +68,13 @@ namespace ASP.NETCoreTicTacToe
 
             
             services.AddSingleton<BotFarm>();
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient<GameAPI>();
             services.AddTransient<UserAPI>();
-            
+
+            services.AddMemoryCache();
+
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
@@ -128,6 +133,7 @@ namespace ASP.NETCoreTicTacToe
 
             });
 
+            app.UseSimpleCaptcha(Configuration.GetSection("BotDetect"));
 
             app.UseSpa(spa =>
             {
