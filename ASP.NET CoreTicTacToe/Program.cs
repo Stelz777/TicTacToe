@@ -43,6 +43,10 @@ namespace ASP.NETCoreTicTacToe
                 {
                     webBuilder
                         .UseKestrel()
+                        .ConfigureKestrel((context, options) =>
+                        {
+                            options.AllowSynchronousIO = true;
+                        })
                         .UseUrls("http://0.0.0.0:44315", "https://0.0.0.0:44316")
                         .UseStartup<Startup>();
                 });

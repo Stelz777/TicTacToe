@@ -33,7 +33,8 @@ class Registration extends React.Component
 
         captchaSettings.set({
             captchaEndpoint:
-                'https://localhost:44315/simple-captcha-endpoint.ashx'
+                //'https://localhost:44315/simple-captcha-endpoint.ashx'
+                'api/simple-captcha-endpoint.ashx'
         });
     }
 
@@ -51,17 +52,29 @@ class Registration extends React.Component
 
         let userEnteredCaptchaCode = this.captcha.getUserEnteredCaptchaCode();
         let captchaId = this.captcha.getCaptchaId();
-        let postData = {
-            userEnteredCaptchaCode: userEnteredCaptchaCode,
-            captchaId: captchaId
-        };
+        
         let self = this;
 
-        if (username && password && repeatedPassword && firstName && lastName && (password === repeatedPassword))
-        {
-            console.log("handleSubmit true!");
-            this.props.userRegister(username, password, firstName, lastName);
-        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset = utf-8' },
+            body: JSON.stringify({ UserEnteredCaptchaCode: userEnteredCaptchaCode, CaptchaId: captchaId })
+        };
+        fetch(`/api/user/checkcaptcha/`, requestOptions)
+            .then(response => response.json())
+            .then(data =>
+            {   
+                console.log("handleSubmit data: ", data);
+                if (!data)
+                {
+                    self.captcha.reloadImage();
+                }
+                else if (username && password && repeatedPassword && firstName && lastName && (password === repeatedPassword))
+                {
+                    console.log("handleSubmit true!");
+                    this.props.userRegister(username, password, firstName, lastName);
+                } 
+            })
     }
 
     render()

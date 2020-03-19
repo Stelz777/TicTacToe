@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreTicTacToe.Infrastructure.Services;
 using ASP.NETCoreTicTacToe.Models.Users;
+using BotDetect.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,21 @@ namespace ASP.NETCoreTicTacToe.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
             }
             return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult CheckCaptcha(Models.Captcha value)
+        {
+            if (value == null)
+            {
+                return BadRequest();
+            }
+            var userEnteredCaptchaCode = value.UserEnteredCaptchaCode;
+            var captchaId = value.CaptchaId;
+            var ticTacToeCaptcha = new SimpleCaptcha();
+            var isHuman = ticTacToeCaptcha.Validate(userEnteredCaptchaCode, captchaId);
+            return Ok(isHuman);
         }
 
         [AllowAnonymous]
